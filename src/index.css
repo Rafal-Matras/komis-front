@@ -1,13 +1,77 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+    --light: #eee8e8;
+    --dark: #212020;
+    --error-color: #fd5151;
+    --box-shadow: #2f2f2f;
+    --primary-color: #6bb1e0;
+    --secondary-collor: #fa8000;
+    --primary-text: #003c56;
+    font-size: 10px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+button {
+    font-size: 2rem;
+}
+
+table {
+    margin: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0 5px;
+    height: 45px;
+    text-align: center;
+    font-size: 1.8rem;
+    border: 1px solid var(--dark);
+}
+
+th {
+    border-bottom: 3px solid var(--dark);
+}
+
+.containerApp {
+    width: 1280px;
+}
+
+@media only screen and (min-width: 1920px) {
+    .containerApp {
+        width: 1920px;
+    }
+
+    button {
+        font-size: 2.6rem;
+    }
+
+    th, td {
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (min-width: 2560px) {
+    .containerApp {
+        width: 2560px;
+    }
+
+    button {
+        font-size: 3rem;
+    }
+
+    th, td {
+        font-size: 2.2rem;
+    }
 }
