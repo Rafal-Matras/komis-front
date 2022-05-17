@@ -1,0 +1,155 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 20px;
+    width: 90%;
+    height: 60vh;
+
+}
+
+.box input,
+.box select,
+.btnForm {
+    padding: 10px 15px;
+    width: 40%;
+    border: 2px solid var(--primary-text);
+    border-radius: 10px;
+    color: var(--primary-text);
+    font-size: 20px;
+    outline: none;
+}
+
+.box input:focus,
+.box select:focus {
+    border-color: var(--primary-color);
+}
+
+.btnForm {
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.box select {
+    cursor: pointer;
+}
+
+
+.btn {
+    margin-top: 40px;
+    padding: 10px 20px;
+    border: 2px solid var(--primary-text);
+    border-radius: 10px;
+    color: var(--primary-color);
+    background-color: var(--primary-text);
+    font-size: 2.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: color .3s linear, background-color .3s linear;
+}
+
+.btn:hover {
+    color: var(--primary-text);
+    background-color: var(--primary-color);
+}
+
+.equipmentList {
+    position: absolute;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 120px);
+
+    background-color: white;
+}
+
+.equipmentListBox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+.checkBoxBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 5px;
+    width: 40%;
+}
+
+.none {
+    display: none;
+}
+
+.labelCheckBox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+    color: var(--primary-text);
+}
+
+.inputCheckBox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.markCheckBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border: 1px solid var(--primary-text);
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.labelCheckBox:hover input ~ .markCheckBox {
+    background-color: var(--primary-color);
+}
+
+.labelCheckBox input:checked ~ .markCheckBox {
+    background-color: var(--primary-text);
+}
+
+.markCheckBox:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.labelCheckBox input:checked ~ .markCheckBox:after {
+    display: block;
+}
+
+.labelCheckBox .markCheckBox:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid #ffffff;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
