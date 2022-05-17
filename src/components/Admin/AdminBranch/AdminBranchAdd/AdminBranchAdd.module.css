@@ -1,0 +1,84 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    width: 600px;
+    height: 320px;
+}
+
+.boxTitle {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.h2 {
+
+}
+
+.btnCansel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    font-size: 32px;
+    background-color: transparent;
+    border: none;
+    color: #c50000;
+    cursor: pointer;
+    transition: color .3s linear;
+}
+
+.btnCansel:hover {
+    color: #e80000;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 90%;
+    height: 100%;
+}
+
+.boxInput {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input {
+    padding: 5px 10px;
+    width: 46%;
+    border: 1px solid var(--dark);
+    border-radius: 5px;
+    font-size: 18px;
+    outline: none;
+}
+
+.input:focus {
+    border-color: var(--primary-color);
+}
+
+
+.btnAdd {
+    padding: 10px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--primary-text);
+    color: var(--primary-color);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color .3s linear, background-color .3s linear;
+}
+
+.btnAdd:hover {
+    background-color: var(--primary-color);
+    color: var(--primary-text);
+}

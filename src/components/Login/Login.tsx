@@ -41,14 +41,6 @@ export const Login = () => {
         if (data.passLength) {
             navigate('/set-password', {state: name})
             return
-        }
-        if (data.admin === 2) {
-            navigate('/komis', {state: name})
-            return
-        }
-        if (data.admin === 1) {
-            navigate('/komis', {state: name})
-            return
         } else {
             navigate('/komis', {state: name})
             return

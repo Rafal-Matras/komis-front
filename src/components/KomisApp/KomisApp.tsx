@@ -11,7 +11,7 @@ import style from './KomisApp.module.css';
 interface Data {
     login: string;
     role: string;
-    branch: string;
+    branchName: string;
 }
 
 export const KomisApp = () => {
@@ -19,7 +19,7 @@ export const KomisApp = () => {
     const [data, setData] = useState<Data>({
         login: '',
         role: '',
-        branch: '',
+        branchName: '',
     })
     const [toggleAdminKomis, setToggleAdminKomis] = useState<string>('komis');
     const [loginName, setLoginName] = useState<string | null>(null);
@@ -49,7 +49,7 @@ export const KomisApp = () => {
                 ...data,
                 login: resData.login,
                 role: resData.role,
-                branch: resData.branch,
+                branchName: resData.branchName,
             }));
         })();
         if (data.role === 'ADMIN') {
@@ -60,9 +60,7 @@ export const KomisApp = () => {
 
     const handleToggleAdminKomis = () => {
         setToggleAdminKomis(toggleAdminKomis === 'komis' ? 'admin' : 'komis');
-        console.log('ok')
     };
-
     return (
         <div className={style.container}>
             {
@@ -72,13 +70,13 @@ export const KomisApp = () => {
                         ? <Admin
                             login={data.login}
                             role={data.role}
-                            branch={data.branch}
+                            branchName={data.branchName}
                             handleToggleAdminKomis={handleToggleAdminKomis}
                         />
                         : <Komis
                             login={data.login}
                             role={data.role}
-                            branch={data.branch}
+                            branchName={data.branchName}
                             handleToggleAdminKomis={handleToggleAdminKomis}
                         />
             }

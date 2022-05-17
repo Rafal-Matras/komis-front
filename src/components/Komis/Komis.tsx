@@ -1,23 +1,23 @@
 import React, {useState} from "react";
 
 import {Header} from '../Header/Header';
-import {KomisListCars} from './KomisBody/KomisListCars/KomisListCars';
-import {KomisSearch} from "./KomisBody/KomisSearch/KomisSearch";
-import {KomisNew} from "./KomisBody/KomisNew/KomisNew";
-import {KomisWantBuy} from "./KomisBody/KomisWantBuySell/KomisWantBuy";
-import {KomisWantSell} from "./KomisBody/KomisWantBuySell/KomisWantSell";
-import {KomisArchives} from "./KomisBody/KomisArchives/KomisArchives";
+import {KomisListCars} from './KomisListCars/KomisListCars';
+import {KomisSearch} from "./KomisSearch/KomisSearch";
+import {KomisNew} from "./KomisNew/KomisNew";
+import {KomisWantBuy} from "./KomisWantBuySell/KomisWantBuy";
+import {KomisWantSell} from "./KomisWantBuySell/KomisWantSell";
+import {KomisArchives} from "./KomisArchives/KomisArchives";
 
 import style from './Komis.module.css';
 
 interface Props {
     login: string;
     role: string;
-    branch: string;
+    branchName: string;
     handleToggleAdminKomis: () => void
 }
 
-export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
+export const Komis = ({login, role, branchName, handleToggleAdminKomis}: Props) => {
 
     const [active, setActive] = useState<string>('cars');
     const menuList = [

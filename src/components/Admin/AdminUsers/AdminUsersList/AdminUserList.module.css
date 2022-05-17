@@ -1,0 +1,27 @@
+.table {
+    width: 90%;
+}
+
+.table th:first-child {
+    min-width: 20px;
+}
+
+.tdAction {
+    padding: 6px 0 4px 20px;
+    border-bottom: 1px solid var(--dark);
+}
+
+.iconPass, .iconEdit, .iconDelete {
+    margin-right: 15px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.iconPass {
+    font-size: 22px;
+}
+
+.iconDelete {
+    color: #c50000;
+    cursor: pointer;
+}

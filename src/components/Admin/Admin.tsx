@@ -10,7 +10,7 @@ import style from './Admin.module.css';
 interface Props {
     login: string;
     role: string;
-    branch: string;
+    branchName: string;
     handleToggleAdminKomis: () => void
 }
 
@@ -19,7 +19,7 @@ interface MenuList {
     show: string;
 }
 
-export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
+export const Admin = ({login, role, branchName, handleToggleAdminKomis}: Props) => {
 
     const [active, setActive] = useState<string>('users');
     const [menuList, setMenuList] = useState<MenuList[]>([]);
@@ -46,10 +46,11 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
         switch (active) {
             case 'users':
                 return <AdminUsers
-                    branch={branch}
+                    branchName={branchName}
+                    role={role}
                 />;
             case 'branch':
-                return <AdminBranch/>;     //todo ustawienie filtra na pracownikach
+                return <AdminBranch/>;
             case 'cars':
                 return <AdminCars/>;
         }
