@@ -43,7 +43,7 @@
     text-decoration: none;
     color: var(--dark);
     font-size: 40px;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     font-weight: 600;
     text-transform: uppercase;
     transition: color .3s linear, border .3s linear;

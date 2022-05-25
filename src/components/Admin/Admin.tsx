@@ -10,7 +10,7 @@ import style from './Admin.module.css';
 interface Props {
     login: string;
     role: string;
-    branchName: string;
+    branch: string;
     handleToggleAdminKomis: () => void
 }
 
@@ -19,7 +19,7 @@ interface MenuList {
     show: string;
 }
 
-export const Admin = ({login, role, branchName, handleToggleAdminKomis}: Props) => {
+export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
 
     const [active, setActive] = useState<string>('users');
     const [menuList, setMenuList] = useState<MenuList[]>([]);
@@ -46,7 +46,7 @@ export const Admin = ({login, role, branchName, handleToggleAdminKomis}: Props) 
         switch (active) {
             case 'users':
                 return <AdminUsers
-                    branchName={branchName}
+                    branch={branch}
                     role={role}
                 />;
             case 'branch':

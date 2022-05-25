@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import {stringifyUrl} from "query-string";
 
+import {config} from '../../config/config';
 import {Spinner} from "../../common/Spinner/Spinner";
 import {Admin} from "../Admin/Admin";
 import {Komis} from "../Komis/Komis";
@@ -11,7 +11,7 @@ import style from './KomisApp.module.css';
 interface Data {
     login: string;
     role: string;
-    branchName: string;
+    branch: string;
 }
 
 export const KomisApp = () => {
@@ -19,7 +19,7 @@ export const KomisApp = () => {
     const [data, setData] = useState<Data>({
         login: '',
         role: '',
-        branchName: '',
+        branch: '',
     })
     const [toggleAdminKomis, setToggleAdminKomis] = useState<string>('komis');
     const [loginName, setLoginName] = useState<string | null>(null);
@@ -27,29 +27,20 @@ export const KomisApp = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (loginName === null) {
-            if (location === null) {
-                return navigate('/login')
-            }
-            setLoginName(location)
+        if (location === null) {
+            return navigate('/login')
         }
-    }, [location, loginName, navigate]);
+    }, [location, navigate]);
 
     useEffect(() => {
         (async () => {
-            const URL = stringifyUrl({
-                url: 'http://localhost:3001/users/?',
-                query: {
-                    login: loginName,
-                }
-            });
-            const response = await fetch(URL);
+            const response = await fetch(`${config.URL}users/user/${loginName}`);
             const resData = await response.json();
             setData(data => ({
                 ...data,
                 login: resData.login,
                 role: resData.role,
-                branchName: resData.branchName,
+                branch: resData.branchName,
             }));
         })();
         if (data.role === 'ADMIN') {
@@ -57,6 +48,10 @@ export const KomisApp = () => {
         }
     }, [data.role, loginName]);
 
+
+    if (loginName === null) {
+        setLoginName(location)
+    }
 
     const handleToggleAdminKomis = () => {
         setToggleAdminKomis(toggleAdminKomis === 'komis' ? 'admin' : 'komis');
@@ -70,13 +65,13 @@ export const KomisApp = () => {
                         ? <Admin
                             login={data.login}
                             role={data.role}
-                            branchName={data.branchName}
+                            branch={data.branch}
                             handleToggleAdminKomis={handleToggleAdminKomis}
                         />
                         : <Komis
                             login={data.login}
                             role={data.role}
-                            branchName={data.branchName}
+                            branch={data.branch}
                             handleToggleAdminKomis={handleToggleAdminKomis}
                         />
             }

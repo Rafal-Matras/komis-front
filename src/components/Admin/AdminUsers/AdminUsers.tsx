@@ -6,11 +6,11 @@ import {AdminAddUser} from "./AdminAddUser/AdminAddUser";
 
 
 interface Props {
-    branchName: string;
+    branch: string;
     role: string;
 }
 
-export const AdminUsers = ({branchName, role}: Props) => {
+export const AdminUsers = ({branch, role}: Props) => {
 
     const [addUser, setAddUser] = useState(true)
 
@@ -27,12 +27,13 @@ export const AdminUsers = ({branchName, role}: Props) => {
                 >Dodaj nowego pracownika</button>
                 : <AdminAddUser
                     role={role}
+                    branch={branch}
                     setAddUser={setAddUser}
                 />
             }
             <AdminUsersList
                 role={role}
-                branchName={branchName}
+                branch={branch}
             />
         </div>
     );
