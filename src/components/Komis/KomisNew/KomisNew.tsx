@@ -85,8 +85,8 @@ export const KomisNew = () => {
                 <input
                     type='text'
                     placeholder='Data następnego przeglądu'
-                    onFocus={(e) => (e.target.type = "date")}
                     onBlur={(e) => (e.target.type = "text")}
+                    onFocus={(e) => (e.target.type = "date")}
                 />
                 <input
                     type='date'
@@ -97,8 +97,8 @@ export const KomisNew = () => {
                 <input
                     type='date'
                     placeholder='Data zakupu'
-                    onFocus={(e) => (e.target.type = "date")}
                     onBlur={(e) => (e.target.type = "text")}
+                    onFocus={(e) => (e.target.type = "date")}
                 />
                 <input type='text' placeholder='Numer umowy'/>
                 <button

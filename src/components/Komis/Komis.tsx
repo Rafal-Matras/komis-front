@@ -13,11 +13,11 @@ import style from './Komis.module.css';
 interface Props {
     login: string;
     role: string;
-    branchName: string;
+    branch: string;
     handleToggleAdminKomis: () => void
 }
 
-export const Komis = ({login, role, branchName, handleToggleAdminKomis}: Props) => {
+export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
 
     const [active, setActive] = useState<string>('cars');
     const menuList = [

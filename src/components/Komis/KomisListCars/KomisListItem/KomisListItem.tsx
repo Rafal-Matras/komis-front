@@ -1,11 +1,11 @@
 import React from "react";
-import {CarsShow} from "types";
+import {SimpleCar} from "types";
 
 import style from '../KomisListCars.module.css';
 
 interface Props {
     id: number;
-    car: CarsShow;
+    car: SimpleCar;
     showFullCar: (el: string) => void;
 }
 

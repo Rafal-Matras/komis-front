@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
 import {config} from '../../config/config';
-import {Spinner} from "../../common/Spinner/Spinner";
+import {Spinner} from "../common/Spinner/Spinner";
 import {Admin} from "../Admin/Admin";
 import {Komis} from "../Komis/Komis";
 
@@ -23,8 +23,8 @@ export const KomisApp = () => {
     })
     const [toggleAdminKomis, setToggleAdminKomis] = useState<string>('komis');
     const [loginName, setLoginName] = useState<string | null>(null);
-    const location = useLocation().state as string
     const navigate = useNavigate();
+    const location = useLocation().state as string
 
     useEffect(() => {
         if (location === null) {
@@ -56,6 +56,7 @@ export const KomisApp = () => {
     const handleToggleAdminKomis = () => {
         setToggleAdminKomis(toggleAdminKomis === 'komis' ? 'admin' : 'komis');
     };
+
     return (
         <div className={style.container}>
             {

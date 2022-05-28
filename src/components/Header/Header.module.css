@@ -2,6 +2,7 @@
     display: flex;
     border-bottom: 2px solid var(--primary-text);
     background-color: var(--primary-color);
+    overflow: hidden;
 }
 
 .logo {
@@ -20,14 +21,16 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    box-shadow: 5px 0 5px var(--primary-text);
 }
 
 .h1 {
-    width: 60%;
+    width: 50%;
     font-size: 3.8rem;
-    text-align: center;
+    text-align: right;
     letter-spacing: 2px;
     color: #003c56;
+    /*background-color: rebeccapurple;*/
 }
 
 .boxUser {
