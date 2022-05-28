@@ -1,55 +1,54 @@
-import React, {useEffect, useState} from "react";
-import {UserShow} from "types";
+import React, {useContext, useEffect, useState} from "react";
+import {List} from "types";
 
-import {AdminUser} from "./AdminUser/AdminUser";
+import {User} from "./User/User";
+import {Spinner} from "../../../common/Spinner/Spinner";
+import {ChangeUserContext} from "../../../contexts/changeUserContext";
+import {config} from "../../../../config/config";
 
-import style from './AdminUserList.module.css';
-import {Spinner} from "../../../../common/Spinner/Spinner";
+import style from './UserList.module.css';
 
 interface Props {
     role: string;
-    branchName: string;
+    branch: string;
 }
 
-interface List extends UserShow {
-    branchName: string;
-}
-
-export const AdminUsersList = ({role, branchName}: Props) => {
-
-    const [dataTable, setDataTable] = useState<List[]>([])
+export const UsersList = ({role, branch}: Props) => {
+    const {changeUser} = useContext(ChangeUserContext)
+    const [dataTable, setDataTable] = useState<List[] | null>(null);
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:3001/users/list`);
+            const response = await fetch(`${config.URL}users`);
             const resData = await response.json();
             if (role === 'ADMIN') {
                 setDataTable(resData)
             } else {
-                setDataTable(resData.filter((el: { branchName: string; }) => el.branchName === branchName))
+                setDataTable(resData.filter((el: { branchName: string; }) => el.branchName === branch))
             }
         })();
-    }, [branchName, role])
+    }, [branch, role, changeUser]);
 
 
-    const usersList = dataTable.map((el, index) => (
-        <AdminUser
+    const usersList = dataTable?.map((el, index) => (
+        <User
             key={el.login}
             data={el}
-            branchName={el.branchName}
             id={index + 1}
+            role={role}
+            branch={branch}
         />
     ))
 
     return (
         <>
             {
-                dataTable === []
+                dataTable === null
                     ? <Spinner/>
                     : <table className={style.table}>
                         <thead>
                         <tr>
-                            <th className={style.tableId}>Id</th>
+                            <th>Id</th>
                             <th>Imię</th>
                             <th>Nazwisko</th>
                             <th>Email</th>

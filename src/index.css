@@ -6,7 +6,7 @@
 }
 
 :root {
-    --light: #eee8e8;
+    --light: rgba(236, 230, 230, 0.92);
     --dark: #212020;
     --error-color: #fd5151;
     --box-shadow: #2f2f2f;
@@ -46,6 +46,31 @@ th {
 
 .containerApp {
     width: 1280px;
+}
+
+.btnPrimaryBig,
+.btnPrimarySmall {
+    padding: 10px 30px;
+    font-size: 2rem;
+    background-color: var(--primary-text);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color .3s linear, background-color .3s linear;
+}
+
+.btnPrimaryBig {
+    margin: 20px 10px;
+    font-size: 2.4rem;
+}
+
+.btnPrimaryBig:hover,
+.btnPrimarySmall:hover {
+    color: var(--primary-text);
+    background-color: var(--primary-color);
 }
 
 @media only screen and (min-width: 1920px) {

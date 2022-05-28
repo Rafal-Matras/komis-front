@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 
 import {Header} from "../Header/Header";
-import {AdminUsers} from "./AdminUsers/AdminUsers";
-import {AdminBranch} from "./AdminBranch/AdminBranch";
-import {AdminCars} from "./AdminCars/AdminCars";
+import {Users} from "./Users/Users";
+import {Branch} from "./Branch/Branch";
+import {AdminCars} from "./Cars/AdminCars";
 
 import style from './Admin.module.css';
 
@@ -28,12 +28,12 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
     useEffect(() => {
         role === 'ADMIN'
             ? setMenuList([
-                {name: 'users', show: 'Pracownicy'},
+                {name: 'users', show: 'Użytkownicy'},
                 {name: 'branch', show: 'Oddziały'},
                 {name: 'cars', show: 'Dodaj / Usuń'},
             ])
             : setMenuList([
-                {name: 'users', show: 'Pracownicy'},
+                {name: 'users', show: 'Użytkownicy'},
                 {name: 'cars', show: 'Dodaj / Usuń'},
             ])
     }, [role]);
@@ -45,12 +45,12 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
     const menuItem = () => {
         switch (active) {
             case 'users':
-                return <AdminUsers
+                return <Users
                     branch={branch}
                     role={role}
                 />;
             case 'branch':
-                return <AdminBranch/>;
+                return <Branch/>;
             case 'cars':
                 return <AdminCars/>;
         }

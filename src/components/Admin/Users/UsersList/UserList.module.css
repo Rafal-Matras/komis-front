@@ -1,0 +1,7 @@
+.table {
+    width: 90%;
+}
+
+.table th:first-child {
+    min-width: 20px;
+}
