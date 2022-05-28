@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 
+import {config} from "../../config/config";
 import car from '../../images/ferrari.png';
 
 import style from './SetPassword.module.css';
@@ -21,17 +22,8 @@ export const SetPassword = () => {
         }
     }, [location.state, navigate])
 
-    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value)
-    }
-
-    const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setConfirmPassword(e.target.value)
-    }
-
     const handleSetPassword = async (e: React.SyntheticEvent) => {
         e.preventDefault();
-
 
         if (password === '' || confirmPassword === '') {
             setErrorPassword('hasła nie mogą być puste')
@@ -49,14 +41,13 @@ export const SetPassword = () => {
             return
         }
 
-        await fetch(`http://localhost:3001/login`, {
+        await fetch(`${config.URL}login`, {
             method: 'POST',
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({login: location.state, password: password})
-
-        })
+            body: JSON.stringify({login: location.state, password: password}),
+        });
         navigate('/login');
     };
 
@@ -64,23 +55,27 @@ export const SetPassword = () => {
         <div className={style.container}>
             <h1 className={style.h1}>Utwórz nowe hasło</h1>
             <div className={style.box}>
-                <img className={style.img} src={car} alt="zdjęcie samochodu porsche"/>
+                <img className={style.img} src={car} alt=""/>
                 <form className={style.form} onSubmit={handleSetPassword}>
                     <input
                         type="password"
                         value={password}
-                        onChange={handlePassword}
+                        onChange={(e) => setPassword(e.target.value)}
                         className={style.input}
                         placeholder='nowe hasło'
                     />
                     <input
                         type="password"
                         value={confirmPassword}
-                        onChange={handleConfirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         className={style.input}
                         placeholder='powtórz hasło'
                     />
-                    <p className={style.p} style={{display: correct ? 'none' : 'block'}}>{errorPassword}</p>
+                    <p
+                        className={style.p}
+                        style={{color: correct ? 'transparent' : '#de0000'}}
+                    >{errorPassword}
+                    </p>
                     <button className={style.btn} type='submit'>Zaloguj</button>
                 </form>
             </div>

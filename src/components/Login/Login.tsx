@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {stringifyUrl} from 'query-string';
+
 
 import car from '../../images/porsche.png';
+import {config} from "../../config/config";
 
 import style from './Login.module.css';
 
@@ -13,25 +14,10 @@ export const Login = () => {
     const [correct, setCorrect] = useState<boolean>(true);
     const navigate = useNavigate();
 
-
-    const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setName(e.target.value);
-    };
-
-    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    };
-
     const handleSend = async (e: React.SyntheticEvent) => {
         e.preventDefault();
-        const URL = stringifyUrl({
-            url: 'http://localhost:3001/login/?',
-            query: {
-                login: name,
-                password: password,
-            }
-        })
-        const response = await fetch(URL)
+        const URL = `${config.URL}login/?login=${encodeURIComponent(name)}&password=${encodeURIComponent(password)}`
+        const response = await fetch(URL);
         const data = await response.json();
 
         if (!data.login) {
@@ -51,25 +37,24 @@ export const Login = () => {
         <div className={style.container}>
             <p
                 className={style.p}
-                style={{display: correct ? 'none' : 'flex'}}
-            >
-                Nieprawidłowe logowanie spróbuj jeszcze raz
+                style={{color: correct ? 'transparent' : '#de0000'}}
+            >Nieprawidłowe logowanie spróbuj jeszcze raz
             </p>
             <div className={style.box}>
-                <img className={style.img} src={car} alt="zdjęcie samochodu porsche"/>
+                <img className={style.img} src={car} alt=""/>
                 <form className={style.form} onSubmit={handleSend}>
                     <input
                         type="text"
                         value={name}
                         className={style.input}
-                        onChange={handleName}
+                        onChange={(e) => setName(e.target.value)}
                         placeholder='użytkownik'
                     />
                     <input
                         type="password"
                         value={password}
                         className={style.input}
-                        onChange={handlePassword}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder='hasło'
                     />
                     <button className={style.btn} type="submit">Zaloguj</button>
