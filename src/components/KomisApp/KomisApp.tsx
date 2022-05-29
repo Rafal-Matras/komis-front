@@ -27,31 +27,31 @@ export const KomisApp = () => {
     const location = useLocation().state as string
 
     useEffect(() => {
-        if (location === null) {
-            return navigate('/login')
+        if (!loginName) {
+            if (!location) {
+                return navigate('/login')
+            }
+            setLoginName(location)
         }
-    }, [location, navigate]);
+    }, [location, loginName, navigate]);
 
     useEffect(() => {
-        (async () => {
-            const response = await fetch(`${config.URL}users/user/${loginName}`);
-            const resData = await response.json();
-            setData(data => ({
-                ...data,
-                login: resData.login,
-                role: resData.role,
-                branch: resData.branchName,
-            }));
-        })();
-        if (data.role === 'ADMIN') {
-            setToggleAdminKomis('admin');
+        if (loginName) {
+            (async () => {
+                const response = await fetch(`${config.URL}users/user/${loginName}`);
+                const resData = await response.json();
+                setData(data => ({
+                    ...data,
+                    login: resData.login,
+                    role: resData.role,
+                    branch: resData.branchName,
+                }));
+            })();
+            if (data.role === 'ADMIN') {
+                setToggleAdminKomis('admin');
+            }
         }
     }, [data.role, loginName]);
-
-
-    if (loginName === null) {
-        setLoginName(location)
-    }
 
     const handleToggleAdminKomis = () => {
         setToggleAdminKomis(toggleAdminKomis === 'komis' ? 'admin' : 'komis');
