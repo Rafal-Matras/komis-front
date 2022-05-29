@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
+import {BsFillEyeFill, BsFillEyeSlashFill} from "react-icons/bs";
 
 import {config} from "../../config/config";
 import car from '../../images/ferrari.png';
@@ -10,6 +11,8 @@ export const SetPassword = () => {
 
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [seePassword, setSeePassword] = useState(false);
+    const [seeConfirmPassword, setSeeConfirmPassword] = useState(false);
     const [correct, setCorrect] = useState<boolean>(true);
     const [errorPassword, setErrorPassword] = useState<string>('')
     const navigate = useNavigate();
@@ -50,6 +53,8 @@ export const SetPassword = () => {
         });
         navigate('/login');
     };
+    console.log(location.state)
+    console.log(password)
 
     return (
         <div className={style.container}>
@@ -57,20 +62,34 @@ export const SetPassword = () => {
             <div className={style.box}>
                 <img className={style.img} src={car} alt=""/>
                 <form className={style.form} onSubmit={handleSetPassword}>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={style.input}
-                        placeholder='nowe hasło'
-                    />
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        className={style.input}
-                        placeholder='powtórz hasło'
-                    />
+                    <div className={style.boxInput}>
+                        <input
+                            type={seePassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={style.input}
+                            placeholder='nowe hasło'
+                        />
+                        {seePassword
+                            ? <BsFillEyeSlashFill className={style.icon} onClick={() => setSeePassword(false)}/>
+                            : <BsFillEyeFill className={style.icon} onClick={() => setSeePassword(true)}/>
+
+                        }
+                    </div>
+                    <div className={style.boxInput}>
+                        <input
+                            type={seeConfirmPassword ? 'text' : 'password'}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            className={style.input}
+                            placeholder='powtórz hasło'
+                        />
+                        {seeConfirmPassword
+                            ? <BsFillEyeSlashFill className={style.icon} onClick={() => setSeeConfirmPassword(false)}/>
+                            : <BsFillEyeFill className={style.icon} onClick={() => setSeeConfirmPassword(true)}/>
+
+                        }
+                    </div>
                     <p
                         className={style.p}
                         style={{color: correct ? 'transparent' : '#de0000'}}

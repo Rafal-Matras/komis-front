@@ -7,16 +7,17 @@ import style from './DeleteUser.module.css';
 
 interface Props {
     user: string;
+    login: string;
     closePopup: React.Dispatch<SetStateAction<boolean>>;
 }
 
-export const DeleteUser = ({user, closePopup}: Props) => {
+export const DeleteUser = ({user, login, closePopup}: Props) => {
 
     const {setChangeUser} = useContext(ChangeUserContext)
 
     const handleDeleteUser = async () => {
         closePopup(false)
-        const res = await fetch(`${config.URL}users/${user}`, {
+        const res = await fetch(`${config.URL}users/${login}`, {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json',

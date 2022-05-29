@@ -35,8 +35,10 @@ export const User = ({role, branch, data, id}: Props) => {
                 <td>{branchName}</td>
                 <td className={style.tdAction}>
                     <BsFillKeyFill className={style.iconPass} onClick={() => setOpenSetPasswordUser(true)}/>
-                    <BsFillPencilFill className={style.iconEdit} onClick={() => setOpenEditUser(true)}/>
-                    <BsXLg className={style.iconDelete} onClick={() => setOpenPopupDeleteUs(true)}/>
+                    {login === 'admin' ? null :
+                        <BsFillPencilFill className={style.iconEdit} onClick={() => setOpenEditUser(true)}/>}
+                    {login === 'admin' ? null :
+                        <BsXLg className={style.iconDelete} onClick={() => setOpenPopupDeleteUs(true)}/>}
 
                     {openSetPasswordUser && <SetPasswordUser
                         user={login}
@@ -45,11 +47,12 @@ export const User = ({role, branch, data, id}: Props) => {
                     {openEditUser && <AddEditUser
                         role={role}
                         branch={branch}
-                        user={data}
+                        editUser={data}
                         closePopup={setOpenEditUser}
                     />}
                     {openPopupDeleteUser && <DeleteUser
                         user={`${name} ${lastName}`}
+                        login={login}
                         closePopup={setOpenPopupDeleteUs}
                     />}
                 </td>

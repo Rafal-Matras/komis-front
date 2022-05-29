@@ -30,6 +30,15 @@
     align-items: center;
 }
 
+.boxInput {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    border: 2px solid var(--dark);
+    border-radius: 5px;
+}
+
 .input, .btn {
     padding: 10px 15px;
     border: 2px solid;
@@ -39,12 +48,20 @@
 }
 
 .input {
-    width: 90%;
-    border-color: #000;
+    border: none;
+    width: 80%;
 }
 
 .input:focus {
     border-color: var(--secondary-collor);
+}
+
+.icon {
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+    color: var(--dark);
+    cursor: pointer;
 }
 
 .btn {

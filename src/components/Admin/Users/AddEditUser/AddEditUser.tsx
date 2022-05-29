@@ -11,16 +11,16 @@ interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
     role: string;
     branch: string;
-    user?: List
+    editUser?: List
 }
 
 interface NameBranchResponse {
     branchName: string
 }
 
-export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
+export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
 
-    const {setChangeUser} = useContext(ChangeUserContext)
+    const {setChangeUser} = useContext(ChangeUserContext);
     const [person, setPerson] = useState<User>({
         name: '',
         lastName: '',
@@ -37,17 +37,17 @@ export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
     const [alertText, setAlertText] = useState('ok')
 
     useEffect(() => {
-        if (user) {
+        if (editUser) {
             setPerson(person => ({
                 ...person,
-                name: user.name,
-                lastName: user.lastName,
-                email: user.email,
-                login: user.login,
-                branchId: user.branchName,
+                name: editUser.name,
+                lastName: editUser.lastName,
+                email: editUser.email,
+                login: editUser.login,
+                branchId: editUser.branchName,
             }));
         }
-    }, [user])
+    }, [editUser])
 
     useEffect(() => {
         (async () => {
@@ -71,13 +71,15 @@ export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
             setFillIn(true)
         } else {
             setFillIn(false)
-            const response = await fetch(`${config.URL}users/checklogin/${person.login}`);
-            const data = await response.json();
-            if (data) {
-                setAlertText('taki login już istnieje')
+            if (!editUser) {
+                const response = await fetch(`${config.URL}users/checklogin/${person.login}`);
+                const data = await response.json();
+                if (data) {
+                    setAlertText('taki login już istnieje')
+                }
+                setSameLogin(data);
+                setFillIn(data);
             }
-            setSameLogin(data);
-            setFillIn(data);
         }
     };
 
@@ -94,7 +96,7 @@ export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
     };
 
     const validation = () => {
-        if (person.name === '' || person.lastName === '' || person.email === '' || person.login === '' || person.role === '' || person.branchId.length < 6) {
+        if (person.name === '' || person.lastName === '' || person.email === '' || person.login === '' || person.role === '' || person.branchId.length < 3) {
             setAlertText('wypełnij wszystkie pola')
             setFillIn(true)
             return true
@@ -139,7 +141,7 @@ export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
         if (validation()) {
             return
         }
-        const res = await fetch(`${config.URL}users/edit/${user?.login}`, {
+        const res = await fetch(`${config.URL}users/edit/${editUser?.login}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -147,6 +149,7 @@ export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
             body: JSON.stringify(person)
         });
         const data = await res.json();
+        console.log(data)
         closePopup(false);
         setChangeUser(data);
     };
@@ -154,18 +157,16 @@ export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
     return (
         <div className={style.container}>
             <div className={style.box}>
-
-                {user
+                {editUser
                     ? <h2 className={style.h2}>Edytuj Pracownika</h2>
                     : <h2 className={style.h2}>Dodaj Nowego Pracownika</h2>
                 }
-
                 <p
                     className={style.pError}
-                    style={{color: fillIn ? 'red' : 'transparent'}}
+                    style={{color: fillIn ? '#fd5151' : 'transparent'}}
                 >{alertText}
                 </p>
-                <form className={style.form} onSubmit={user ? EditUser : AddUser}>
+                <form className={style.form} onSubmit={editUser ? EditUser : AddUser}>
                     <div className={style.boxInput}>
                         <input
                             type="text"
@@ -199,7 +200,7 @@ export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
                             className={style.input}
                             placeholder='Login'
                         />
-                        {user
+                        {editUser
                             ? null
                             : <input
                                 type="text"
@@ -220,12 +221,12 @@ export const AddEditUser = ({closePopup, role, branch, user}: Props) => {
                         </select>
                         <select className={style.input} onChange={e => updateForm('branchId', e.target.value)}>
                             <option>Wybierz Oddział</option>
+                            {role === 'ADMIN' ? <option value='All'>All</option> : null}
                             {branchNames.map(el => <option key={el} value={el}>{el}</option>)}
                         </select>
-
                     </div>
                     <div className={style.boxBtn}>
-                        <button type='submit' className='btnPrimarySmall'>{user ? 'Edytuj' : 'Dodaj'}</button>
+                        <button type='submit' className='btnPrimarySmall'>{editUser ? 'Edytuj' : 'Dodaj'}</button>
                         <button type='reset' className='btnPrimarySmall' onClick={() => closePopup(false)}>Anuluj
                         </button>
                     </div>

@@ -6,11 +6,13 @@ import car from '../../images/porsche.png';
 import {config} from "../../config/config";
 
 import style from './Login.module.css';
+import {BsFillEyeFill, BsFillEyeSlashFill} from "react-icons/bs";
 
 export const Login = () => {
 
     const [name, setName] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [seePassword, setSeePassword] = useState(false);
     const [correct, setCorrect] = useState<boolean>(true);
     const navigate = useNavigate();
 
@@ -43,20 +45,29 @@ export const Login = () => {
             <div className={style.box}>
                 <img className={style.img} src={car} alt=""/>
                 <form className={style.form} onSubmit={handleSend}>
-                    <input
-                        type="text"
-                        value={name}
-                        className={style.input}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder='użytkownik'
-                    />
-                    <input
-                        type="password"
-                        value={password}
-                        className={style.input}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder='hasło'
-                    />
+                    <div className={style.boxInput}>
+                        <input
+                            type="text"
+                            value={name}
+                            className={style.input}
+                            onChange={(e) => setName(e.target.value)}
+                            placeholder='użytkownik'
+                        />
+                    </div>
+                    <div className={style.boxInput}>
+                        <input
+                            type={seePassword ? 'text' : 'password'}
+                            value={password}
+                            className={style.input}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder='hasło'
+                        />
+                        {seePassword
+                            ? <BsFillEyeSlashFill className={style.icon} onClick={() => setSeePassword(false)}/>
+                            : <BsFillEyeFill className={style.icon} onClick={() => setSeePassword(true)}/>
+
+                        }
+                    </div>
                     <button className={style.btn} type="submit">Zaloguj</button>
                 </form>
             </div>

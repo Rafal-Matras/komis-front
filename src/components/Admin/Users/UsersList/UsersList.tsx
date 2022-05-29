@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from "react";
 import {List} from "types";
 
-import {User} from "./User/User";
-import {Spinner} from "../../../common/Spinner/Spinner";
 import {ChangeUserContext} from "../../../contexts/changeUserContext";
 import {config} from "../../../../config/config";
+import {User} from "./User/User";
+import {Spinner} from "../../../common/Spinner/Spinner";
 
 import style from './UserList.module.css';
 
@@ -42,23 +42,22 @@ export const UsersList = ({role, branch}: Props) => {
 
     return (
         <>
-            {
-                dataTable === null
-                    ? <Spinner/>
-                    : <table className={style.table}>
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Imię</th>
-                            <th>Nazwisko</th>
-                            <th>Email</th>
-                            <th>Login</th>
-                            <th>Oddział</th>
-                            <th>Akcje</th>
-                        </tr>
-                        </thead>
-                        <tbody>{usersList}</tbody>
-                    </table>
+            {!dataTable
+                ? <Spinner/>
+                : <table className={style.table}>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Email</th>
+                        <th>Login</th>
+                        <th>Oddział</th>
+                        <th>Akcje</th>
+                    </tr>
+                    </thead>
+                    <tbody>{usersList}</tbody>
+                </table>
             }
         </>
     )
