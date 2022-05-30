@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {Header} from "../Header/Header";
 import {Users} from "./Users/Users";
 import {Branch} from "./Branch/Branch";
-import {AdminCars} from "./Cars/AdminCars";
+import {Cars} from "./Cars/Cars";
 
 import style from './Admin.module.css';
 
@@ -52,7 +52,7 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
             case 'branch':
                 return <Branch/>;
             case 'cars':
-                return <AdminCars/>;
+                return <Cars/>;
         }
     };
 

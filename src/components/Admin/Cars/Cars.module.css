@@ -1,16 +1,16 @@
 .container {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 
 .box {
-    width: 40%;
+    width: 45%;
 }
 
 .title {
     margin: 20px 80px;
-    font-size: 40px;
+    font-size: 4rem;
     color: var(--primary-text);
 }
 
@@ -20,23 +20,22 @@
 }
 
 .name {
-    margin: 0 0 10px 20px;
+    margin: 0 0 10px 30px;
     font-size: 24px;
     color: var(--primary-text);
 }
 
 .dataBox {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 
 .input,
 .select,
-.inputSelect,
-.btn {
+.inputSelect {
     padding: 10px 15px;
-    width: 60%;
+    width: 65%;
     border: 2px solid var(--primary-text);
     border-radius: 10px;
     color: var(--primary-text);
@@ -55,23 +54,8 @@
 }
 
 .select {
-    margin: 0 0 15px 32px;
+    margin-bottom: 15px;
     padding: 6px 10px;
     font-size: 18px;
     cursor: pointer;
-}
-
-.btn {
-    padding: 12px 15px;
-    width: 20%;
-    border: none;
-    cursor: pointer;
-    background-color: var(--primary-text);
-    color: var(--light);
-    letter-spacing: 1px;
-    transition: background-color .3s linear;
-}
-
-.btn:hover {
-    background-color: var(--primary-color);
 }
