@@ -1,43 +1,36 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
+import {SimpleCarEdit} from "types";
 
 import {config} from "../../../config/config";
+import {ChangeCarsEditContext} from "../../contexts/changeCarsEditContext";
 
 import style from "./Cars.module.css";
 
-interface Names {
-    name: string;
-}
 
 interface Props {
     title: string;
     name: string;
+    carMarks?: SimpleCarEdit[] | undefined;
 }
 
-export const AddCars = ({title, name}: Props) => {
+export const AddCars = ({title, name, carMarks}: Props) => {
+
+    const {setChangeCarItem} = useContext(ChangeCarsEditContext);
 
     const [markValue, setMarkValue] = useState<string>('');
     const [carValue, setCarValue] = useState('');
-    const [carMarks, setCarMarks] = useState<Names[] | null>(null);
-
-    useEffect(() => {
-        if (name === 'model') {
-            (async () => {
-                const res = await fetch(`${config.URL}cars/edit/all`);
-                const data = await res.json();
-                setCarMarks(data);
-            })();
-        }
-    }, [name]);
 
     const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await fetch(`${config.URL}cars/edit/${name}`, {
+        const res = await fetch(`${config.URL}cars/edit/${name}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name: carValue, mark: markValue}),
         });
+        const data = await res.json();
+        setChangeCarItem(data);
         setCarValue('');
         setMarkValue('');
     }
