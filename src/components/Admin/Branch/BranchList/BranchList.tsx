@@ -4,9 +4,9 @@ import {Branch} from "types";
 import {config} from "../../../../config/config";
 import {BranchItem} from "./BranchItem/BranchItem";
 import {Spinner} from "../../../common/Spinner/Spinner";
+import {ChangeBranchContext} from "../../../contexts/changeBranchContext";
 
 import style from './BranchList.module.css';
-import {ChangeBranchContext} from "../../../contexts/changeBranchContext";
 
 export const BranchList = () => {
 
@@ -45,5 +45,5 @@ export const BranchList = () => {
                 </table>
             }
         </>
-    )
-}
+    );
+};

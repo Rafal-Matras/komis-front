@@ -1,12 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {BsFillPencilFill, BsXLg} from "react-icons/bs";
 import {Branch} from "types";
 
-import {BsFillPencilFill, BsXLg} from "react-icons/bs";
-
-import style from '../BranchList.module.css';
 import {AddEditBranch} from "../../AddEditBranch/AddEditBranch";
 import {DeleteBranch} from "./DeleteBranch/DeleteBranch";
+import {config} from "../../../../../config/config";
 
+import style from '../BranchList.module.css';
 
 interface Props {
     data: Branch;
@@ -18,6 +18,15 @@ export const BranchItem = ({data, id}: Props) => {
 
     const [openEditBranch, setOpenEditBranch] = useState(false);
     const [openDeleteBranch, setOpenDeleteBranch] = useState(false);
+    const [userLeft, setUserLeft] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const res = await fetch(`${config.URL}branches/usersLeft/${branchName}`);
+            const data = await res.json();
+            setUserLeft(data);
+        })();
+    }, [branchName]);
 
 
     return (
@@ -37,6 +46,7 @@ export const BranchItem = ({data, id}: Props) => {
                 {openDeleteBranch && <DeleteBranch
                     closePopup={setOpenDeleteBranch}
                     branch={branchName}
+                    userLeft={userLeft}
                 />}
             </td>
         </tr>

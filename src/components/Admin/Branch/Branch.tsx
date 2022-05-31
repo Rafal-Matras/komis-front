@@ -2,9 +2,9 @@ import React, {useState} from "react";
 
 import {AddEditBranch} from "./AddEditBranch/AddEditBranch";
 import {BranchList} from "./BranchList/BranchList";
+import {ChangeBranchContext} from "../../contexts/changeBranchContext";
 
 import style from './Branch.module.css';
-import {ChangeBranchContext} from "../../contexts/changeBranchContext";
 
 export const Branch = () => {
 
