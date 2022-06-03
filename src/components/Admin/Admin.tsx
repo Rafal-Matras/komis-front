@@ -2,8 +2,8 @@ import React, {useEffect, useState} from "react";
 
 import {Header} from "../Header/Header";
 import {Users} from "./Users/Users";
-import {Branch} from "./Branch/Branch";
 import {Cars} from "./Cars/Cars";
+import {Branch} from "./Branch/Branch";
 
 import style from './Admin.module.css';
 
@@ -24,17 +24,16 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
     const [active, setActive] = useState<string>('users');
     const [menuList, setMenuList] = useState<MenuList[]>([]);
 
-
     useEffect(() => {
         role === 'ADMIN'
             ? setMenuList([
                 {name: 'users', show: 'Użytkownicy'},
+                {name: 'cars', show: 'Samochody'},
                 {name: 'branch', show: 'Oddziały'},
-                {name: 'cars', show: 'Dodaj / Usuń'},
             ])
             : setMenuList([
                 {name: 'users', show: 'Użytkownicy'},
-                {name: 'cars', show: 'Dodaj / Usuń'},
+                {name: 'cars', show: 'Samochody'},
             ])
     }, [role]);
 
@@ -49,10 +48,13 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
                     branch={branch}
                     role={role}
                 />;
+            case 'cars':
+                return <Cars
+                    role={role}
+                    branch={branch}
+                />
             case 'branch':
                 return <Branch/>;
-            case 'cars':
-                return <Cars/>;
         }
     };
 

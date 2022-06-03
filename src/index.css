@@ -16,6 +16,17 @@
     font-size: 10px;
 }
 
+/*:root {*/
+/*    --light: rgba(236, 230, 230, 0.92);*/
+/*    --dark: #212020;*/
+/*    --error-color: #fd5151;*/
+/*    --box-shadow: #2f2f2f;*/
+/*    --primary-color: #6bb1e0;*/
+/*    --secondary-collor: #fa8000;*/
+/*    --primary-text: #003c56;*/
+/*    font-size: 10px;*/
+/*}*/
+
 body {
     display: flex;
     justify-content: center;
@@ -29,6 +40,8 @@ button {
 }
 
 table {
+    margin-top: 20px;
+    width: 100%;
     border-collapse: collapse;
 }
 

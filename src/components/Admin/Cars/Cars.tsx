@@ -1,80 +1,87 @@
 import React, {useEffect, useState} from "react";
-import {SimpleCarEdit} from "types";
-
-import {AddCars} from "./AddCars";
-import {DeleteCar} from "./DeleteCar";
-import {config} from "../../../config/config";
-import {ChangeCarsEditContext} from "../../contexts/changeCarsEditContext";
 
 import style from './Cars.module.css';
+import {New} from "./New/New";
+import {AddPreferences} from "./AddPreferences/AddPreferences";
+import {DeletePreferences} from "./DeletePreferences/DeletePreferences";
+import {Configuration} from "./Configuration/Configuration";
+import {ChangeBranch} from "./ChangeBranch/ChangeBranch";
+import {config} from "../../../config/config";
 
-export const Cars = () => {
+interface Props {
+    role: string;
+    branch: string;
+}
 
-    const [changeCarItem, setChangeCarItem] = useState('');
-    const [carMarks, setCarMarks] = useState<SimpleCarEdit[]>([]);
+export const Cars = ({role, branch}: Props) => {
+
+    const [branchId, setBranchId] = useState('');
+    const [openAddNew, setOpenAddNew] = useState(false);
+    const [openAddPreferences, setOpenAddPreferences] = useState(false);
+    const [openDeletePreferences, setOpenDeletePreferences] = useState(false);
+    const [openConfiguration, setOpenConfiguration] = useState(false);
+    const [openChangeBranch, setOpenChangeBranch] = useState(false);
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`${config.URL}cars/edit/all`);
+            const res = await fetch(`${config.URL}branches/getid/${branch}`);
             const data = await res.json();
-            setCarMarks(data);
+            setBranchId(data);
         })();
+    }, [branch]);
 
-    }, [changeCarItem]);
 
     return (
-        <ChangeCarsEditContext.Provider value={{changeCarItem, setChangeCarItem}}>
-
-            <div className={style.container}>
-                <div className={style.box}>
-                    <h2 className={style.title}>Dodaj</h2>
-                    <AddCars
-                        name='mark'
-                        title='Marka'
-                    />
-                    <AddCars
-                        name='model'
-                        title='Model'
-                        carMarks={carMarks}
-                    />
-                    <AddCars
-                        name='equipment'
-                        title='Wyposażenie'
-                    />
-                    <AddCars
-                        name='fuel'
-                        title='Typ paliwa'
-                    />
-                    <AddCars
-                        name='type'
-                        title='Typ nadwozia'
-                    />
-                </div>
-                <div className={style.box}>
-                    <h2 className={style.title}>Usuń</h2>
-                    <DeleteCar
-                        name='mark'
-                        title='Marka'
-                    />
-                    <DeleteCar
-                        name='model'
-                        title='Model'
-                        carMarks={carMarks}
-                    />
-                    <DeleteCar
-                        name='equipment'
-                        title='Wyposażenie'
-                    />
-                    <DeleteCar
-                        name='fuel'
-                        title='Typ paliwa'
-                    />
-                    <DeleteCar
-                        name='type'
-                        title='Typ nadwozia'
-                    />
-                </div>
+        <div className={style.container}>
+            <div className={style.boxActivities}>
+                <button
+                    className='btnPrimaryBig'
+                    onClick={() => setOpenAddNew(true)}
+                >Dodaj nowy
+                </button>
+                {openAddNew && <New
+                    closePopup={setOpenAddNew}
+                    branchId={branchId}
+                />}
+                {role === 'ADMIN'
+                    ? <button
+                        className='btnPrimaryBig'
+                        onClick={() => setOpenChangeBranch(true)}
+                    >Zmień lokalizację
+                    </button>
+                    : null
+                }
+                {openChangeBranch && <ChangeBranch
+                    closePopup={setOpenChangeBranch}
+                />}
+                <button
+                    className='btnPrimaryBig'
+                    onClick={() => setOpenAddPreferences(true)}
+                >Dodaj Preferencje
+                </button>
+                {openAddPreferences && <AddPreferences
+                    closePopup={setOpenAddPreferences}
+                />}
+                <button
+                    className='btnPrimaryBig'
+                    onClick={() => setOpenDeletePreferences(true)}
+                >Usuń Preferencje
+                </button>
+                {openDeletePreferences && <DeletePreferences
+                    closePopup={setOpenDeletePreferences}
+                />}
+                <button
+                    className='btnPrimaryBig'
+                    onClick={() => setOpenConfiguration(true)}
+                >Konfiguracja
+                </button>
+                {openConfiguration && <Configuration
+                    closePopup={setOpenConfiguration}
+                />}
             </div>
-        </ChangeCarsEditContext.Provider>
+            <div className={style.boxInfo}>        {/*TODO box do uzupełnienia*/}
+
+            </div>
+        </div>
     );
 };

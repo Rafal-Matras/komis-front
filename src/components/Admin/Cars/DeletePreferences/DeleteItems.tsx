@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
 import {CarEdit, SimpleCarEdit} from "types";
 
-import {config} from "../../../config/config";
-import {ChangeCarsEditContext} from "../../contexts/changeCarsEditContext";
+import {config} from "../../../../config/config";
+import {ChangeCarsEditContext} from "../../../contexts/changeCarsEditContext";
 
 
-import style from "./Cars.module.css";
+import style from "../../CarsItems/CarsItems.module.css";
 
 interface Props {
     title: string;
@@ -13,7 +13,7 @@ interface Props {
     carMarks?: SimpleCarEdit[] | undefined;
 }
 
-export const DeleteCar = ({title, name, carMarks}: Props) => {
+export const DeleteItems = ({title, name, carMarks}: Props) => {
 
     const {setChangeCarItem} = useContext(ChangeCarsEditContext);
 
