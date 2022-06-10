@@ -1,12 +1,11 @@
 import React, {useState} from "react";
 
 import {Header} from '../Header/Header';
-import {KomisListCars} from './KomisListCars/KomisListCars';
-import {KomisSearch} from "./KomisSearch/KomisSearch";
-import {KomisNew} from "./KomisNew/KomisNew";
-import {KomisWantBuy} from "./KomisWantBuySell/KomisWantBuy";
-import {KomisWantSell} from "./KomisWantBuySell/KomisWantSell";
-import {KomisArchives} from "./KomisArchives/KomisArchives";
+import {CarsList} from './CarsList/CarsList';
+import {Search} from "./Search/Search";
+import {WantBuy} from "./WantBuySell/WantBuy";
+import {WantSell} from "./WantBuySell/WantSell";
+import {Archives} from "./Archives/Archives";
 
 import style from './Komis.module.css';
 
@@ -23,7 +22,6 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
     const menuList = [
         {name: 'cars', show: 'Auta'},
         {name: 'search', show: 'Szukaj'},
-        {name: 'new', show: 'Nowy'},
         {name: 'wantBuy', show: 'Chce Kupić'},
         {name: 'wantSell', show: 'Chce Sprzedać'},
         {name: 'archive', show: 'Archiwum'},
@@ -36,19 +34,20 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
     const menuItem = () => {
         switch (active) {
             case 'cars':
-                return <KomisListCars/>;
+                return <CarsList
+                    branch={branch}
+                />;
             case 'search':
-                return <KomisSearch/>;
-            case 'new':
-                return <KomisNew/>;
+                return <Search/>;
             case 'wantBuy':
-                return <KomisWantBuy/>;
+                return <WantBuy/>;
             case 'wantSell':
-                return <KomisWantSell/>;
+                return <WantSell/>;
             case 'archive':
-                return <KomisArchives/>;
+                return <Archives/>;
         }
     };
+
 
     return (
         <div className={style.container}>

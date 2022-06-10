@@ -2,9 +2,9 @@ import React from "react";
 
 import {consumers} from "../../../data/Data";
 
-import style from './KomisWantBuySell.module.css';
+import style from './WantBuySell.module.css';
 
-export const KomisWantBuy = () => {
+export const WantBuy = () => {
 
     const consumer = consumers.filter(el => el.whatWants === 'buy');
 
@@ -12,7 +12,7 @@ export const KomisWantBuy = () => {
         <tr key={index}>
             <td>{index + 1}</td>
             <td>{`${el.firstName} ${el.surName}`}</td>
-            <td>{el.tel}</td>
+            <td>{el.phone}</td>
             <td>{el.email}</td>
             <td>{el.description}</td>
         </tr>

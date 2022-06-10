@@ -1,6 +1,6 @@
 import React from "react";
 
-export const KomisArchives = () => {
+export const Archives = () => {
 
     return (
         <h1>Archiwum</h1>

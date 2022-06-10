@@ -2,9 +2,9 @@ import React, {useState} from "react";
 
 import {carEquipments} from "../../../data/Data";
 
-import style from './KomisSearch.module.css';
+import style from './Search.module.css';
 
-export const KomisSearch = () => {
+export const Search = () => {
 
     const [equipment, setEquipment] = useState<boolean>(false)
 
