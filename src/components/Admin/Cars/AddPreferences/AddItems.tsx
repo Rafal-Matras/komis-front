@@ -1,8 +1,7 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {SimpleCarEdit} from "types";
 
 import {config} from "../../../../config/config";
-import {ChangeCarsEditContext} from "../../../contexts/changeCarsEditContext";
 
 import style from "./AddPreferences.module.css";
 
@@ -15,22 +14,18 @@ interface Props {
 
 export const AddItems = ({title, name, carMarks}: Props) => {
 
-    const {setChangeCarItem} = useContext(ChangeCarsEditContext);
-
     const [markValue, setMarkValue] = useState<string>('');
     const [carValue, setCarValue] = useState('');
 
     const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const res = await fetch(`${config.URL}cars/edit/${name}`, {
+        await fetch(`${config.URL}cars/edit/${name}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({name: carValue, mark: markValue}),
         });
-        const data = await res.json();
-        setChangeCarItem(data);
         setCarValue('');
         setMarkValue('');
     }

@@ -166,64 +166,70 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                     style={{color: fillIn ? '#fd5151' : 'transparent'}}
                 >{alertText}
                 </p>
-                <form className={style.form} onSubmit={editUser ? EditUser : AddUser}>
-                    <div className={style.boxInput}>
-                        <input
-                            type="text"
-                            value={person.name}
-                            onChange={e => updateForm('name', e.target.value)}
-                            className={style.input}
-                            placeholder='Imię'
-                        />
-                        <input
-                            type="text"
-                            value={person.lastName}
-                            onChange={e => updateForm('lastName', e.target.value)}
-                            className={style.input}
-                            placeholder='Nazwisko'
-                        />
-                    </div>
-                    <input
-                        type="email"
-                        value={person.email}
-                        onChange={e => updateForm('email', e.target.value)}
-                        onBlur={handleValidateEmail}
-                        className={style.inputEmail}
-                        placeholder='Email'
-                    />
-                    <div className={style.boxInput}>
-                        <input
-                            type="text"
-                            value={person.login}
-                            onChange={e => updateForm('login', e.target.value)}
-                            onBlur={handleSomeLogin}
-                            className={style.input}
-                            placeholder='Login'
-                        />
+                <form className={style.formContainer} onSubmit={editUser ? EditUser : AddUser}>
+                    <div className={style.formBox}>
+                        <label htmlFor="name" className={style.label}>Imię
+                            <input
+                                id='name'
+                                type="text"
+                                value={person.name}
+                                onChange={e => updateForm('name', e.target.value)}
+                            />
+                        </label>
+                        <label htmlFor="lastName" className={style.label}>Nazwisko
+                            <input
+                                id='lastName'
+                                type="text"
+                                value={person.lastName}
+                                onChange={e => updateForm('lastName', e.target.value)}
+                            />
+                        </label>
+                        <div className={style.emailBox}>
+                            <label htmlFor="email">Email
+                                <input
+                                    id='email'
+                                    type="email"
+                                    value={person.email}
+                                    onChange={e => updateForm('email', e.target.value)}
+                                    onBlur={handleValidateEmail}
+                                />
+                            </label>
+                        </div>
+                        <label htmlFor="login" className={style.label}>Login
+                            <input
+                                id='login'
+                                type="text"
+                                value={person.login}
+                                onChange={e => updateForm('login', e.target.value)}
+                                onBlur={handleSomeLogin}
+                            />
+                        </label>
                         {editUser
                             ? null
-                            : <input
-                                type="text"
-                                value={person.password}
-                                onChange={e => updateForm('password', e.target.value)}
-                                className={style.input}
-                                placeholder='Hasło'
-                            />
+                            : <label htmlFor='password' className={style.label}>Hasło
+                                <input
+                                    id='password'
+                                    type="text"
+                                    value={person.password}
+                                    onChange={e => updateForm('password', e.target.value)}
+                                />
+                            </label>
                         }
-                    </div>
+
                     <div className={role === 'ADMIN' ? style.boxInput : style.blank}>
-                        <select className={style.input} onChange={e => updateForm('role', e.target.value)}>
+                        <select onChange={e => updateForm('role', e.target.value)}>
                             <option value=''>Wybirz stanowisko</option>
                             <option value='USER'>Użytkownik</option>
                             <option value='REG_ADMIN'>Kierownik Oddziału</option>
                             <option value="ADMIN">Administrator</option>
 
                         </select>
-                        <select className={style.input} onChange={e => updateForm('branchId', e.target.value)}>
+                        <select onChange={e => updateForm('branchId', e.target.value)}>
                             <option>Wybierz Oddział</option>
                             {role === 'ADMIN' ? <option value='All'>All</option> : null}
                             {branchNames.map(el => <option key={el} value={el}>{el}</option>)}
                         </select>
+                    </div>
                     </div>
                     <div className={style.boxBtn}>
                         <button type='submit' className='btnPrimarySmall'>{editUser ? 'Edytuj' : 'Dodaj'}</button>

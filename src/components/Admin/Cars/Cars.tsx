@@ -79,7 +79,7 @@ export const Cars = ({role, branch}: Props) => {
                     closePopup={setOpenConfiguration}
                 />}
             </div>
-            <div className={style.boxInfo}>        {/*TODO box do uzupełnienia*/}
+            <div className={style.boxInfo}>        {/*TODO box info do uzupełnienia*/}
 
             </div>
         </div>

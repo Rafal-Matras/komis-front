@@ -51,7 +51,7 @@ export const AddPreferences = ({closePopup}: Props) => {
                 <button
                     className='btnPrimaryBig'
                     onClick={() => closePopup(false)}
-                >Opuść
+                >Anuluj
                 </button>
             </div>
         </div>

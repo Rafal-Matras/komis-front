@@ -50,7 +50,7 @@ export const Header = ({login, role, active, handleBody, menuList, link, handleT
                     <div className={style.boxUser}>
                         <BsPersonCircle/>
                         <p>{login}</p>
-                        <BsPower className={style.icon} onClick={handleLogout}/>
+                        <BsPower className={style.logOffIcon} onClick={handleLogout}/>
                     </div>
                 </div>
                 <nav className={style.nav}>

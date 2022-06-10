@@ -28,7 +28,7 @@
 
 .h1 {
     width: 50%;
-    font-size: 3rem;
+    font-size: 2.4rem;
     text-align: right;
     letter-spacing: 2px;
     color: #003c56;
@@ -38,15 +38,16 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 30%;
-    font-size: 2.4rem;
+    width: 34%;
+    font-size: 2rem;
 }
 
 .boxUser p {
     margin: 0 15px;
 }
 
-.icon {
+
+.logOffIcon {
     color: red;
     cursor: pointer;
 }
@@ -83,22 +84,28 @@
 
 .btnCarDealer {
     font-size: 2rem;
-    font-weight: 800;
-    transition: border .3s linear, color .3s linear;
+    font-weight: 600;
+    transition: color .3s linear;
 }
 
 .btnCarDealer:hover {
     color: #0054A8;
 }
 
-@media only screen and (min-width: 1920px) {
+@media only screen and (min-width: 1440px) {
     .btnCarDealer {
-        font-size: 2.6rem;
+        font-size: 2.2rem;
     }
 }
 
-@media only screen and (min-width: 2560px) {
+@media only screen and (min-width: 1600px) {
     .btnCarDealer {
-        font-size: 3rem;
+        font-size: 2.4rem;
+    }
+}
+
+@media only screen and (min-width: 1900px) {
+    .btnCarDealer {
+        font-size: 2.6rem;
     }
 }

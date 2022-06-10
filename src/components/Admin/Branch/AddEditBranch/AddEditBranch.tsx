@@ -19,6 +19,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
         city: '',
         postCode: '',
         address: '',
+        phone: '',
     });
     const [fillIn, setFillIn] = useState(false);
     const [alertText, setAlertText] = useState('');
@@ -139,36 +140,42 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                     style={{color: fillIn ? '#fd5151' : 'transparent'}}
                 >{alertText}
                 </p>
-                <form onSubmit={branchEdit ? editBranch : addBranch} className={style.form}>
-                    <div className={style.boxInput}>
-                        <input
-                            type="text"
-                            value={branch.branchName}
-                            onChange={e => updateForm('branchName', e.target.value)}
-                            onBlur={handleValidateBranchName}
-                            className={style.input}
-                            placeholder='Nazwa'/>
-                        <input
-                            type="text"
-                            value={branch.city}
-                            onChange={e => updateForm('city', e.target.value)}
-                            className={style.input}
-                            placeholder='Miasto'/>
-                    </div>
-                    <div className={style.boxInput}>
-                        <input
-                            type="text"
-                            value={branch.postCode}
-                            onChange={e => updateForm('postCode', e.target.value)}
-                            onBlur={handleValidatePostCode}
-                            className={style.input}
-                            placeholder='Kod pocztowy'/>
-                        <input
-                            type="text"
-                            value={branch.address}
-                            onChange={e => updateForm('address', e.target.value)}
-                            className={style.input}
-                            placeholder='Adres'/>
+                <form onSubmit={branchEdit ? editBranch : addBranch} className={style.formContainer}>
+                    <div className={style.formBox}>
+                        <label htmlFor="branchName">Nazwa
+                            <input
+                                id='branchName'
+                                type="text"
+                                value={branch.branchName}
+                                onChange={e => updateForm('branchName', e.target.value)}
+                                onBlur={handleValidateBranchName}
+                            />
+                        </label>
+                        <label htmlFor="city">Miasto
+                            <input
+                                id='city'
+                                type="text"
+                                value={branch.city}
+                                onChange={e => updateForm('city', e.target.value)}
+                            />
+                        </label>
+                        <label htmlFor="postCode">Kod pocztowy
+                            <input
+                                id='postCode'
+                                type="text"
+                                value={branch.postCode}
+                                onChange={e => updateForm('postCode', e.target.value)}
+                                onBlur={handleValidatePostCode}
+                            />
+                        </label>
+                        <label htmlFor="address">Adres
+                            <input
+                                id='address'
+                                type="text"
+                                value={branch.address}
+                                onChange={e => updateForm('address', e.target.value)}
+                            />
+                        </label>
                     </div>
                     <div className={style.btnBox}>
                         <button

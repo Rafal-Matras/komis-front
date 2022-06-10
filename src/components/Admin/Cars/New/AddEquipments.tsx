@@ -55,6 +55,7 @@ export const AddEquipments = ({closePopup, setValuePreferences}: Props) => {
 
     const handleAddEquipment = () => {
         const data = selectedEquipments.join(';')
+        console.log(data)
         setValuePreferences(valuePreferences => ({
             ...valuePreferences,
             equipment: data

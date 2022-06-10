@@ -49,8 +49,8 @@ export const New = ({closePopup, branchId}: Props) => {
         doers: '',
         seats: '',
         price: '',
-        reserved: 'no',
-        sold: 'no',
+        reserved: 'N',
+        sold: 'N',
         location: branchId,
         transmission: '',
         pricePurchase: '',
@@ -60,7 +60,7 @@ export const New = ({closePopup, branchId}: Props) => {
         datePurchase: '',
         equipment: '',
         description: '',
-
+        advance: 'N',
     });
 
     useEffect(() => {
@@ -100,7 +100,6 @@ export const New = ({closePopup, branchId}: Props) => {
             [key]: value,
         }));
     };
-
 
     const markValue = <select
         id='mark'
@@ -229,8 +228,8 @@ export const New = ({closePopup, branchId}: Props) => {
             setFillIn(true);
             return true
         }
-        if (!/[0-9]{1,7}/.test(valuePreferences.model)) {
-            setAlertText('Uzupełnij pole: Model');
+        if (!/[0-9]{1,7}/.test(valuePreferences.price)) {
+            setAlertText('niepoprawna cena');
             setFillIn(true);
             return true
         }
@@ -239,8 +238,8 @@ export const New = ({closePopup, branchId}: Props) => {
             setFillIn(true);
             return true
         }
-        if (!/[0-9]{1,7}/.test(valuePreferences.model)) {
-            setAlertText('Uzupełnij pole: Model');
+        if (!/[0-9]{1,7}/.test(valuePreferences.pricePurchase)) {
+            setAlertText('niepoprawna cena zakupu');
             setFillIn(true);
             return true
         }
@@ -255,13 +254,11 @@ export const New = ({closePopup, branchId}: Props) => {
             return true
         }
     }
-
     const handleAddCar = async (e: React.FormEvent) => {
         e.preventDefault()
         if (validation()) {
             return
         }
-        console.log(JSON.stringify(valuePreferences))
         await fetch(`${config.URL}cars`, {
             method: 'POST',
             headers: {
@@ -269,7 +266,7 @@ export const New = ({closePopup, branchId}: Props) => {
             },
             body: JSON.stringify(valuePreferences),
         });
-        // closePopup(false);
+        closePopup(false);
     };
 
     return (
@@ -450,7 +447,7 @@ export const New = ({closePopup, branchId}: Props) => {
                             type='reset'
                             className='btnPrimarySmall'
                             onClick={() => closePopup(false)}
-                        >Opuść
+                        >Anuluj
                         </button>
                     </div>
                 </form>
