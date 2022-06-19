@@ -58,8 +58,12 @@
 .textCarInfoBox {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 5px;
+    padding: 5px 0;
     border-bottom: 1px solid grey;
+}
+
+.menuBox button {
+    width: 200px;
 }
 
 .textCarInfoBox p {

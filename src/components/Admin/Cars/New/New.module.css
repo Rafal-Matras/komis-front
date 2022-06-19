@@ -15,8 +15,8 @@
     flex-direction: column;
     align-items: center;
     padding: 10px 0 10px;
-    width: 920px;
-    height: 720px;
+    width: 980px;
+    height: 780px;
     border: 5px solid var(--primary-text);
     border-radius: 25px;
     background-color: var(--light);
@@ -53,19 +53,15 @@
     height: 90%;
 }
 
+.inputBox {
+    display: flex;
+    width: 48%;
+}
+
 .btnBox {
     display: flex;
     justify-content: space-between;
     width: 40%;
-}
-
-.formBox label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 20px;
-    width: 48%;
-    font-size: 2rem;
 }
 
 .errorText {
@@ -73,8 +69,6 @@
     color: red;
 }
 
-.formBox input,
-.formBox select,
 .btnForm {
     margin-left: 20px;
     padding: 10px 15px;
@@ -82,13 +76,8 @@
     border: 2px solid var(--primary-text);
     border-radius: 10px;
     color: var(--primary-text);
-    font-size: 20px;
+    font-size: 2rem;
     outline: none;
-}
-
-.formBox input:focus,
-.formBox select:focus {
-    border-color: var(--primary-color);
 }
 
 .btnForm {
@@ -101,14 +90,6 @@
 
 .btnForm:hover {
     background-color: var(--primary-color);
-}
-
-.formBox select {
-    cursor: pointer;
-}
-
-.none {
-    display: none;
 }
 
 .checkBox {
@@ -179,7 +160,6 @@
     padding: 20px;
     font-size: 2.2rem;
 }
-
 
 @media only screen and (min-height: 1023px) {
     .box {

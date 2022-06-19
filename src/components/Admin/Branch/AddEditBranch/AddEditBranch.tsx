@@ -1,10 +1,11 @@
-import React, {SetStateAction, useContext, useEffect, useState} from "react";
-import {Branch} from "types";
+import React, {SetStateAction, useContext, useEffect, useState} from 'react';
+import {Branch} from 'types';
 
-import {ChangeBranchContext} from "../../../contexts/changeBranchContext";
+import {ChangeBranchContext} from '../../../contexts/changeBranchContext';
+import {config} from '../../../../config/config';
+import {Input} from '../../../common/Input/Input';
 
 import style from './AddEditBranch.module.css';
-import {config} from "../../../../config/config";
 
 interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
@@ -39,7 +40,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                 });
             });
         }
-    }, [])
+    }, []);
 
     const updateForm = (key: string, value: string) => {
         setBranch(branch => ({
@@ -58,7 +59,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
             setFillIn(false);
             setCorrectBranchName(false);
         }
-    }
+    };
 
     const handleValidatePostCode = () => {
         const reg = /^[0-9]{2}-[0-9]{3}$/;
@@ -70,7 +71,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
             setFillIn(false);
             setCorrectPostCode(false);
         }
-    }
+    };
 
     const validation = () => {
         if (branch.branchName === '' || branch.city === '' || branch.postCode === '' || branch.address === '') {
@@ -94,7 +95,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
             setFillIn(true);
             return true;
         }
-    }
+    };
 
     const addBranch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -142,50 +143,52 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                 </p>
                 <form onSubmit={branchEdit ? editBranch : addBranch} className={style.formContainer}>
                     <div className={style.formBox}>
-                        <label htmlFor="branchName">Nazwa
-                            <input
-                                id='branchName'
+                        <div className={style.inputBox}>
+                            <Input
+                                name="branchName"
+                                textName="Nazwa"
                                 type="text"
                                 value={branch.branchName}
-                                onChange={e => updateForm('branchName', e.target.value)}
-                                onBlur={handleValidateBranchName}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="city">Miasto
-                            <input
-                                id='city'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="city"
+                                textName="Miasto"
                                 type="text"
                                 value={branch.city}
-                                onChange={e => updateForm('city', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="postCode">Kod pocztowy
-                            <input
-                                id='postCode'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="postCode"
+                                textName="Kod pocztowy"
                                 type="text"
                                 value={branch.postCode}
-                                onChange={e => updateForm('postCode', e.target.value)}
-                                onBlur={handleValidatePostCode}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="address">Adres
-                            <input
-                                id='address'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="address"
+                                textName="Adres"
                                 type="text"
                                 value={branch.address}
-                                onChange={e => updateForm('address', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
+                        </div>
                     </div>
                     <div className={style.btnBox}>
                         <button
-                            type='submit'
-                            className='btnPrimarySmall'
+                            type="submit"
+                            className="btnPrimarySmall"
                         >{branchEdit ? 'Edytuj' : 'Dodaj'}
                         </button>
                         <button
-                            type='reset'
-                            className='btnPrimarySmall'
+                            type="reset"
+                            className="btnPrimarySmall"
                             onClick={() => closePopup(false)}
                         >Anuluj
                         </button>

@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {SimpleCar} from "types";
+import React, {useEffect, useState} from 'react';
+import {SimpleCar} from 'types';
 
 import {CarsListContext} from '../../contexts/carsListContext';
-import {config} from "../../../config/config";
-import {FullCar} from "./FullCar/FullCar";
-import {Car} from "./Car/Car";
-import {Spinner} from "../../common/Spinner/Spinner";
+import {config} from '../../../config/config';
+import {FullCar} from './FullCar/FullCar';
+import {Car} from './Car/Car';
+import {Spinner} from '../../common/Spinner/Spinner';
 
 import style from './CarsList.module.css';
 
@@ -42,7 +42,6 @@ export const CarsList = ({branch}: Props) => {
 
     return (
         <CarsListContext.Provider value={{carsListC, setCarsListC}}>
-
             <div className={style.container}>
                 {carId === ''
                     ? cars.length < 1

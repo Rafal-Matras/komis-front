@@ -1,6 +1,6 @@
-import React from "react";
-import {useNavigate} from "react-router-dom";
-import {BsPersonCircle, BsPower} from "react-icons/bs";
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
+import {BsPersonCircle, BsPower} from 'react-icons/bs';
 
 import style from './Header.module.css';
 
@@ -27,10 +27,10 @@ export const Header = ({login, role, active, handleBody, menuList, link, handleT
         navigate('/login');
     };
 
-    const button = menuList.map(el => (
-        <button
+    const listItem = menuList.map(el => (
+        <li
             key={el.name}
-            className={style.btn}
+            className={style.listItem}
             style={
                 {
                     borderColor: `${active === el.name ? '#0054A8' : 'transparent'}`,
@@ -38,7 +38,7 @@ export const Header = ({login, role, active, handleBody, menuList, link, handleT
                 }}
             onClick={() => handleBody(el.name)}
         >{el.show}
-        </button>
+        </li>
     ));
 
     return (
@@ -49,21 +49,21 @@ export const Header = ({login, role, active, handleBody, menuList, link, handleT
                     <h1 className={style.h1}>{link === 'komis' ? 'Panel Administratora' : 'Komis'}</h1>
                     <div className={style.boxUser}>
                         <BsPersonCircle/>
-                        <p>{login}</p>
+                        <p className={style.user}>{login}</p>
                         <BsPower className={style.logOffIcon} onClick={handleLogout}/>
                     </div>
                 </div>
                 <nav className={style.nav}>
-                    <div className={style.boxButtons}>
-                        {button}
-                    </div>
+                    <ul className={style.menuList}>
+                        {listItem}
+                    </ul>
                     {role === 'REG_ADMIN'
-                        ? <button
-                            className={style.btnCarDealer}
+                        ? <p
+                            className={style.toggleSwitch}
                             onClick={handleToggleAdminKomis}
                         >
                             {link}
-                        </button>
+                        </p>
                         : null
                     }
                 </nav>

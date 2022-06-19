@@ -1,9 +1,12 @@
-import React, {FormEvent, SetStateAction, useContext, useEffect, useState} from "react";
-import {Car, ConsumerReserved} from "types";
+import React, {SetStateAction, useContext, useEffect, useState} from 'react';
+import {Car, ConsumerReserved} from 'types';
+
+import {config} from '../../../../../config/config';
+import {CarsListContext} from '../../../../contexts/carsListContext';
+import {Input} from '../../../../common/Input/Input';
+import {Button} from '../../../../common/Button/Button';
 
 import style from './Reserve.module.css';
-import {config} from "../../../../../config/config";
-import {CarsListContext} from "../../../../contexts/carsListContext";
 
 interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
@@ -18,8 +21,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
     const [fillIn, setFillIn] = useState(false);
     const [alertText, setAlertText] = useState('');
     const [consumer, setConsumer] = useState<ConsumerReserved>({
-        firstName: '',
-        surName: '',
+        name: '',
         phone: '',
         email: '',
         dateFinishReservation: 0,
@@ -41,7 +43,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
                 ...car,
                 reserved: 'N',
                 advance: 'N',
-            }))
+            }));
         }
     }, [consumer]);
 
@@ -53,13 +55,8 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
     };
 
     const validation = () => {
-        if (consumer.firstName.length < 3) {
-            setAlertText('uzupełnij  Imię co najmniej 3 znaki');
-            setFillIn(true);
-            return true;
-        }
-        if (consumer.surName.length < 2) {
-            setAlertText('uzupełnij Nazwisko co najmniej 2 znaki');
+        if (consumer.name.length < 5) {
+            setAlertText('uzupełnij Nazwa co najmniej 5 znaki');
             setFillIn(true);
             return true;
         }
@@ -73,16 +70,14 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
             setFillIn(true);
             return true;
         }
-    }
+    };
 
-    const addReserve = async (e: FormEvent) => {
-        e.preventDefault();
+    const addReserve = async () => {
         if (reserved) {
             if (validation()) {
-                return
+                return;
             }
         }
-
         await fetch(`${config.URL}cars/${car.id}`, {
             method: 'PUT',
             headers: {
@@ -94,9 +89,9 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
     };
 
     const handleReserved = () => {
-        setCarsListC(`${consumer}`)
+        setCarsListC(`${consumer}`);
         closePopup(false);
-    }
+    };
 
     return (
         <div className={style.container}>
@@ -104,63 +99,52 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
                 {reserved
                     ? <>
                         <form className={style.formBox} onSubmit={addReserve}>
-                            <label htmlFor="firstName">Imię:
-                                <input
-                                    id='firstName'
+                            <div className={style.inputBox}>
+                                <Input
+                                    name="name"
+                                    textName="Nazwa"
                                     type="text"
-                                    value={consumer.firstName}
-                                    onChange={e => editConsumer('firstName', e.target.value)}
+                                    value={consumer.name}
+                                    change={editConsumer}
                                 />
-                            </label>
-                            <label htmlFor="surName">Nazwisko:
-                                <input
-                                    id='surName'
-                                    type="text"
-                                    value={consumer.surName}
-                                    onChange={e => editConsumer('surName', e.target.value)}
-                                />
-                            </label>
-                            <label htmlFor="surName">Telefon:
-                                <input
-                                    id='surName'
+                            </div>
+                            <div className={style.inputBox}>
+                                <Input
+                                    name="phone"
+                                    textName="Telefon"
                                     type="text"
                                     value={consumer.phone}
-                                    onChange={e => editConsumer('phone', e.target.value)}
+                                    change={editConsumer}
                                 />
-                            </label>
-                            <label htmlFor="surName">E-mail:
-                                <input
-                                    id='surName'
+                            </div>
+                            <div className={style.inputBoxEmail}>
+                                <Input
+                                    name="email"
+                                    textName="E-mail"
                                     type="email"
                                     value={consumer.email}
-                                    onChange={e => editConsumer('email', e.target.value)}
+                                    change={editConsumer}
                                 />
-                            </label>
-
+                            </div>
                         </form>
                         <p style={{color: fillIn ? 'red' : 'transparent'}}>{alertText}</p>
-
                     </>
-                    : <>
-                        <h2>Napewno anulowac rezerwację</h2>
-                    </>
+                    : <h2>Napewno anulowac rezerwację</h2>
                 }
                 <div className={style.btnBox}>
-                    <button
-                        type='button'
-                        className='btnPrimarySmall'
-                        onClick={addReserve}
-                    >Potwierdz
-                    </button>
-                    <button
-                        type='reset'
-                        className='btnPrimarySmall'
-                        onClick={handleReserved}
-                    >Anuluj
-                    </button>
+                    <Button
+                        textName="Potwierdz"
+                        type="button"
+                        click={addReserve}
+                    />
+                    <Button
+                        textName="Anuluj"
+                        type="reset"
+                        click={handleReserved}
+                    />
                 </div>
 
             </div>
         </div>
-    )
-}
+    );
+};

@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
 
 import {Header} from '../Header/Header';
 import {CarsList} from './CarsList/CarsList';
-import {Search} from "./Search/Search";
-import {WantBuy} from "./WantBuySell/WantBuy";
-import {WantSell} from "./WantBuySell/WantSell";
-import {Archives} from "./Archives/Archives";
+import {Search} from './Search/Search';
+import {WantBuySellList} from './WantBuySellList/WantBuySellList';
+import {Buy} from './Buy/Buy';
+import {Archives} from './Archives/Archives';
 
 import style from './Komis.module.css';
 
@@ -13,7 +13,7 @@ interface Props {
     login: string;
     role: string;
     branch: string;
-    handleToggleAdminKomis: () => void
+    handleToggleAdminKomis: () => void;
 }
 
 export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
@@ -22,8 +22,8 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
     const menuList = [
         {name: 'cars', show: 'Auta'},
         {name: 'search', show: 'Szukaj'},
-        {name: 'wantBuy', show: 'Chce Kupić'},
-        {name: 'wantSell', show: 'Chce Sprzedać'},
+        {name: 'wantBuySell', show: 'Chce Kupić/Sprzedać'},
+        {name: 'buy', show: 'Zakup'},
         {name: 'archive', show: 'Archiwum'},
     ];
 
@@ -39,10 +39,15 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
                 />;
             case 'search':
                 return <Search/>;
-            case 'wantBuy':
-                return <WantBuy/>;
-            case 'wantSell':
-                return <WantSell/>;
+            case 'wantBuySell':
+                return <WantBuySellList
+                    login={login}
+                    role={role}
+                />;
+            case 'buy':
+                return <Buy
+                    branch={branch}
+                />;
             case 'archive':
                 return <Archives/>;
         }

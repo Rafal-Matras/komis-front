@@ -1,6 +1,11 @@
-import React, {SetStateAction, useState} from "react";
-import {Car, ConsumerArrangement} from "types";
-import {DocumentToPrint} from "./Document/DocumentToPrint";
+import React, {SetStateAction, useState} from 'react';
+
+import {Car, ConsumerArrangement} from 'types';
+
+import {DocumentToPrint} from './Document/DocumentToPrint';
+import {Select} from '../../../../common/Select/Select';
+import {Input} from '../../../../common/Input/Input';
+import {Button} from '../../../../common/Button/Button';
 
 import style from './Sell.module.css';
 
@@ -49,103 +54,108 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                     <div className={style.box}>
                         <form className={style.formContainer} onSubmit={handleGenerateArrangement}>
                             <div className={style.formBox}>
-                                <label htmlFor="name">Imię i Nazwisko:
-                                    <input
-                                        id='name'
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="name"
+                                        textName="Imię i Nazwisko"
                                         type="text"
                                         value={consumer.name}
-                                        onChange={e => editConsumer('name', e.target.value)}
+                                        change={editConsumer}
                                     />
-                                </label>
-                                <label htmlFor="pesel">Pesel:
-                                    <input
-                                        id='pesel'
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="pesel"
+                                        textName="Pesel"
                                         type="text"
                                         value={consumer.pesel}
-                                        onChange={e => editConsumer('pesel', e.target.value)}
+                                        change={editConsumer}
                                     />
-                                </label>
-                                <label htmlFor="nip">Nip:
-                                    <input
-                                        id='nip'
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="nip"
+                                        textName="Nip"
                                         type="text"
                                         value={consumer.nip}
-                                        onChange={e => editConsumer('nip', e.target.value)}
+                                        change={editConsumer}
                                     />
-                                </label>
-                                <label htmlFor="document">Dokument:
-                                    <select
-                                        id='document'
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Select
+                                        name="document"
+                                        textName="Dokument"
                                         value={consumer.document}
-                                        onChange={e => editConsumer('document', e.target.value)}
-                                    >
-                                        <option value="">Wybierz</option>
-                                        <option value="Dowód Osobisty">Dowód osobisty</option>
-                                        <option value="Paszport">Paszport</option>
-                                    </select>
-                                </label>
-                                <label htmlFor="documentId">nr. dokumentu:
-                                    <input
-                                        id='documentId'
-                                        type="text"
-                                        value={consumer.documentId}
-                                        onChange={e => editConsumer('documentId', e.target.value)}
+                                        change={editConsumer}
+                                        options={[{name: 'Dowód Osobisty'}, {name: 'Paszport'}]}
                                     />
-                                </label>
-                                <label htmlFor="address">Adres:
-                                    <input
-                                        id='address'
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="documentId"
+                                        textName="Nr. dokumentu"
+                                        type="text"
+                                        value={consumer.nip}
+                                        change={editConsumer}
+                                    />
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="address"
+                                        textName="Adres"
                                         type="text"
                                         value={consumer.address}
-                                        onChange={e => editConsumer('address', e.target.value)}
+                                        change={editConsumer}
                                     />
-                                </label>
-                                <label htmlFor="postCode">Kod pocztowy:
-                                    <input
-                                        id='postCode'
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="postCode"
+                                        textName="Kod Pocztowy"
                                         type="text"
                                         value={consumer.postCode}
-                                        onChange={e => editConsumer('postCode', e.target.value)}
+                                        change={editConsumer}
                                     />
-                                </label>
-                                <label htmlFor="city">Miasto:
-                                    <input
-                                        id='city'
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="city"
+                                        textName="Miasto"
                                         type="text"
                                         value={consumer.city}
-                                        onChange={e => editConsumer('city', e.target.value)}
+                                        change={editConsumer}
                                     />
-                                </label>
-                                <label htmlFor="price">Cena::
-                                    <input
-                                        id='price'
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="price"
+                                        textName="Cena"
                                         type="text"
                                         value={consumer.price}
-                                        onChange={e => editConsumer('price', e.target.value)}
+                                        change={editConsumer}
                                     />
-                                </label>
-                                <label htmlFor="priceInWords">Cena słownie:
-                                    <input
-                                        id='priceInWords'
+                                </div>
+                                <div className={style.inputBox}>
+                                    <Input
+                                        name="priceInWords"
+                                        textName="Cena słownie"
                                         type="text"
                                         value={consumer.priceInWords}
-                                        onChange={e => editConsumer('priceInWords', e.target.value)}
+                                        change={editConsumer}
                                     />
-                                </label>
-
+                                </div>
                             </div>
                             <div className={style.btnBox}>
-                                <button
-                                    className='btnPrimarySmall'
-                                    onClick={() => setPrinting(true)}
-                                >Potwierdz
-                                </button>
-                                <button
-                                    type='reset'
-                                    className='btnPrimarySmall'
-                                    onClick={() => closePopup(false)}
-                                >Anuluj
-                                </button>
+                                <Button
+                                    textName="Potwierdz"
+                                    type="button"
+                                    click={() => setPrinting(true)}
+                                />
+                                <Button
+                                    textName="Anuluj"
+                                    type="reset"
+                                    click={() => closePopup(false)}
+                                />
                             </div>
                         </form>
                     </div>

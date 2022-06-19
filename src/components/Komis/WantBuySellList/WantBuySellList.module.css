@@ -1,0 +1,67 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.boxBtn {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+    height: 80px;
+}
+
+.boxBtn button {
+    width: 200px;
+}
+
+.titleBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+}
+
+.titleBtn h2 {
+    font-size: 2.6rem;
+    color: var(--primary-text);
+}
+
+.box table {
+    margin: 0;
+    table-layout: fixed;
+}
+
+.box tbody tr {
+    cursor: pointer;
+}
+
+.box tbody tr:hover {
+    background-color: #8eddfc;
+}
+
+.box th {
+    min-width: 150px;
+}
+
+.box th:first-child {
+    width: 40px;
+}
+
+.box td {
+    padding: 5px;
+}
+
+.box td div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

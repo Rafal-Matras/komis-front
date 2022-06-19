@@ -1,17 +1,18 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Branch, Car, ConsumerReserved} from "types";
+import React, {useContext, useEffect, useState} from 'react';
+import {Branch, Car, ConsumerReserved} from 'types';
 
-import {config} from "../../../../config/config";
-import {Spinner} from "../../../common/Spinner/Spinner";
-import {Sell} from "./Sell/Sell";
-import {Reserve} from "./Reserve/Reserve";
-import {Advance} from "./Advance/Advance";
+import {config} from '../../../../config/config';
+import {Spinner} from '../../../common/Spinner/Spinner';
+import {Sell} from './Sell/Sell';
+import {Reserve} from './Reserve/Reserve';
+import {Advance} from './Advance/Advance';
 
 import style from './FullCar.module.css';
-import {CarsListContext} from "../../../contexts/carsListContext";
+import {CarsListContext} from '../../../contexts/carsListContext';
+import {Button} from '../../../common/Button/Button';
 
 interface Props {
-    carId: string
+    carId: string;
     showFullCar: (el: string) => void;
 }
 
@@ -33,6 +34,7 @@ export const FullCar = ({carId, showFullCar}: Props) => {
         power: '',
         color: '',
         mileage: '',
+        drive: '',
         doers: '',
         seats: '',
         price: '',
@@ -45,6 +47,7 @@ export const FullCar = ({carId, showFullCar}: Props) => {
         dateOverview: '',
         dateOC: '',
         datePurchase: '',
+        registration: '',
         equipment: '',
         description: '',
         advance: '',
@@ -57,7 +60,6 @@ export const FullCar = ({carId, showFullCar}: Props) => {
         address: '',
         phone: '',
     });
-
 
     useEffect(() => {
         (async () => {
@@ -73,7 +75,7 @@ export const FullCar = ({carId, showFullCar}: Props) => {
     useEffect(() => {
         if (fullCar.reserved.length > 1) {
             const {
-                firstName, surName, phone, email, dateFinishReservation, priceAdvance
+                name, phone, email, dateFinishReservation, priceAdvance
             }: ConsumerReserved = JSON.parse(fullCar.reserved);
             const date = new Date(dateFinishReservation);
             const month = date.getMonth() + 1;
@@ -83,7 +85,7 @@ export const FullCar = ({carId, showFullCar}: Props) => {
             const fullDate = ` ${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute} dnia ${day < 10 ? '0' + day : day},${month < 10 ? '0' +
                 month : month}`;
             const emailText = email.length > 1 ? `e-mail: ${email}` : '';
-            const text = `${priceAdvance.length > 1 ? 'Wpłacona zaliczka w kwocie ' + priceAdvance + 'zł' : ''} rezerwacja do godziny ${fullDate} przez ${firstName} ${surName} tel: ${phone} ${emailText}`;
+            const text = `${priceAdvance.length > 1 ? 'Wpłacona zaliczka w kwocie ' + priceAdvance + 'zł' : ''} rezerwacja do godziny ${fullDate} przez  ${name} tel: ${phone} ${emailText}`;
             setAlertText(text);
             console.log('zmiana')
         }
@@ -95,19 +97,6 @@ export const FullCar = ({carId, showFullCar}: Props) => {
         setCarsListC(`${new Date()}`);
         showFullCar('');
     }
-
-    // const handleChangeCarStatus = async () => {
-    //     console.log('1---', fullCar)
-    //     const res = await fetch(`${config.URL}cars/${fullCar.id}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             'Content-Type': 'Application/json',
-    //         },
-    //         body: JSON.stringify(fullCar),
-    //     });
-    //     const data = await res.json()
-    //     console.log('data-----', data)
-    // }
 
     return (
         <div className={style.container}>
@@ -135,6 +124,9 @@ export const FullCar = ({carId, showFullCar}: Props) => {
                                     <span>{fullCar.engineCapacity}</span></div>
                                 <div className={style.textCarInfoBox}><p>Ilość koni:</p> <span>{fullCar.power} KM</span>
                                 </div>
+                                <div className={style.textCarInfoBox}><p>Nr. rejestracyjny:</p>
+                                    <span>{fullCar.registration}</span>
+                                </div>
                                 <div className={style.textCarInfoBox}><p>Skrzynia biegów:</p>
                                     <span>{fullCar.transmission}</span>
                                 </div>
@@ -143,6 +135,8 @@ export const FullCar = ({carId, showFullCar}: Props) => {
                             <div className={style.carInfoBox}>
                                 <div className={style.textCarInfoBox}><p>Kolor:</p> <span>{fullCar.color}</span></div>
                                 <div className={style.textCarInfoBox}><p>Przebieg:</p> <span>{fullCar.mileage} km</span>
+                                </div>
+                                <div className={style.textCarInfoBox}><p>Napęd:</p> <span>{fullCar.drive}</span>
                                 </div>
                                 <div className={style.textCarInfoBox}><p>Liczba dzwi:</p> <span>{fullCar.doers}</span>
                                 </div>
@@ -163,45 +157,44 @@ export const FullCar = ({carId, showFullCar}: Props) => {
                             </div>
                         </div>
                         <div className={style.menuBox}>
-                            <button
-                                className='btnPrimarySmall'
-                                style={{width: '200px'}}
-                                onClick={() => setOpenSell(true)}
-                            >Sprzedaj
-                            </button>
+                            <Button
+                                textName="Sprzedaj"
+                                type="button"
+                                click={() => setOpenSell(true)}
+                            />
+
                             {openSell && <Sell
                                 closePopup={setOpenSell}
                                 fullCar={fullCar}
                             />}
-                            <button
-                                className='btnPrimarySmall'
-                                style={{width: '200px'}}
-                                onClick={() => setOpenReserve(true)}
-                            >{fullCar.reserved === 'N' ? 'Rezerwój' : 'Anuluj Rezerwację'}
-                            </button>
+                            <Button
+                                textName={fullCar.reserved === 'N' ? 'Rezerwuj' : 'anuluj rezerwację'}
+                                type="button"
+                                click={() => setOpenReserve(true)}
+                            />
+
                             {openReserve && <Reserve
                                 closePopup={setOpenReserve}
                                 fullCar={fullCar}
                                 reserved={fullCar.reserved === 'N'}
                             />}
-                            <button
-                                className='btnPrimarySmall'
-                                style={{width: '200px'}}
-                                onClick={() => setOpenAdvance(true)}
+                            <Button
+                                textName="Zaliczka"
+                                type="button"
+                                click={() => setOpenAdvance(true)}
                                 disabled={fullCar.advance === 'T'}
-                            >Zaliczka
-                            </button>
+                            />
                             {openAdvance && <Advance
                                 closePopup={setOpenAdvance}
                                 fullCar={fullCar}
                                 reserved={fullCar.reserved === 'N'}
                             />}
-                            <button
-                                className='btnPrimarySmall'
-                                style={{width: '200px'}}
-                                onClick={handleReturn}
-                            >Powrót
-                            </button>
+                            <Button
+                                textName="Powrót"
+                                type="button"
+                                click={handleReturn}
+                            />
+
                         </div>
                     </div>
 

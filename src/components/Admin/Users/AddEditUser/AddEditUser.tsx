@@ -1,9 +1,11 @@
-import React, {SetStateAction, useContext, useEffect, useState} from "react";
+import React, {SetStateAction, useContext, useEffect, useState} from 'react';
 
-import {List, User} from "types";
+import {List, User} from 'types';
 
-import {config} from "../../../../config/config";
-import {ChangeUserContext} from "../../../contexts/changeUserContext";
+import {config} from '../../../../config/config';
+import {ChangeUserContext} from '../../../contexts/changeUserContext';
+import {Input} from '../../../common/Input/Input';
+import {Select} from '../../../common/Select/Select';
 
 import style from './AddEditUser.module.css';
 
@@ -11,11 +13,15 @@ interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
     role: string;
     branch: string;
-    editUser?: List
+    editUser?: List;
 }
 
 interface NameBranchResponse {
-    branchName: string
+    branchName: string;
+}
+
+interface BranchName {
+    name: string;
 }
 
 export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
@@ -30,11 +36,11 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
         branchId: branch,
         role: 'USER',
     });
-    const [branchNames, setBranchNames] = useState<string[]>([]);
+    const [branchNames, setBranchNames] = useState<BranchName[]>([]);
     const [fillIn, setFillIn] = useState(false);
     const [sameLogin, setSameLogin] = useState(false);
     const [correctEmail, setCorrectEmail] = useState(false);
-    const [alertText, setAlertText] = useState('ok')
+    const [alertText, setAlertText] = useState('ok');
 
     useEffect(() => {
         if (editUser) {
@@ -47,14 +53,14 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                 branchId: editUser.branchName,
             }));
         }
-    }, [editUser])
+    }, [editUser]);
 
     useEffect(() => {
         (async () => {
             const response = await fetch(`${config.URL}branches/all/names`);
             const data = await response.json();
-            const name = data.map((el: NameBranchResponse) => el.branchName)
-            setBranchNames(name);
+            const names = data.map((el: NameBranchResponse) => new Object({name: el.branchName}));
+            setBranchNames(names);
         })();
     }, []);
 
@@ -67,15 +73,15 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
 
     const handleSomeLogin = async () => {
         if (person.login.length < 5) {
-            setAlertText('login powinien mieć co najmniej 5 znaków')
-            setFillIn(true)
+            setAlertText('login powinien mieć co najmniej 5 znaków');
+            setFillIn(true);
         } else {
-            setFillIn(false)
+            setFillIn(false);
             if (!editUser) {
                 const response = await fetch(`${config.URL}users/checklogin/${person.login}`);
                 const data = await response.json();
                 if (data) {
-                    setAlertText('taki login już istnieje')
+                    setAlertText('taki login już istnieje');
                 }
                 setSameLogin(data);
                 setFillIn(data);
@@ -97,32 +103,32 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
 
     const validation = () => {
         if (person.name === '' || person.lastName === '' || person.email === '' || person.login === '' || person.role === '' || person.branchId.length < 3) {
-            setAlertText('wypełnij wszystkie pola')
-            setFillIn(true)
-            return true
+            setAlertText('wypełnij wszystkie pola');
+            setFillIn(true);
+            return true;
         } else if (person.name.length < 3) {
-            setAlertText('imię powinno składać się z conajmniej 3 znaków')
-            setFillIn(true)
-            return true
+            setAlertText('imię powinno składać się z conajmniej 3 znaków');
+            setFillIn(true);
+            return true;
         } else if (person.lastName.length < 2) {
-            setAlertText('nazwisko powinno składać się z conajmniej 2 znaków')
-            setFillIn(true)
-            return true
+            setAlertText('nazwisko powinno składać się z conajmniej 2 znaków');
+            setFillIn(true);
+            return true;
         } else if (sameLogin) {
-            setAlertText('taki login już istnieje')
-            setFillIn(true)
-            return true
+            setAlertText('taki login już istnieje');
+            setFillIn(true);
+            return true;
         } else if (correctEmail) {
-            setAlertText('nieprawidłowy adres e-mail')
-            setFillIn(true)
-            return true
+            setAlertText('nieprawidłowy adres e-mail');
+            setFillIn(true);
+            return true;
         }
-    }
+    };
 
     const AddUser = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validation()) {
-            return
+            return;
         }
         const res = await fetch(`${config.URL}users`, {
             method: 'POST',
@@ -139,7 +145,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
     const EditUser = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (validation()) {
-            return
+            return;
         }
         const res = await fetch(`${config.URL}users/edit/${editUser?.login}`, {
             method: 'PUT',
@@ -149,7 +155,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
             body: JSON.stringify(person)
         });
         const data = await res.json();
-        console.log(data)
+        console.log(data);
         closePopup(false);
         setChangeUser(data);
     };
@@ -168,72 +174,79 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                 </p>
                 <form className={style.formContainer} onSubmit={editUser ? EditUser : AddUser}>
                     <div className={style.formBox}>
-                        <label htmlFor="name" className={style.label}>Imię
-                            <input
-                                id='name'
+                        <div className={style.inputBox}>
+                            <Input
+                                name="name"
+                                textName="Imię"
                                 type="text"
                                 value={person.name}
-                                onChange={e => updateForm('name', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="lastName" className={style.label}>Nazwisko
-                            <input
-                                id='lastName'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="lastName"
+                                textName="Nazwisko"
                                 type="text"
                                 value={person.lastName}
-                                onChange={e => updateForm('lastName', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <div className={style.emailBox}>
-                            <label htmlFor="email">Email
-                                <input
-                                    id='email'
-                                    type="email"
-                                    value={person.email}
-                                    onChange={e => updateForm('email', e.target.value)}
-                                    onBlur={handleValidateEmail}
-                                />
-                            </label>
                         </div>
-                        <label htmlFor="login" className={style.label}>Login
-                            <input
-                                id='login'
+                        <div className={style.emailBox}>
+                            <Input
+                                name="email"
+                                textName="Email"
+                                type="text"
+                                value={person.email}
+                                change={updateForm}
+                                blur={handleValidateEmail}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="login"
+                                textName="Login"
                                 type="text"
                                 value={person.login}
-                                onChange={e => updateForm('login', e.target.value)}
-                                onBlur={handleSomeLogin}
+                                change={updateForm}
                             />
-                        </label>
-                        {editUser
-                            ? null
-                            : <label htmlFor='password' className={style.label}>Hasło
-                                <input
-                                    id='password'
+                        </div>
+                        <div className={style.inputBox}>
+                            {editUser
+                                ? null
+                                : <Input
+                                    name="password"
+                                    textName="Hasło"
                                     type="text"
                                     value={person.password}
-                                    onChange={e => updateForm('password', e.target.value)}
+                                    change={updateForm}
                                 />
-                            </label>
-                        }
-
-                    <div className={role === 'ADMIN' ? style.boxInput : style.blank}>
-                        <select onChange={e => updateForm('role', e.target.value)}>
-                            <option value=''>Wybirz stanowisko</option>
-                            <option value='USER'>Użytkownik</option>
-                            <option value='REG_ADMIN'>Kierownik Oddziału</option>
-                            <option value="ADMIN">Administrator</option>
-
-                        </select>
-                        <select onChange={e => updateForm('branchId', e.target.value)}>
-                            <option>Wybierz Oddział</option>
-                            {role === 'ADMIN' ? <option value='All'>All</option> : null}
-                            {branchNames.map(el => <option key={el} value={el}>{el}</option>)}
-                        </select>
+                            }
+                        </div>
+                        <div className={role === 'ADMIN' ? style.inputBox : style.blank}>
+                            <Select
+                                name="role"
+                                textName="Stanowisko"
+                                value={person.role}
+                                change={updateForm}
+                                options={[{name: 'USER'}, {name: 'REG_ADMIN'}, {name: 'ADMIN'}]}
+                            />
+                        </div>
+                        <div className={role === 'ADMIN' ? style.inputBox : style.blank}>
+                            <Select
+                                name="role"
+                                textName="Stanowisko"
+                                value={person.role}
+                                change={updateForm}
+                                options={branchNames}
+                            />
+                        </div>
                     </div>
-                    </div>
-                    <div className={style.boxBtn}>
-                        <button type='submit' className='btnPrimarySmall'>{editUser ? 'Edytuj' : 'Dodaj'}</button>
-                        <button type='reset' className='btnPrimarySmall' onClick={() => closePopup(false)}>Anuluj
+                    <div className={style.btnBox}>
+                        <button type="submit"
+                                className="btnPrimarySmall">{editUser ? 'Edytuj' : 'Dodaj'}</button>
+                        <button type="reset" className="btnPrimarySmall"
+                                onClick={() => closePopup(false)}>Anuluj
                         </button>
                     </div>
                 </form>

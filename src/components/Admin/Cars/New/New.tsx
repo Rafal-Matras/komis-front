@@ -1,9 +1,11 @@
-import React, {SetStateAction, useEffect, useState} from "react";
-import {Car} from "types";
+import React, {SetStateAction, useEffect, useState} from 'react';
+import {Car} from 'types';
 
-import {AddDescription} from "./AddDescription";
-import {AddEquipments} from "./AddEquipments";
-import {config} from "../../../../config/config";
+import {AddDescription} from './AddDescription';
+import {AddEquipments} from './AddEquipments';
+import {Input} from '../../../common/Input/Input';
+import {Select} from '../../../common/Select/Select';
+import {config} from '../../../../config/config';
 
 import style from './New.module.css';
 
@@ -36,6 +38,7 @@ export const New = ({closePopup, branchId}: Props) => {
         typePreferences: [],
         fuelPreferences: [],
     });
+
     const [valuePreferences, setValuePreferences] = useState<Car>({
         mark: 'select',
         model: '',
@@ -53,11 +56,13 @@ export const New = ({closePopup, branchId}: Props) => {
         sold: 'N',
         location: branchId,
         transmission: '',
+        drive: '',
         pricePurchase: '',
         vin: '',
         dateOverview: '',
         dateOC: '',
         datePurchase: '',
+        registration: '',
         equipment: '',
         description: '',
         advance: 'N',
@@ -73,7 +78,7 @@ export const New = ({closePopup, branchId}: Props) => {
                 markPreferences,
                 typePreferences,
                 fuelPreferences,
-            }))
+            }));
         })();
     }, []);
 
@@ -84,15 +89,15 @@ export const New = ({closePopup, branchId}: Props) => {
                 setPreferences(preferences => ({
                     ...preferences,
                     modelPreferences,
-                }))
+                }));
             })();
         }
     }, [valuePreferences.mark]);
 
     const getDataFetch = async (url: string) => {
         const res = await fetch(url);
-        return await res.json()
-    }
+        return await res.json();
+    };
 
     const updateForm = (key: string, value: string) => {
         setValuePreferences(valuePreferences => ({
@@ -101,163 +106,122 @@ export const New = ({closePopup, branchId}: Props) => {
         }));
     };
 
-    const markValue = <select
-        id='mark'
-        className={style.select}
-        value={valuePreferences.mark}
-        onChange={e => updateForm('mark', e.target.value)}
-    >
-        <option value='select'>Wybierz</option>
-        {preferences.markPreferences.map(el => <option key={el.name} value={el.name}>{el.name}</option>)}
-    </select>
-
-    const modelValue = <select
-        id='model'
-        disabled={valuePreferences.mark === 'select'}
-        className={style.select}
-        value={valuePreferences.model}
-        onChange={e => updateForm('model', e.target.value)}
-    >
-        <option value='select'>Wybierz</option>
-        {preferences.modelPreferences.map(el => <option key={el.name} value={el.name}>{el.name}</option>)}
-    </select>
-
-    const typeValue = <select
-        id='type'
-        className={style.select}
-        value={valuePreferences.type}
-        onChange={e => updateForm('type', e.target.value)}
-    >
-        <option value='select'>Wybierz</option>
-        {preferences.typePreferences.map(el => <option key={el.name} value={el.name}>{el.name}</option>)}
-    </select>
-
-    const fuelValue = <select
-        id='fuel'
-        className={style.select}
-        value={valuePreferences.fuel}
-        onChange={e => updateForm('fuel', e.target.value)}
-    >
-        <option value='select'>Wybierz</option>
-        {preferences.fuelPreferences.map(el => <option key={el.name} value={el.name}>{el.name}</option>)}
-    </select>
-
     const validation = () => {
         if (valuePreferences.mark === 'select') {
             setAlertText('Uzupełnij pole: Marka');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.model === '') {
             setAlertText('Uzupełnij pole: Model');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.type === '') {
             setAlertText('Uzupełnij pole: Nadwozie');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.fuel === '') {
             setAlertText('Uzupełnij pole: Paliwo');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.yearProduction === '') {
             setAlertText('Uzupełnij pole: Rok produkcji');
             setFillIn(true);
-            return true
+            return true;
         }
         if (!/^1|2+[0-9]{3}$/.test(valuePreferences.yearProduction)) {
             setAlertText('Niepoprawny rok produkcji');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.engineCapacity === '') {
             setAlertText('Uzupełnij pole: Pojemność');
             setFillIn(true);
-            return true
+            return true;
         }
         if (/[0-9]{3,4}]/.test(valuePreferences.model)) {
             setAlertText('Niepoprawna pojemność 3 lub 4 cyfry');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.power === '') {
             setAlertText('Uzupełnij pole: Moc');
             setFillIn(true);
-            return true
+            return true;
         }
         if (!/[0-9]{2,4}/.test(valuePreferences.power)) {
             setAlertText('Niepoprawna Moc silnika 2-4 cyfry');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.transmission === '') {
             setAlertText('Uzupełnij pole: Skrzynia');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.color === '') {
             setAlertText('Uzupełnij pole: Kolor');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.mileage === '') {
             setAlertText('Uzupełnij pole: Przebieg');
             setFillIn(true);
-            return true
+            return true;
         }
         if (!/[0-9]{1,7}/.test(valuePreferences.mileage)) {
             setAlertText('Uzupełnij pole: Model');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.doers === '') {
             setAlertText('Uzupełnij pole: Liczba dzwi');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.seats === '') {
             setAlertText('Uzupełnij pole: Liczba siedzeń');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.price === '') {
             setAlertText('Uzupełnij pole: Cena');
             setFillIn(true);
-            return true
+            return true;
         }
         if (!/[0-9]{1,7}/.test(valuePreferences.price)) {
             setAlertText('niepoprawna cena');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.pricePurchase === '') {
             setAlertText('Uzupełnij pole: Cena zakupu');
             setFillIn(true);
-            return true
+            return true;
         }
         if (!/[0-9]{1,7}/.test(valuePreferences.pricePurchase)) {
             setAlertText('niepoprawna cena zakupu');
             setFillIn(true);
-            return true
+            return true;
         }
         if (valuePreferences.vin === '') {
             setAlertText('Uzupełnij pole: VIN');
             setFillIn(true);
-            return true
+            return true;
         }
         if (!/[0-9A-Z]{17}/.test(valuePreferences.vin)) {
             setAlertText('Niepoprawny VIN powinien zawierać cyfry i duże litery');
             setFillIn(true);
-            return true
+            return true;
         }
-    }
+    };
     const handleAddCar = async (e: React.FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
         if (validation()) {
-            return
+            return;
         }
         await fetch(`${config.URL}cars`, {
             method: 'POST',
@@ -275,149 +239,188 @@ export const New = ({closePopup, branchId}: Props) => {
                 <p className={style.errorText} style={{color: fillIn ? 'red' : 'transparent'}}>{alertText}</p>
                 <form className={style.formContainer} onSubmit={handleAddCar}>
                     <div className={style.formBox}>
-                        <label htmlFor="mark">Marka
-                            {markValue}
-                        </label>
-                        <label htmlFor="model">Model
-                            {modelValue}
-                        </label>
-                        <label htmlFor="type">Nadwozie
-                            {typeValue}
-                        </label>
-                        <label htmlFor="fuel">Paliwo
-                            {fuelValue}
-                        </label>
-                        <label htmlFor="yearProduction">Rok produkcji
-                            <input
-                                id='yearProduction'
+                        <div className={style.inputBox}>
+                            <Select
+                                name="mark"
+                                textName="Marka"
+                                value={valuePreferences.mark}
+                                change={updateForm}
+                                options={preferences.markPreferences}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Select
+                                name="model"
+                                textName="Model"
+                                value={valuePreferences.model}
+                                change={updateForm}
+                                options={preferences.modelPreferences}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Select
+                                name="type"
+                                textName="Nadwozie"
+                                value={valuePreferences.type}
+                                change={updateForm}
+                                options={preferences.typePreferences}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Select
+                                name="fuel"
+                                textName="Paliwo"
+                                value={valuePreferences.fuel}
+                                change={updateForm}
+                                options={preferences.fuelPreferences}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="yearProduction"
+                                textName="Rok produkcji"
                                 type="text"
                                 value={valuePreferences.yearProduction}
-                                onChange={e => updateForm('yearProduction', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="engineCapacity">Pojemność
-                            <input
-                                id='engineCapacity'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="engineCapacity"
+                                textName="Pojemność"
                                 type="text"
                                 value={valuePreferences.engineCapacity}
-                                onChange={e => updateForm('engineCapacity', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="power">Moc
-                            <input
-                                id='power'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="power"
+                                textName="Moc"
                                 type="text"
                                 value={valuePreferences.power}
-                                onChange={e => updateForm('power', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="transmission">Skrzynia
-                            <select
-                                id='transmission'
-                                value={valuePreferences.transmission}
-                                onChange={e => updateForm('transmission', e.target.value)}
-                            >
-                                <option value='none'>Wybierz</option>
-                                <option value='automatic'>Automatyczna</option>
-                                <option value='manual'>Manualna</option>
-                            </select>
-                        </label>
-                        <label htmlFor="color">Kolor
-                            <input
-                                id='color'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="color"
+                                textName="Kolor"
                                 type="text"
                                 value={valuePreferences.color}
-                                onChange={e => updateForm('color', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="mileage">Przebieg
-                            <input
-                                id='mileage'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Select
+                                name="transmission"
+                                textName="Skrzynia"
+                                value={valuePreferences.transmission}
+                                change={updateForm}
+                                options={[{name: 'Automatyczna'}, {name: 'Pół automatyczna'}, {name: 'Manualna'}]}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Select
+                                name="drive"
+                                textName="Napęd"
+                                value={valuePreferences.drive}
+                                change={updateForm}
+                                options={[{name: 'Przednie koła'}, {name: 'Tylne koła'}, {name: '4x4'}]}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Select
+                                name="doers"
+                                textName="Liczba dzwi"
+                                value={valuePreferences.doers}
+                                change={updateForm}
+                                options={[{name: '2'}, {name: '3'}, {name: '4'}, {name: '5'}, {name: '6'}]}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Select
+                                name="seats"
+                                textName="Liczba siedzeń"
+                                value={valuePreferences.seats}
+                                change={updateForm}
+                                options={[{name: '2'}, {name: '3'}, {name: '4'}, {name: '5'}, {name: '6'}, {name: '7'}, {name: '8'}, {name: '9'}]}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="mileage"
+                                textName="Przebieg"
                                 type="text"
                                 value={valuePreferences.mileage}
-                                onChange={e => updateForm('mileage', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="doers">Liczba dzwi
-                            <select
-                                id='doers'
-                                value={valuePreferences.doers}
-                                onChange={e => updateForm('doers', e.target.value)}
-                            >
-                                <option value="dors">Wybierz</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
-                        </label>
-                        <label htmlFor="seats">Liczba siedzeń
-                            <select
-                                id='seats'
-                                value={valuePreferences.seats}
-                                onChange={e => updateForm('seats', e.target.value)}
-                            >
-                                <option value="seats">Wybierz</option>
-                                <option value="2">2</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                            </select>
-                        </label>
-                        <label htmlFor="price">Cena
-                            <input
-                                id='price'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="vin"
+                                textName="Vin"
+                                type="text"
+                                value={valuePreferences.vin}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="price"
+                                textName="Cena"
                                 type="text"
                                 value={valuePreferences.price}
-                                onChange={e => updateForm('price', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="pricePurchase">Cena zakupu
-                            <input
-                                id='pricePurchase'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="pricePurchase"
+                                textName="Cena zakupu"
                                 type="text"
                                 value={valuePreferences.pricePurchase}
-                                onChange={e => updateForm('pricePurchase', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="vin">VIN
-                            <input
-                                id='vin'
-                                type='text'
-                                value={valuePreferences.vin}
-                                onChange={e => updateForm('vin', e.target.value)}
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="registraction"
+                                textName="Nr. rejestracyjny"
+                                type="text"
+                                value={valuePreferences.registration}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="dateOverview">Przegląd
-                            <input
-                                id='dateOverview'
-                                type='date'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="dateOverview"
+                                textName="Przegląd"
+                                type="date"
                                 value={valuePreferences.dateOverview}
-                                onChange={e => updateForm('dateOverview', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="dateOC">OC
-                            <input
-                                id='dateOC'
-                                type='date'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="dateOC"
+                                textName="Data OC"
+                                type="date"
                                 value={valuePreferences.dateOC}
-                                onChange={e => updateForm('dateOC', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
-                        <label htmlFor="datePurchase">Data zakupu
-                            <input
-                                id='datePurchase'
-                                type='date'
+                        </div>
+                        <div className={style.inputBox}>
+                            <Input
+                                name="darePurchase"
+                                textName="Data zakupu"
+                                type="date"
                                 value={valuePreferences.datePurchase}
-                                onChange={e => updateForm('datePurchase', e.target.value)}
+                                change={updateForm}
                             />
-                        </label>
+                        </div>
                         <button
-                            type='reset'
+                            type="reset"
                             className={style.btnForm}
                             onClick={() => setOpenAddDescriptions(true)}
                         >Opis
@@ -427,7 +430,7 @@ export const New = ({closePopup, branchId}: Props) => {
                             setValuePreferences={setValuePreferences}
                         />}
                         <button
-                            type='reset'
+                            type="reset"
                             className={style.btnForm}
                             onClick={() => setOpenAddEquipment(true)}
                         >Wyposarzenie
@@ -439,13 +442,13 @@ export const New = ({closePopup, branchId}: Props) => {
                     </div>
                     <div className={style.btnBox}>
                         <button
-                            type='submit'
-                            className='btnPrimarySmall'
+                            type="submit"
+                            className="btnPrimarySmall"
                         >Dodaj
                         </button>
                         <button
-                            type='reset'
-                            className='btnPrimarySmall'
+                            type="reset"
+                            className="btnPrimarySmall"
                             onClick={() => closePopup(false)}
                         >Anuluj
                         </button>

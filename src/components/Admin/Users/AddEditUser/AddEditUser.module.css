@@ -45,64 +45,32 @@
 .formBox {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     margin-top: 20px;
     width: 95%;
     height: 100%;
 }
 
+.inputBox {
+    display: flex;
+    width: 48%;
+}
+
 .emailBox {
-    width: 100%;
-}
-
-.boxInput {
-    display: flex;
-    width: 75%;
-}
-
-.formBox label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 20px;
-    width: 50%;
-    font-size: 2rem;
-}
-
-.formBox input,
-.formBox select {
-    margin-left: 20px;
-    padding: 10px 15px;
-    width: 78%;
-    border: 2px solid var(--primary-text);
-    border-radius: 10px;
-    color: var(--primary-text);
-    font-size: 20px;
-    outline: none;
-}
-
-.formBox input:focus {
-    border-color: var(--primary-color);
-}
-
-.emailBox label {
+    margin: 0 auto;
     width: 100%;
 }
 
 .emailBox input {
-    width: 100%;
-}
-
-.boxInput select {
-    width: 100%;
+    width: 81%;
 }
 
 .blank {
     display: none;
 }
 
-.boxBtn {
+.btnBox {
     display: flex;
     justify-content: space-between;
     width: 50%;

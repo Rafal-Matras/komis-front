@@ -33,28 +33,18 @@
     height: 180px;
 }
 
-.formBox label {
+.inputBox {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 20px;
     width: 48%;
-    font-size: 2rem;
 }
 
-.formBox input {
-    margin-left: 20px;
-    padding: 10px 15px;
-    width: 70%;
-    border: 2px solid var(--primary-text);
-    border-radius: 10px;
-    color: var(--primary-text);
-    font-size: 20px;
-    outline: none;
+.inputBoxEmail {
+    display: flex;
+    width: 100%;
 }
 
-.formBox input:focus {
-    border-color: var(--primary-color);
+.inputBoxEmail input {
+    width: 81%;
 }
 
 .btnBox {
