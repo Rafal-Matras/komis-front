@@ -42,7 +42,7 @@
     height: 80%;
 }
 
-.inputBox {
+.boxItem {
     display: flex;
     width: 48%;
 }

@@ -1,79 +1,247 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from 'react';
 
-import {carEquipments} from "../../../data/Data";
+import {SearchCar} from 'types';
+
+import {config} from '../../../config/config';
+import {Select} from '../../common/Select/Select';
+import {Input} from '../../common/Input/Input';
+import {Button} from '../../common/Button/Button';
+import {AddEquipments} from '../../Admin/Cars/New/AddEquipments';
+import {CarsList} from '../CarsList/CarsList';
 
 import style from './Search.module.css';
 
+interface Name {
+    name: string;
+}
+
+interface Preferences {
+    markPreferences: Name[];
+    modelPreferences: Name[];
+    typePreferences: Name[];
+    fuelPreferences: Name[];
+}
+
 export const Search = () => {
 
-    const [equipment, setEquipment] = useState<boolean>(false)
+    const [openEquipments, setOpenEquipments] = useState(false);
+    const [carsList, setCarsList] = useState(false);
+    const [preferences, setPreferences] = useState<Preferences>({
+        markPreferences: [],
+        modelPreferences: [],
+        typePreferences: [],
+        fuelPreferences: [],
+    });
+    const [valuePreferences, setValuePreferences] = useState<SearchCar>({
+        mark: 'select',
+        model: '',
+        type: '',
+        fuel: '',
+        priceFrom: 0,
+        priceTo: 0,
+        yearProductionFrom: 0,
+        yearProductionTo: 0,
+        mileageFrom: 0,
+        mileageTo: 0,
+        engineCapacityFrom: 0,
+        engineCapacityTo: 0,
+        powerFrom: 0,
+        powerTo: 0,
+        transmission: '',
+        equipment: '',
+    });
 
-    const equipmentList = equipment
-        ? carEquipments.map(el => (
-            <div className={style.checkBoxBox} key={el.id}>
-                <label className={style.labelCheckBox}>{el.name}
-                    <input className={style.inputCheckBox} type='checkbox' name={`${el.name}`}/>
-                    <span className={style.markCheckBox}> </span>
-                </label>
-            </div>
-        ))
-        : null;
+    useEffect(() => {
+        (async () => {
+            const markPreferences = await getDataFetch(`${config.URL}cars/edit/car/mark`);
+            const typePreferences = await getDataFetch(`${config.URL}cars/edit/car/type`);
+            const fuelPreferences = await getDataFetch(`${config.URL}cars/edit/car/fuel`);
+            setPreferences(preferences => ({
+                ...preferences,
+                markPreferences,
+                typePreferences,
+                fuelPreferences,
+            }));
+        })();
+    }, []);
 
-    const handleEquipment = (e: React.SyntheticEvent<HTMLElement>) => {
-        e.preventDefault();
-        setEquipment(true);
-    }
+    useEffect(() => {
+        if (valuePreferences.mark !== 'select') {
+            (async () => {
+                const modelPreferences =
+                    await getDataFetch(`${config.URL}cars/edit/car/model/${valuePreferences.mark}`);
+                setPreferences(preferences => ({
+                    ...preferences,
+                    modelPreferences,
+                }));
+            })();
+        }
+    }, [valuePreferences.mark]);
 
-    const handleAddEquipments = (e: React.SyntheticEvent<HTMLElement>) => {
-        e.preventDefault();
-        setEquipment(false);
-    }
+    const getDataFetch = async (url: string) => {
+        const res = await fetch(url);
+        return await res.json();
+    };
 
+    const updateForm = (key: string, value: string | number) => {
+        setValuePreferences(valuePreferences => ({
+            ...valuePreferences,
+            [key]: value,
+        }));
+    };
 
     return (
-        <form className={style.container}>
-            <div className={style.box}>
-                <select>
-                    <option>Typ nadwozia</option>
-                </select>
-                <select>
-                    <option>Rodzaj paliwa</option>
-                </select>
-                <select>
-                    <option>Marka</option>
-                </select>
-                <select>
-                    <option>Model</option>
-                </select>
-                <input type="number" min='0' max='10000000' placeholder='Cena od'/>
-                <input type="number" min='0' max='10000000' placeholder='Cena do'/>
-                <input type="number" min='1960' max={new Date().getFullYear()} placeholder='rok produkcji od'/>
-                <input type="number" min='1960' max={new Date().getFullYear()} placeholder='rok produkcji do'/>
-                <input type="number" min='0' max='1500000' placeholder='Przebieg od'/>
-                <input type="number" min='0' max='1500000' placeholder='Przebieg do'/>
-                <input type="number" min='10' max='2000' placeholder='Konie mechaniczne od'/>
-                <input type="number" min='10' max='2000' placeholder='Konie mechaniczne do'/>
-                <input type="number" min='0.5' max='9' placeholder='pojemność silnika od'/>
-                <input type="number" min='0.5' max='9' placeholder='pojemność silnika do'/>
-
-                <select>
-                    <option value='none'>Skrzynia biegów</option>
-                    <option value='automatic'>Automatyczna</option>
-                    <option value='manual'>Manualna</option>
-                </select>
-                <button
-                    className={style.btnForm}
-                    onClick={handleEquipment}
-                >wyposarzenie
-                </button>
-            </div>
-            <div className={equipment ? style.equipmentList : style.none}>
-                <div className={style.equipmentListBox}>
-                    {equipmentList}
+        <>
+            {!carsList
+                ?
+                <div className={style.container}>
+                    <div className={style.boxForm}>
+                        <div className={style.boxItem}>
+                            <Select
+                                name="mark"
+                                textName="Marka"
+                                value={valuePreferences.mark}
+                                change={updateForm}
+                                options={preferences.markPreferences}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Select
+                                name="model"
+                                textName="Model"
+                                value={valuePreferences.model}
+                                change={updateForm}
+                                options={preferences.modelPreferences}
+                                disabled={valuePreferences.mark === 'select'}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Select
+                                name="type"
+                                textName="Nadwozie"
+                                value={valuePreferences.type}
+                                change={updateForm}
+                                options={preferences.typePreferences}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Select
+                                name="fuel"
+                                textName="Paliwo"
+                                value={valuePreferences.fuel}
+                                change={updateForm}
+                                options={preferences.fuelPreferences}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                type="number"
+                                name="priceFrom"
+                                textName="Cena od"
+                                value={valuePreferences.priceFrom}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                type="number"
+                                name="priceTo"
+                                textName="Cena do"
+                                value={valuePreferences.priceTo}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                type="number"
+                                name="mileageFrom"
+                                textName="Przebieg od"
+                                value={valuePreferences.mileageFrom}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                type="number"
+                                name="mileageTo"
+                                textName="Przebieg do"
+                                value={valuePreferences.mileageTo}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                type="number"
+                                name="engineCapacityFrom"
+                                textName="Pojemność od"
+                                value={valuePreferences.engineCapacityFrom}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                type="number"
+                                name="engineCapacityTo"
+                                textName="Pojemność do"
+                                value={valuePreferences.engineCapacityTo}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                type="number"
+                                name="powerFrom"
+                                textName="Moc od"
+                                value={valuePreferences.powerFrom}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                type="number"
+                                name="powerTo"
+                                textName="Moc do"
+                                value={valuePreferences.powerTo}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Select
+                                name="transmission"
+                                textName="Skrzynia"
+                                value={valuePreferences.transmission}
+                                change={updateForm}
+                                options={[{name: 'Automatyczna'}, {name: 'Pół automatyczna'}, {name: 'Manualna'}]}
+                            />
+                        </div>
+                        <div className={style.boxItemBtn}>
+                            <p>Wyposarzenie</p>
+                            <Button
+                                type="button"
+                                textName="Wybierz"
+                                click={() => setOpenEquipments(true)}
+                            />
+                        </div>
+                        {openEquipments && <AddEquipments
+                            closePopup={setOpenEquipments}
+                            searchCarEquipment={setValuePreferences}
+                        />}
+                    </div>
+                    <div className={style.boxBtn}>
+                        <Button
+                            type="button"
+                            textName="Szukaj"
+                            click={() => setCarsList(true)}
+                        />
+                    </div>
                 </div>
-                <button className={style.btn} onClick={handleAddEquipments}>Dodaj</button>
-            </div>
-            <button className={style.btn}>Szukaj</button>
-        </form>
+                : <CarsList
+                    branch=""
+                    role="USER"
+                    whereFromCarsList="search"
+                    searchResults={valuePreferences}
+                />
+            }
+        </>
     );
 };

@@ -30,7 +30,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
         priceInWords: '',
     })
 
-    const editConsumer = (name: string, value: string) => {
+    const editConsumer = (name: string, value: string | number) => {
         setConsumer(consumer => ({
             ...consumer,
             [name]: value,
@@ -54,7 +54,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                     <div className={style.box}>
                         <form className={style.formContainer} onSubmit={handleGenerateArrangement}>
                             <div className={style.formBox}>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="name"
                                         textName="Imię i Nazwisko"
@@ -63,7 +63,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         change={editConsumer}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="pesel"
                                         textName="Pesel"
@@ -72,7 +72,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         change={editConsumer}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="nip"
                                         textName="Nip"
@@ -81,7 +81,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         change={editConsumer}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Select
                                         name="document"
                                         textName="Dokument"
@@ -90,7 +90,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         options={[{name: 'Dowód Osobisty'}, {name: 'Paszport'}]}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="documentId"
                                         textName="Nr. dokumentu"
@@ -99,7 +99,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         change={editConsumer}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="address"
                                         textName="Adres"
@@ -108,7 +108,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         change={editConsumer}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="postCode"
                                         textName="Kod Pocztowy"
@@ -117,7 +117,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         change={editConsumer}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="city"
                                         textName="Miasto"
@@ -126,7 +126,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         change={editConsumer}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="price"
                                         textName="Cena"
@@ -135,7 +135,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         change={editConsumer}
                                     />
                                 </div>
-                                <div className={style.inputBox}>
+                                <div className={style.boxItem}>
                                     <Input
                                         name="priceInWords"
                                         textName="Cena słownie"

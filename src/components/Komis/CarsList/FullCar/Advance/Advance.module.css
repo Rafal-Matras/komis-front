@@ -33,17 +33,17 @@
     height: 180px;
 }
 
-.inputBox {
+.boxItem {
     display: flex;
     width: 48%;
 }
 
-.inputBoxEmail {
+.boxItemEmail {
     display: flex;
     width: 100%;
 }
 
-.inputBoxEmail input {
+.boxItemEmail input {
     width: 81%;
 }
 

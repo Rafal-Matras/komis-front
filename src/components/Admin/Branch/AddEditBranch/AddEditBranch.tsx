@@ -40,7 +40,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
         }
     }, [branchEdit]);
 
-    const updateForm = (key: string, value: string) => {
+    const updateForm = (key: string, value: string | number) => {
         setBranch(branch => ({
             ...branch,
             [key]: value,
@@ -114,7 +114,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                 </p>
                 <div className={style.formContainer}>
                     <div className={style.formBox}>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="branchName"
                                 textName="Nazwa"
@@ -123,7 +123,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="city"
                                 textName="Miasto"
@@ -132,7 +132,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="postCode"
                                 textName="Kod pocztowy"
@@ -141,7 +141,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="address"
                                 textName="Adres"

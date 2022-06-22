@@ -27,7 +27,6 @@ interface Preferences {
 
 export const New = ({closePopup, branchId}: Props) => {
 
-
     const [openAddEquipment, setOpenAddEquipment] = useState(false);
     const [openAddDescriptions, setOpenAddDescriptions] = useState(false);
     const [fillIn, setFillIn] = useState(false);
@@ -44,20 +43,20 @@ export const New = ({closePopup, branchId}: Props) => {
         model: '',
         type: '',
         fuel: '',
-        yearProduction: '',
-        engineCapacity: '',
-        power: '',
+        yearProduction: 0,
+        engineCapacity: 0,
+        power: 0,
         color: '',
-        mileage: '',
+        mileage: 0,
         doers: '',
         seats: '',
-        price: '',
+        price: 0,
         reserved: 'N',
         sold: 'N',
         location: branchId,
         transmission: '',
         drive: '',
-        pricePurchase: '',
+        pricePurchase: 0,
         vin: '',
         dateOverview: '',
         dateOC: '',
@@ -70,9 +69,9 @@ export const New = ({closePopup, branchId}: Props) => {
 
     useEffect(() => {
         (async () => {
-            const markPreferences = await getDataFetch(`${config.URL}cars/edit/car/?name=mark`);
-            const typePreferences = await getDataFetch(`${config.URL}cars/edit/car/?name=type`);
-            const fuelPreferences = await getDataFetch(`${config.URL}cars/edit/car/?name=fuel`);
+            const markPreferences = await getDataFetch(`${config.URL}cars/edit/car/mark`);
+            const typePreferences = await getDataFetch(`${config.URL}cars/edit/car/type`);
+            const fuelPreferences = await getDataFetch(`${config.URL}cars/edit/car/fuel`);
             setPreferences(preferences => ({
                 ...preferences,
                 markPreferences,
@@ -83,9 +82,10 @@ export const New = ({closePopup, branchId}: Props) => {
     }, []);
 
     useEffect(() => {
-        if (preferences.markPreferences) {
+        if (valuePreferences.mark !== '') {
             (async () => {
-                const modelPreferences = await getDataFetch(`${config.URL}cars/edit/car/?name=model&model=${valuePreferences.mark}`);
+                const modelPreferences =
+                    await getDataFetch(`${config.URL}cars/edit/car/model/${valuePreferences.mark}`);
                 setPreferences(preferences => ({
                     ...preferences,
                     modelPreferences,
@@ -99,7 +99,7 @@ export const New = ({closePopup, branchId}: Props) => {
         return await res.json();
     };
 
-    const updateForm = (key: string, value: string) => {
+    const updateForm = (key: string, value: string | number) => {
         setValuePreferences(valuePreferences => ({
             ...valuePreferences,
             [key]: value,
@@ -127,17 +127,12 @@ export const New = ({closePopup, branchId}: Props) => {
             setFillIn(true);
             return true;
         }
-        if (valuePreferences.yearProduction === '') {
+        if (valuePreferences.yearProduction === 0) {
             setAlertText('Uzupełnij pole: Rok produkcji');
             setFillIn(true);
             return true;
         }
-        if (!/^1|2+[0-9]{3}$/.test(valuePreferences.yearProduction)) {
-            setAlertText('Niepoprawny rok produkcji');
-            setFillIn(true);
-            return true;
-        }
-        if (valuePreferences.engineCapacity === '') {
+        if (valuePreferences.engineCapacity === 0) {
             setAlertText('Uzupełnij pole: Pojemność');
             setFillIn(true);
             return true;
@@ -147,13 +142,8 @@ export const New = ({closePopup, branchId}: Props) => {
             setFillIn(true);
             return true;
         }
-        if (valuePreferences.power === '') {
+        if (valuePreferences.power === 0) {
             setAlertText('Uzupełnij pole: Moc');
-            setFillIn(true);
-            return true;
-        }
-        if (!/[0-9]{2,4}/.test(valuePreferences.power)) {
-            setAlertText('Niepoprawna Moc silnika 2-4 cyfry');
             setFillIn(true);
             return true;
         }
@@ -167,13 +157,8 @@ export const New = ({closePopup, branchId}: Props) => {
             setFillIn(true);
             return true;
         }
-        if (valuePreferences.mileage === '') {
+        if (valuePreferences.mileage === 0) {
             setAlertText('Uzupełnij pole: Przebieg');
-            setFillIn(true);
-            return true;
-        }
-        if (!/[0-9]{1,7}/.test(valuePreferences.mileage)) {
-            setAlertText('Uzupełnij pole: Model');
             setFillIn(true);
             return true;
         }
@@ -187,23 +172,13 @@ export const New = ({closePopup, branchId}: Props) => {
             setFillIn(true);
             return true;
         }
-        if (valuePreferences.price === '') {
+        if (valuePreferences.price === 0) {
             setAlertText('Uzupełnij pole: Cena');
             setFillIn(true);
             return true;
         }
-        if (!/[0-9]{1,7}/.test(valuePreferences.price)) {
-            setAlertText('niepoprawna cena');
-            setFillIn(true);
-            return true;
-        }
-        if (valuePreferences.pricePurchase === '') {
+        if (valuePreferences.pricePurchase === 0) {
             setAlertText('Uzupełnij pole: Cena zakupu');
-            setFillIn(true);
-            return true;
-        }
-        if (!/[0-9]{1,7}/.test(valuePreferences.pricePurchase)) {
-            setAlertText('niepoprawna cena zakupu');
             setFillIn(true);
             return true;
         }
@@ -239,7 +214,7 @@ export const New = ({closePopup, branchId}: Props) => {
                 <p className={style.errorText} style={{color: fillIn ? 'red' : 'transparent'}}>{alertText}</p>
                 <form className={style.formContainer} onSubmit={handleAddCar}>
                     <div className={style.formBox}>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Select
                                 name="mark"
                                 textName="Marka"
@@ -248,7 +223,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 options={preferences.markPreferences}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Select
                                 name="model"
                                 textName="Model"
@@ -258,7 +233,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 disabled={valuePreferences.mark === 'select'}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Select
                                 name="type"
                                 textName="Nadwozie"
@@ -267,7 +242,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 options={preferences.typePreferences}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Select
                                 name="fuel"
                                 textName="Paliwo"
@@ -276,7 +251,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 options={preferences.fuelPreferences}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="yearProduction"
                                 textName="Rok produkcji"
@@ -285,7 +260,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="engineCapacity"
                                 textName="Pojemność"
@@ -294,7 +269,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="power"
                                 textName="Moc"
@@ -303,7 +278,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="color"
                                 textName="Kolor"
@@ -312,7 +287,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Select
                                 name="transmission"
                                 textName="Skrzynia"
@@ -321,7 +296,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 options={[{name: 'Automatyczna'}, {name: 'Pół automatyczna'}, {name: 'Manualna'}]}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Select
                                 name="drive"
                                 textName="Napęd"
@@ -330,7 +305,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 options={[{name: 'Przednie koła'}, {name: 'Tylne koła'}, {name: '4x4'}]}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Select
                                 name="doers"
                                 textName="Liczba dzwi"
@@ -339,7 +314,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 options={[{name: '2'}, {name: '3'}, {name: '4'}, {name: '5'}, {name: '6'}]}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Select
                                 name="seats"
                                 textName="Liczba siedzeń"
@@ -348,7 +323,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 options={[{name: '2'}, {name: '3'}, {name: '4'}, {name: '5'}, {name: '6'}, {name: '7'}, {name: '8'}, {name: '9'}]}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="mileage"
                                 textName="Przebieg"
@@ -357,7 +332,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="vin"
                                 textName="Vin"
@@ -366,7 +341,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="price"
                                 textName="Cena"
@@ -375,7 +350,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="pricePurchase"
                                 textName="Cena zakupu"
@@ -384,7 +359,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="registration"
                                 textName="Nr. rejestracyjny"
@@ -393,7 +368,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="dateOverview"
                                 textName="Przegląd"
@@ -402,7 +377,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="dateOC"
                                 textName="Data OC"
@@ -411,7 +386,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="darePurchase"
                                 textName="Data zakupu"
@@ -438,7 +413,7 @@ export const New = ({closePopup, branchId}: Props) => {
                         </button>
                         {openAddEquipment && <AddEquipments
                             closePopup={setOpenAddEquipment}
-                            setValuePreferences={setValuePreferences}
+                            carEquipment={setValuePreferences}
                         />}
                     </div>
                     <div className={style.btnBox}>

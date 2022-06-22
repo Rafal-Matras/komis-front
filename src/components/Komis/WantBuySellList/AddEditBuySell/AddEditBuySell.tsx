@@ -37,7 +37,7 @@ export const AddEditBuySell = ({closePopup, login, consumerEdit, click}: Props) 
         }
     }, [changeConsumerContext]);
 
-    const editConsumer = (name: string, value: string) => {
+    const editConsumer = (name: string, value: string | number) => {
         setConsumer(consumer => ({
             ...consumer,
             [name]: value,

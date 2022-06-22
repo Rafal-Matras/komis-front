@@ -99,7 +99,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
                 {reserved
                     ? <>
                         <form className={style.formBox} onSubmit={addReserve}>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="name"
                                     textName="Nazwa"
@@ -108,7 +108,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="phone"
                                     textName="Telefon"
@@ -117,7 +117,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBoxEmail}>
+                            <div className={style.boxItemEmail}>
                                 <Input
                                     name="email"
                                     textName="E-mail"

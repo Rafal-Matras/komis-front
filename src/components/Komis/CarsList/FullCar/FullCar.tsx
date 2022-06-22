@@ -32,20 +32,20 @@ export const FullCar = ({role, carId, showFullCar}: Props) => {
         model: '',
         type: '',
         fuel: '',
-        yearProduction: '',
-        engineCapacity: '',
-        power: '',
+        yearProduction: 0,
+        engineCapacity: 0,
+        power: 0,
         color: '',
-        mileage: '',
+        mileage: 0,
         drive: '',
         doers: '',
         seats: '',
-        price: '',
+        price: 0,
         reserved: '',
         sold: '',
         location: '',
         transmission: '',
-        pricePurchase: '',
+        pricePurchase: 0,
         vin: '',
         dateOverview: '',
         dateOC: '',
@@ -85,10 +85,12 @@ export const FullCar = ({role, carId, showFullCar}: Props) => {
             const day = date.getDate();
             const hour = date.getHours();
             const minute = date.getMinutes();
-            const fullDate = ` ${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute} dnia ${day < 10 ? '0' + day : day},${month < 10 ? '0' +
+            const fullDate = ` ${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute} dnia ${day < 10 ? '0' + day : day}.${month < 10 ? '0' +
                 month : month}`;
+            const advanceText = priceAdvance.length > 1 ? 'Wpłacona zaliczka w kwocie ' + priceAdvance + ' zł' : '';
+            const telText = phone.length > 1 ? `tel: ${phone}` : '';
             const emailText = email.length > 1 ? `e-mail: ${email}` : '';
-            const text = `${priceAdvance.length > 1 ? 'Wpłacona zaliczka w kwocie ' + priceAdvance + ' zł,' : ''} rezerwacja do godziny ${fullDate} przez  ${name} tel: ${phone} ${emailText}`;
+            const text = `${advanceText}, rezerwacja do godziny ${fullDate}, przez ${name} ${telText} ${emailText}`;
             setAlertText(text);
         }
     }, [fullCar.reserved]);

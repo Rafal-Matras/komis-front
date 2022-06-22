@@ -1,28 +1,30 @@
-import React, {SetStateAction, useEffect, useState} from "react";
-import {Car} from "types";
+import React, {SetStateAction, useEffect, useState} from 'react';
+import {Car, SearchCar} from 'types';
 
-import {Spinner} from "../../../common/Spinner/Spinner";
-import {config} from "../../../../config/config";
+import {Spinner} from '../../../common/Spinner/Spinner';
+import {config} from '../../../../config/config';
 
-import style from "./New.module.css";
+import style from './New.module.css';
+import {Button} from '../../../common/Button/Button';
 
 interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
-    setValuePreferences: React.Dispatch<SetStateAction<Car>>;
+    carEquipment?: React.Dispatch<SetStateAction<Car>>;
+    searchCarEquipment?: React.Dispatch<SetStateAction<SearchCar>>;
 }
 
 interface Equipments {
     name: string;
 }
 
-export const AddEquipments = ({closePopup, setValuePreferences}: Props) => {
+export const AddEquipments = ({closePopup, carEquipment, searchCarEquipment}: Props) => {
 
     const [equipments, setEquipments] = useState<Equipments[] | null>(null);
     const [selectedEquipments, setSelectedEquipments] = useState<string[]>([]);
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`${config.URL}cars/edit/car/?name=equipment`);
+            const response = await fetch(`${config.URL}cars/edit/car/equipment`);
             const data = await response.json();
             setEquipments(data);
         })();
@@ -38,12 +40,12 @@ export const AddEquipments = ({closePopup, setValuePreferences}: Props) => {
         }
     }
 
-    const equpment = equipments?.map(el => (
+    const equipment = equipments?.map(el => (
         <div className={style.checkBox} key={el.name}>
             <label className={style.labelCheckBox}>{el.name}
                 <input
                     className={style.inputCheckBox}
-                    type='checkbox'
+                    type="checkbox"
                     name={el.name}
                     value={el.name}
                     onChange={handleCheckEquipment}
@@ -54,13 +56,20 @@ export const AddEquipments = ({closePopup, setValuePreferences}: Props) => {
     ));
 
     const handleAddEquipment = () => {
-        const data = selectedEquipments.join(';')
-        console.log(data)
-        setValuePreferences(valuePreferences => ({
-            ...valuePreferences,
-            equipment: data
-        }))
-        closePopup(false)
+        const data = selectedEquipments.join(';');
+        if (carEquipment) {
+            carEquipment(valuePreferences => ({
+                ...valuePreferences,
+                equipment: data
+            }));
+        }
+        if (searchCarEquipment) {
+            searchCarEquipment(valuePreferences => ({
+                ...valuePreferences,
+                equipment: data
+            }));
+        }
+        closePopup(false);
     }
 
     return (
@@ -71,22 +80,20 @@ export const AddEquipments = ({closePopup, setValuePreferences}: Props) => {
                         {
                             equipments === null
                                 ? <Spinner/>
-                                : equpment
+                                : equipment
                         }
                     </div>
                     <div className={style.btnBox}>
-                        <button
-                            type='reset'
-                            className='btnPrimarySmall'
-                            onClick={handleAddEquipment}
-                        >dodaj
-                        </button>
-                        <button
-                            type='reset'
-                            className='btnPrimarySmall'
-                            onClick={() => closePopup(false)}
-                        >anuluj
-                        </button>
+                        <Button
+                            type="button"
+                            textName="Dodaj"
+                            click={handleAddEquipment}
+                        />
+                        <Button
+                            type="button"
+                            textName="Anuluj"
+                            click={() => closePopup(false)}
+                        />
                     </div>
                 </div>
             </div>

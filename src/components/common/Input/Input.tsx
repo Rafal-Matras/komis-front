@@ -5,9 +5,9 @@ import style from './Input.module.css';
 interface Props {
     name: string;
     textName: string;
-    type: string;
-    value: string;
-    change: (name: string, value: string) => void;
+    type: 'text' | 'number' | 'password' | 'date' | 'email' | 'tel';
+    value: string | number;
+    change: (name: string, value: string | number) => void;
     blur?: () => void;
 }
 

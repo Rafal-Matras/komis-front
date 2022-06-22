@@ -32,7 +32,7 @@ export const Configuration = ({closePopup}: Props) => {
         })();
     }, []);
 
-    const updateForm = (key: string, value: string) => {
+    const updateForm = (key: string, value: string | number) => {
         setCompanyData(companyData => ({
             ...companyData,
             [key]: value,

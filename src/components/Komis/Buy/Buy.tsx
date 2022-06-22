@@ -36,14 +36,14 @@ export const Buy = ({branch}: Props) => {
         priceInWords: '',
     });
 
-    const editCar = (name: string, value: string) => {
+    const editCar = (name: string, value: string | number) => {
         setCar(consumer => ({
             ...consumer,
             [name]: value,
         }));
     };
 
-    const editConsumer = (name: string, value: string) => {
+    const editConsumer = (name: string, value: string | number) => {
         setConsumer(consumer => ({
             ...consumer,
             [name]: value,
@@ -66,7 +66,7 @@ export const Buy = ({branch}: Props) => {
                 : <div className={style.container}>
                     <form className={style.formContainer}>
                         <div className={style.formBox}>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="name"
                                     textName="Imię i Nazwisko"
@@ -75,7 +75,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="pesel"
                                     textName="Pesel"
@@ -84,7 +84,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="nip"
                                     textName="Nip"
@@ -93,7 +93,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Select
                                     name="document"
                                     textName="Dokument"
@@ -102,7 +102,7 @@ export const Buy = ({branch}: Props) => {
                                     options={[{name: 'Dowód Osobisty'}, {name: 'Paszport'}]}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="documentId"
                                     textName="Nr. dokumentu"
@@ -111,7 +111,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="address"
                                     textName="Adres"
@@ -120,7 +120,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="postCode"
                                     textName="Kod Pocztowy"
@@ -129,7 +129,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="city"
                                     textName="Miasto"
@@ -138,7 +138,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="mark"
                                     textName="Marka"
@@ -147,7 +147,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editCar}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="model"
                                     textName="Model"
@@ -156,7 +156,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editCar}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="yearProduction"
                                     textName="Rok produkcji"
@@ -165,7 +165,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editCar}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="vin"
                                     textName="Vin"
@@ -174,7 +174,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editCar}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="registration"
                                     textName="Nr. rejestracyjny"
@@ -183,7 +183,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editCar}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="mileage"
                                     textName="Przebieg"
@@ -192,7 +192,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editCar}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="price"
                                     textName="Cena"
@@ -201,7 +201,7 @@ export const Buy = ({branch}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                            <div className={style.inputBox}>
+                            <div className={style.boxItem}>
                                 <Input
                                     name="priceInWords"
                                     textName="Cena słownie"

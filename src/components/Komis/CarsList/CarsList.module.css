@@ -25,15 +25,22 @@
 }
 
 .bodyR {
-    background-color: rgba(255, 113, 72, 0.8);
+    background-color: rgba(255, 0, 0, 0.35);
 }
 
 .bodyR:hover {
-    background-color: #FF7148;
+    background-color: rgba(255, 0, 0, 0.55);
 }
 
 
 .head th:first-child,
 .body td:first-child {
     min-width: 25px;
+}
+
+.noResults {
+    margin-top: 100px;
+    font-size: 3.6rem;
+    color: var(--primary-text);
+    text-transform: uppercase;
 }

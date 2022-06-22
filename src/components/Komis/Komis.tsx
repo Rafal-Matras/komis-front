@@ -35,9 +35,11 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
                 return <CarsList
                     branch={branch}
                     role={role}
+                    whereFromCarsList="list"
                 />;
             case 'search':
-                return <Search/>;
+                return <Search
+                />;
             case 'wantBuySell':
                 return <WantBuySellList
                     login={login}

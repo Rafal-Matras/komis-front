@@ -61,7 +61,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
         })();
     }, []);
 
-    const updateForm = (key: string, value: string) => {
+    const updateForm = (key: string, value: string | number) => {
         setPerson(person => ({
             ...person,
             [key]: value,
@@ -169,7 +169,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                 </p>
                 <div className={style.formContainer}>
                     <div className={style.formBox}>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="name"
                                 textName="Imię"
@@ -178,7 +178,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                                 change={updateForm}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="lastName"
                                 textName="Nazwisko"
@@ -197,7 +197,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                                 blur={handleValidateEmail}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             <Input
                                 name="login"
                                 textName="Login"
@@ -207,7 +207,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                                 blur={handleSomeLogin}
                             />
                         </div>
-                        <div className={style.inputBox}>
+                        <div className={style.boxItem}>
                             {editUser
                                 ? null
                                 : <Input
@@ -219,7 +219,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                                 />
                             }
                         </div>
-                        <div className={role === 'ADMIN' ? style.inputBox : style.blank}>
+                        <div className={role === 'ADMIN' ? style.boxItem : style.blank}>
                             <Select
                                 name="role"
                                 textName="Stanowisko"
@@ -228,7 +228,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                                 options={[{name: 'USER'}, {name: 'REG_ADMIN'}, {name: 'ADMIN'}]}
                             />
                         </div>
-                        <div className={role === 'ADMIN' ? style.inputBox : style.blank}>
+                        <div className={role === 'ADMIN' ? style.boxItem : style.blank}>
                             <Select
                                 name="branchId"
                                 textName="Oddział"
