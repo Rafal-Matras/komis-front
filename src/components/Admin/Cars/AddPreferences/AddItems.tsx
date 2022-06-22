@@ -1,10 +1,10 @@
-import React, {useState} from "react";
-import {SimpleCarEdit} from "types";
+import React, {useState} from 'react';
+import {SimpleCarEdit} from 'types';
 
-import {config} from "../../../../config/config";
+import {config} from '../../../../config/config';
+import {Button} from '../../../common/Button/Button';
 
-import style from "./AddPreferences.module.css";
-
+import style from './AddPreferences.module.css';
 
 interface Props {
     title: string;
@@ -17,8 +17,7 @@ export const AddItems = ({title, name, carMarks}: Props) => {
     const [markValue, setMarkValue] = useState<string>('');
     const [carValue, setCarValue] = useState('');
 
-    const handleAddCar = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleAddCar = async () => {
         await fetch(`${config.URL}cars/edit/${name}`, {
             method: 'POST',
             headers: {
@@ -28,7 +27,7 @@ export const AddItems = ({title, name, carMarks}: Props) => {
         });
         setCarValue('');
         setMarkValue('');
-    }
+    };
 
     const markName = name === 'model'
         ? <select
@@ -36,13 +35,13 @@ export const AddItems = ({title, name, carMarks}: Props) => {
             value={markValue}
             onChange={(e) => setMarkValue(e.target.value)}
         >
-            <option value='select'>Wybierz markę</option>
+            <option value="select">Wybierz markę</option>
             {carMarks?.map(el => <option key={el.name} value={el.name}>{el.name}</option>)}
         </select>
         : null;
 
     return (
-        <form className={style.formBox} onSubmit={handleAddCar}>
+        <div className={style.formBox}>
             <h3 className={style.name}>{title}</h3>
             {markName}
             <div className={style.dataBox}>
@@ -50,9 +49,15 @@ export const AddItems = ({title, name, carMarks}: Props) => {
                     type="text"
                     value={carValue}
                     onChange={(e) => setCarValue(e.target.value)}
-                    className={style.input}/>
-                <button type='submit' className='btnPrimarySmall'>Dodaj</button>
+                    className={style.input}
+                    disabled={name === 'model' && markValue === ''}
+                />
+                <Button
+                    type="button"
+                    textName="Dodaj"
+                    click={handleAddCar}
+                />
             </div>
-        </form>
+        </div>
     );
 };

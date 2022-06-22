@@ -1,13 +1,13 @@
-import React, {useState} from "react";
-import {BsFillKeyFill, BsFillPencilFill, BsXLg} from "react-icons/bs";
+import React, {useState} from 'react';
+import {BsFillKeyFill, BsFillPencilFill, BsXLg} from 'react-icons/bs';
 
-import {List} from "types";
-import {DeleteUser} from "./DeleteUser/DeleteUser";
-import {SetPasswordUser} from "./SetPasswordUser/SetPasswordUser";
+import {List} from 'types';
+
+import {DeleteUser} from './DeleteUser/DeleteUser';
+import {SetPasswordUser} from './SetPasswordUser/SetPasswordUser';
 import {AddEditUser} from '../../AddEditUser/AddEditUser';
 
 import style from './User.module.css';
-
 
 interface Props {
     role: string;
@@ -22,7 +22,6 @@ export const User = ({role, branch, data, id}: Props) => {
     const [openSetPasswordUser, setOpenSetPasswordUser] = useState(false);
     const [openEditUser, setOpenEditUser] = useState(false);
     const [openPopupDeleteUser, setOpenPopupDeleteUs] = useState(false);
-
 
     return (
         <>
@@ -58,5 +57,5 @@ export const User = ({role, branch, data, id}: Props) => {
                 </td>
             </tr>
         </>
-    )
-}
+    );
+};

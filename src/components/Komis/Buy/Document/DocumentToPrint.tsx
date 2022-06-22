@@ -25,6 +25,7 @@ export const DocumentToPrint = ({car, consumer, branch, setPrinting}: Props) => 
         city: '',
         postCode: '',
         address: '',
+        phone: '',
         nip: '',
         regon: '',
     });

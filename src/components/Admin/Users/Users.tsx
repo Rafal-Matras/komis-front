@@ -1,9 +1,11 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
 
-import style from './Users.module.css'
-import {UsersList} from "./UsersList/UsersList";
-import {AddEditUser} from "./AddEditUser/AddEditUser";
-import {ChangeUserContext} from "../../contexts/changeUserContext";
+import {ChangeUserContext} from '../../contexts/changeUserContext';
+import {UsersList} from './UsersList/UsersList';
+import {AddEditUser} from './AddEditUser/AddEditUser';
+import {Button} from '../../common/Button/Button';
+
+import style from './Users.module.css';
 
 interface Props {
     branch: string;
@@ -18,11 +20,11 @@ export const Users = ({branch, role}: Props) => {
     return (
         <ChangeUserContext.Provider value={{changeUser, setChangeUser}}>
             <div className={style.container}>
-                <button
-                    className='btnPrimaryBig'
-                    onClick={() => setOpenAddUser(true)}
-                >Dodaj nowego użytkownika
-                </button>
+                <Button
+                    type="button"
+                    textName="Dodaj nowego użytkownika"
+                    click={() => setOpenAddUser(true)}
+                />
                 {openAddUser && <AddEditUser
                     closePopup={setOpenAddUser}
                     role={role}
@@ -33,7 +35,6 @@ export const Users = ({branch, role}: Props) => {
                     branch={branch}
                 />
             </div>
-
         </ChangeUserContext.Provider>
     );
 };

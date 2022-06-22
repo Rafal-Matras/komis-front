@@ -4,7 +4,7 @@ import {Consumer} from 'types';
 
 import {config} from '../../../config/config';
 import {ChangeConsumerContext} from '../../contexts/changeConsumerContext';
-import {AddBuySell} from './AddBuySell/AddBuySell';
+import {AddEditBuySell} from './AddEditBuySell/AddEditBuySell';
 import {FullConsumer} from './FullConsumer/FullConsumer';
 import {WantBuySellItem} from './WantBuySellItem/WantBuySellItem';
 import {Button} from '../../common/Button/Button';
@@ -19,7 +19,7 @@ interface Props {
 export const WantBuySellList = ({login, role}: Props) => {
 
     const [changeConsumerContext, setChangeConsumerContext] = useState('');
-    const [openPopup, setOpenPopup] = useState(false);
+    const [openAddEdit, setOpenAddEdit] = useState(false);
     const [fullConsumer, setFullConsumer] = useState(false);
     const [consumers, setConsumers] = useState<Consumer[]>([]);
     const [consumer, setConsumer] = useState<Consumer>({
@@ -74,15 +74,15 @@ export const WantBuySellList = ({login, role}: Props) => {
                 {!fullConsumer
                     ? <div className={style.container}>
                         <div className={style.box}>
-                            {openPopup && <AddBuySell
-                                closePopup={setOpenPopup}
+                            {openAddEdit && <AddEditBuySell
+                                closePopup={setOpenAddEdit}
                                 login={login}
                             />}
                             <div className={style.boxBtn}>
                                 <Button
                                     textName="Dodaj"
                                     type="button"
-                                    click={() => setOpenPopup(true)}
+                                    click={() => setOpenAddEdit(true)}
                                 />
                             </div>
                             <div className={style.titleBtn}>
@@ -132,6 +132,7 @@ export const WantBuySellList = ({login, role}: Props) => {
                     : <FullConsumer
                         consumer={consumer}
                         click={handleFullConsumer}
+                        login={login}
                     />
                 }
             </ChangeConsumerContext.Provider>

@@ -1,7 +1,8 @@
-import React, {SetStateAction, useContext, useState} from "react";
+import React, {SetStateAction, useContext, useState} from 'react';
 
-import {config} from "../../../../../../config/config";
-import {ChangeUserContext} from "../../../../../contexts/changeUserContext";
+import {ChangeUserContext} from '../../../../../contexts/changeUserContext';
+import {config} from '../../../../../../config/config';
+import {Button} from '../../../../../common/Button/Button';
 
 import style from './SetPasswordUser.module.css';
 
@@ -12,7 +13,7 @@ interface Props {
 
 export const SetPasswordUser = ({user, closePopup}: Props) => {
 
-    const {setChangeUser} = useContext(ChangeUserContext)
+    const {setChangeUser} = useContext(ChangeUserContext);
     const [value, setValue] = useState('');
 
     const handleSetPassword = async () => {
@@ -27,8 +28,8 @@ export const SetPasswordUser = ({user, closePopup}: Props) => {
             }),
         });
         const data = await res.json();
-        setChangeUser(data)
-        closePopup(false)
+        setChangeUser(data);
+        closePopup(false);
     };
 
     return (
@@ -37,11 +38,18 @@ export const SetPasswordUser = ({user, closePopup}: Props) => {
                 <h2>Ustaw nowe hasło</h2>
                 <input type="text" value={value} onChange={e => setValue(e.target.value)}/>
                 <div className={style.boxBtn}>
-                    <button className='btnPrimarySmall' onClick={handleSetPassword}>Zmień</button>
-                    <button className='btnPrimarySmall' onClick={() => closePopup(false)}>anuluj</button>
+                    <Button
+                        type="button"
+                        textName="Zmień"
+                        click={handleSetPassword}
+                    />
+                    <Button
+                        type="button"
+                        textName="Anuluj"
+                        click={() => closePopup(false)}
+                    />
                 </div>
             </div>
-
         </div>
-    )
-}
+    );
+};

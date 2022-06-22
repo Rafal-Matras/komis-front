@@ -5,7 +5,6 @@ import {CarsList} from './CarsList/CarsList';
 import {Search} from './Search/Search';
 import {WantBuySellList} from './WantBuySellList/WantBuySellList';
 import {Buy} from './Buy/Buy';
-import {Archives} from './Archives/Archives';
 
 import style from './Komis.module.css';
 
@@ -24,7 +23,6 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
         {name: 'search', show: 'Szukaj'},
         {name: 'wantBuySell', show: 'Chce Kupić/Sprzedać'},
         {name: 'buy', show: 'Zakup'},
-        {name: 'archive', show: 'Archiwum'},
     ];
 
     const handleBody = (el: string) => {
@@ -36,6 +34,7 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
             case 'cars':
                 return <CarsList
                     branch={branch}
+                    role={role}
                 />;
             case 'search':
                 return <Search/>;
@@ -48,8 +47,6 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
                 return <Buy
                     branch={branch}
                 />;
-            case 'archive':
-                return <Archives/>;
         }
     };
 

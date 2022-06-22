@@ -1,12 +1,15 @@
-import React, {SetStateAction, useRef} from "react";
+import React, {SetStateAction, useRef} from 'react';
 import ReactToPrint from 'react-to-print';
-import {Car, ConsumerArrangement} from "types";
+import {Car, ConsumerArrangement} from 'types';
+
+import {config} from '../../../../../../config/config';
+import {Button} from '../../../../../common/Button/Button';
 
 import style from './DocumentToPrint.module.css';
-import {config} from "../../../../../../config/config";
+import styleBtn from '../../../../../common/Button/Button.module.css';
 
 interface Props {
-    fullCar: Car
+    fullCar: Car;
     consumer: ConsumerArrangement;
     setPrinting: React.Dispatch<SetStateAction<boolean>>;
     closePopup: React.Dispatch<SetStateAction<boolean>>;
@@ -44,13 +47,20 @@ export const DocumentToPrint = ({fullCar, consumer, setPrinting, closePopup}: Pr
         <div className={style.container}>
             <div className={style.btnBox}>
                 <ReactToPrint
-                    trigger={() => <button className='btnPrimarySmall'> print document</button>}
+                    trigger={() => <button className={styleBtn.btn}>drukuj</button>}
                     content={() => componentRef.current}
-                    documentTitle='Umowa sprzedaży'
-                    pageStyle='@page {size: A4; margin:0 0 50px 0}'
+                    documentTitle="Umowa sprzedaży"
+                    pageStyle="@page {size: A4; margin:0 0 50px 0}"
                 />
-                <button className='btnPrimarySmall' onClick={handleSold}>Sprzedany</button>
-                <button className='btnPrimarySmall' onClick={handleCansel}>Anuluj</button>
+                <Button
+                    type="button"
+                    textName="Sprzedany"
+                    click={handleSold}
+                />
+                <Button
+                    type="button"
+                    textName="Anuluj"
+                    click={handleCansel}/>
             </div>
             <div ref={componentRef} className={style.box}>
                 <h2>umowa sprzedaży samochodu</h2>

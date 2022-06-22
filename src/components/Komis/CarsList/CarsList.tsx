@@ -11,9 +11,10 @@ import style from './CarsList.module.css';
 
 interface Props {
     branch: string;
+    role: string;
 }
 
-export const CarsList = ({branch}: Props) => {
+export const CarsList = ({branch, role}: Props) => {
 
     const [carsListC, setCarsListC] = useState('');
     const [cars, setCars] = useState<SimpleCar[]>([]);
@@ -70,6 +71,7 @@ export const CarsList = ({branch}: Props) => {
                         </table>
 
                     : <FullCar
+                        role={role}
                         carId={carId}
                         showFullCar={showFullCar}
                     />}

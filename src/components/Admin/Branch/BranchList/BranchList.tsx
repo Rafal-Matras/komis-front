@@ -1,17 +1,18 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from 'react';
 
-import {Branch} from "types";
-import {config} from "../../../../config/config";
-import {BranchItem} from "./BranchItem/BranchItem";
-import {Spinner} from "../../../common/Spinner/Spinner";
-import {ChangeBranchContext} from "../../../contexts/changeBranchContext";
+import {Branch} from 'types';
+
+import {ChangeBranchContext} from '../../../contexts/changeBranchContext';
+import {config} from '../../../../config/config';
+import {BranchItem} from './BranchItem/BranchItem';
+import {Spinner} from '../../../common/Spinner/Spinner';
 
 import style from './BranchList.module.css';
 
 export const BranchList = () => {
 
     const {changeBranch} = useContext(ChangeBranchContext);
-    const [branchList, setBranchList] = useState<Branch[] | null>(null);
+    const [branchList, setBranchList] = useState<Branch[]>([]);
 
 
     useEffect(() => {
@@ -22,13 +23,13 @@ export const BranchList = () => {
         })();
     }, [changeBranch]);
 
-    const branch = branchList?.map((el, index) => (
+    const branch = branchList.map((el, index) => (
         <BranchItem key={el.id} data={el} id={index + 1}/>
     ));
 
     return (
         <>
-            {!branchList
+            {branchList.length < 1
                 ? <Spinner/>
                 : <table className={style.table}>
                     <thead>

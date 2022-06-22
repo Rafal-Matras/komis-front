@@ -1,7 +1,8 @@
-import React, {SetStateAction, useContext} from "react";
+import React, {SetStateAction, useContext} from 'react';
 
-import {config} from "../../../../../../config/config";
-import {ChangeUserContext} from "../../../../../contexts/changeUserContext";
+import {config} from '../../../../../../config/config';
+import {ChangeUserContext} from '../../../../../contexts/changeUserContext';
+import {Button} from '../../../../../common/Button/Button';
 
 import style from './DeleteUser.module.css';
 
@@ -13,21 +14,21 @@ interface Props {
 
 export const DeleteUser = ({user, login, closePopup}: Props) => {
 
-    const {setChangeUser} = useContext(ChangeUserContext)
+    const {setChangeUser} = useContext(ChangeUserContext);
 
     const handleDeleteUser = async () => {
-        closePopup(false)
+        closePopup(false);
         const res = await fetch(`${config.URL}users/${login}`, {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json',
             },
         });
-        const data = await res.json()
+        const data = await res.json();
         if (data) {
-            setChangeUser(user)
+            setChangeUser(user);
         }
-    }
+    };
 
     return (
         <div className={style.container}>
@@ -35,11 +36,19 @@ export const DeleteUser = ({user, login, closePopup}: Props) => {
                 <h1>Czy na pewno chcesz usunąć użytkownika</h1>
                 <h2>{user}</h2>
                 <div className={style.boxBtn}>
-                    <button className='btnPrimarySmall' onClick={handleDeleteUser}>Tak</button>
-                    <button className='btnPrimarySmall' onClick={() => closePopup(false)}>Nie</button>
+                    <Button
+                        type="button"
+                        textName="tak"
+                        click={handleDeleteUser}
+                    />
+                    <Button
+                        type="button"
+                        textName="Nie"
+                        click={() => closePopup(false)}
+                    />
                 </div>
             </div>
 
         </div>
-    )
-}
+    );
+};

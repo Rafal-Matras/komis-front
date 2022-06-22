@@ -144,7 +144,7 @@ export const Advance = ({closePopup, fullCar, reserved}: Props) => {
 
                     </>
                     : <>
-                        <p>Napewno anulowac rezerwację</p>
+                        <p className={style.text}>Napewno anulowac rezerwację</p>
                     </>
                 }
                 <div className={style.btnBox}>

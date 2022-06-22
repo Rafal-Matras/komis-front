@@ -1,4 +1,4 @@
-import React, {SetStateAction, useContext, useState} from 'react';
+import React, {SetStateAction, useContext, useEffect, useState} from 'react';
 
 import {Consumer} from 'types';
 
@@ -6,17 +6,20 @@ import {config} from '../../../../config/config';
 import {ChangeConsumerContext} from '../../../contexts/changeConsumerContext';
 import {Input} from '../../../common/Input/Input';
 import {Select} from '../../../common/Select/Select';
+import {Button} from '../../../common/Button/Button';
 
-import style from './AddBuySell.module.css';
+import style from './AddEditBuySell.module.css';
 
 interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
     login: string;
+    consumerEdit?: Consumer | undefined;
+    click?: () => void;
 }
 
-export const AddBuySell = ({closePopup, login}: Props) => {
+export const AddEditBuySell = ({closePopup, login, consumerEdit, click}: Props) => {
 
-    const {setChangeConsumerContext} = useContext(ChangeConsumerContext);
+    const {changeConsumerContext, setChangeConsumerContext} = useContext(ChangeConsumerContext);
     const [fillIn, setFillIn] = useState(false);
     const [textError, setTextError] = useState('');
     const [consumer, setConsumer] = useState<Consumer>({
@@ -27,6 +30,12 @@ export const AddBuySell = ({closePopup, login}: Props) => {
         keeper: login,
         option: '',
     });
+
+    useEffect(() => {
+        if (consumerEdit) {
+            setConsumer(consumerEdit);
+        }
+    }, [changeConsumerContext]);
 
     const editConsumer = (name: string, value: string) => {
         setConsumer(consumer => ({
@@ -41,15 +50,15 @@ export const AddBuySell = ({closePopup, login}: Props) => {
             setTextError('Wartość Nazwa nie może być pusta oraz powinna posiadać co najmniej 3 znaki');
             return true;
         }
-
     };
 
     const handleAddItem = async () => {
         if (validation()) {
             return;
         }
+
         await fetch(`${config.URL}consumers`, {
-            method: 'POST',
+            method: consumerEdit ? 'PUT' : 'POST',
             headers: {
                 'Content-Type': 'Application/json',
             },
@@ -57,6 +66,9 @@ export const AddBuySell = ({closePopup, login}: Props) => {
         });
         setChangeConsumerContext(`${new Date()}`);
         closePopup(false);
+        if (consumerEdit && click) {
+            click();
+        }
     };
 
     return (
@@ -108,14 +120,22 @@ export const AddBuySell = ({closePopup, login}: Props) => {
                             rows={5}
                             cols={60}
                             onChange={(e) => editConsumer('description', e.target.value)}
+                            value={consumer.description}
                         >
                         </textarea>
                     </div>
-
                 </form>
                 <div className={style.btnBox}>
-                    <button className="btnPrimarySmall" onClick={handleAddItem}>Dodaj</button>
-                    <button className="btnPrimarySmall" onClick={() => closePopup(false)}>Anuluj</button>
+                    <Button
+                        type="button"
+                        textName={consumerEdit ? 'Edytuj' : 'Dodaj'}
+                        click={handleAddItem}
+                    />
+                    <Button
+                        type="button"
+                        textName="Anuluj"
+                        click={() => closePopup(false)}
+                    />
                 </div>
             </div>
         </div>

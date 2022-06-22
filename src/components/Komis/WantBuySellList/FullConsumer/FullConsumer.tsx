@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 
 import {Consumer} from 'types';
 
@@ -7,15 +7,19 @@ import {Button} from '../../../common/Button/Button';
 import style from './FullConsumer.module.css';
 import {config} from '../../../../config/config';
 import {ChangeConsumerContext} from '../../../contexts/changeConsumerContext';
+import {AddEditBuySell} from '../AddEditBuySell/AddEditBuySell';
 
 interface Props {
     consumer: Consumer;
     click: () => void;
+    login: string;
 }
 
-export const FullConsumer = ({consumer, click}: Props) => {
+export const FullConsumer = ({consumer, click, login}: Props) => {
 
     const {setChangeConsumerContext} = useContext(ChangeConsumerContext);
+    const [openAddEdit, setOpenAddEdit] = useState(false);
+
     const handleDeleteConsumer = async () => {
         const res = await fetch(`${config.URL}consumers/${consumer.id}`, {
             method: 'DELETE'
@@ -40,7 +44,7 @@ export const FullConsumer = ({consumer, click}: Props) => {
                     <Button
                         textName="Popraw"
                         type="button"
-                        click={click}
+                        click={() => setOpenAddEdit(true)}
                     />
                     <Button
                         textName="Usuń"
@@ -52,6 +56,12 @@ export const FullConsumer = ({consumer, click}: Props) => {
                         type="button"
                         click={click}
                     />
+                    {openAddEdit && <AddEditBuySell
+                        closePopup={setOpenAddEdit}
+                        login={login}
+                        consumerEdit={consumer}
+                        click={click}
+                    />}
                 </div>
             </div>
 

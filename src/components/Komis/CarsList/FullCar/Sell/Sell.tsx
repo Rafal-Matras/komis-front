@@ -95,7 +95,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                         name="documentId"
                                         textName="Nr. dokumentu"
                                         type="text"
-                                        value={consumer.nip}
+                                        value={consumer.documentId}
                                         change={editConsumer}
                                     />
                                 </div>

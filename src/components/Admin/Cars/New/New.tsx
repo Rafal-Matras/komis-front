@@ -255,6 +255,7 @@ export const New = ({closePopup, branchId}: Props) => {
                                 value={valuePreferences.model}
                                 change={updateForm}
                                 options={preferences.modelPreferences}
+                                disabled={valuePreferences.mark === 'select'}
                             />
                         </div>
                         <div className={style.inputBox}>
@@ -385,7 +386,7 @@ export const New = ({closePopup, branchId}: Props) => {
                         </div>
                         <div className={style.inputBox}>
                             <Input
-                                name="registraction"
+                                name="registration"
                                 textName="Nr. rejestracyjny"
                                 type="text"
                                 value={valuePreferences.registration}

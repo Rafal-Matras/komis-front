@@ -1,27 +1,30 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Branch, Car, ConsumerReserved} from 'types';
 
+import {CarsListContext} from '../../../contexts/carsListContext';
 import {config} from '../../../../config/config';
+import {Button} from '../../../common/Button/Button';
 import {Spinner} from '../../../common/Spinner/Spinner';
 import {Sell} from './Sell/Sell';
 import {Reserve} from './Reserve/Reserve';
 import {Advance} from './Advance/Advance';
 
 import style from './FullCar.module.css';
-import {CarsListContext} from '../../../contexts/carsListContext';
-import {Button} from '../../../common/Button/Button';
+import {Change} from './Change/Change';
 
 interface Props {
+    role: string;
     carId: string;
     showFullCar: (el: string) => void;
 }
 
-export const FullCar = ({carId, showFullCar}: Props) => {
+export const FullCar = ({role, carId, showFullCar}: Props) => {
 
-    const {setCarsListC} = useContext(CarsListContext);
+    const {carsListC, setCarsListC} = useContext(CarsListContext);
     const [openSell, setOpenSell] = useState(false);
     const [openReserve, setOpenReserve] = useState(false);
     const [openAdvance, setOpenAdvance] = useState(false);
+    const [openChange, setOpenChange] = useState(false);
     const [alertText, setAlertText] = useState('');
     const [fullCar, setFullCar] = useState<Car>({
         id: '',
@@ -70,7 +73,7 @@ export const FullCar = ({carId, showFullCar}: Props) => {
             const branch = await resBranch.json();
             setBranch(branch);
         })();
-    }, [carId, openReserve, openAdvance]);
+    }, [carId, openReserve, openAdvance, carsListC]);
 
     useEffect(() => {
         if (fullCar.reserved.length > 1) {
@@ -81,13 +84,12 @@ export const FullCar = ({carId, showFullCar}: Props) => {
             const month = date.getMonth() + 1;
             const day = date.getDate();
             const hour = date.getHours();
-            const minute = date.getMinutes()
+            const minute = date.getMinutes();
             const fullDate = ` ${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute} dnia ${day < 10 ? '0' + day : day},${month < 10 ? '0' +
                 month : month}`;
             const emailText = email.length > 1 ? `e-mail: ${email}` : '';
-            const text = `${priceAdvance.length > 1 ? 'Wpłacona zaliczka w kwocie ' + priceAdvance + 'zł' : ''} rezerwacja do godziny ${fullDate} przez  ${name} tel: ${phone} ${emailText}`;
+            const text = `${priceAdvance.length > 1 ? 'Wpłacona zaliczka w kwocie ' + priceAdvance + ' zł,' : ''} rezerwacja do godziny ${fullDate} przez  ${name} tel: ${phone} ${emailText}`;
             setAlertText(text);
-            console.log('zmiana')
         }
     }, [fullCar.reserved]);
 
@@ -96,7 +98,7 @@ export const FullCar = ({carId, showFullCar}: Props) => {
     const handleReturn = () => {
         setCarsListC(`${new Date()}`);
         showFullCar('');
-    }
+    };
 
     return (
         <div className={style.container}>
@@ -162,39 +164,48 @@ export const FullCar = ({carId, showFullCar}: Props) => {
                                 type="button"
                                 click={() => setOpenSell(true)}
                             />
-
-                            {openSell && <Sell
-                                closePopup={setOpenSell}
-                                fullCar={fullCar}
-                            />}
                             <Button
                                 textName={fullCar.reserved === 'N' ? 'Rezerwuj' : 'anuluj rezerwację'}
                                 type="button"
                                 click={() => setOpenReserve(true)}
                             />
-
-                            {openReserve && <Reserve
-                                closePopup={setOpenReserve}
-                                fullCar={fullCar}
-                                reserved={fullCar.reserved === 'N'}
-                            />}
                             <Button
                                 textName="Zaliczka"
                                 type="button"
                                 click={() => setOpenAdvance(true)}
-                                disabled={fullCar.advance === 'T'}
+                                disabled={fullCar.advance === 'T' || fullCar.reserved !== 'N'}
                             />
-                            {openAdvance && <Advance
-                                closePopup={setOpenAdvance}
-                                fullCar={fullCar}
-                                reserved={fullCar.reserved === 'N'}
-                            />}
+                            {role === 'REG_ADMIN'
+                                ? <Button
+                                    textName="Zmień komis"
+                                    type="button"
+                                    click={() => setOpenChange(true)}
+                                />
+                                : null
+                            }
                             <Button
                                 textName="Powrót"
                                 type="button"
                                 click={handleReturn}
                             />
-
+                            {openSell && <Sell
+                                closePopup={setOpenSell}
+                                fullCar={fullCar}
+                            />}
+                            {openReserve && <Reserve
+                                closePopup={setOpenReserve}
+                                fullCar={fullCar}
+                                reserved={fullCar.reserved === 'N'}
+                            />}
+                            {openAdvance && <Advance
+                                closePopup={setOpenAdvance}
+                                fullCar={fullCar}
+                                reserved={fullCar.reserved === 'N'}
+                            />}
+                            {openChange && <Change
+                                closePopup={setOpenChange}
+                                fullCar={fullCar}
+                            />}
                         </div>
                     </div>
 

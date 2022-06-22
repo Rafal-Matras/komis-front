@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
 
-import {AddEditBranch} from "./AddEditBranch/AddEditBranch";
-import {BranchList} from "./BranchList/BranchList";
-import {ChangeBranchContext} from "../../contexts/changeBranchContext";
+import {ChangeBranchContext} from '../../contexts/changeBranchContext';
+import {Button} from '../../common/Button/Button';
+import {AddEditBranch} from './AddEditBranch/AddEditBranch';
+import {BranchList} from './BranchList/BranchList';
 
 import style from './Branch.module.css';
 
@@ -14,11 +15,11 @@ export const Branch = () => {
     return (
         <ChangeBranchContext.Provider value={{changeBranch, setChangeBranch}}>
             <div className={style.container}>
-                <button
-                    className='btnPrimaryBig'
-                    onClick={() => setOpenAddBranch(true)}
-                >Dodaj nową Placówkę
-                </button>
+                <Button
+                    type="button"
+                    textName="Dodaj nową placówkę"
+                    click={() => setOpenAddBranch(true)}
+                />
                 {openAddBranch && <AddEditBranch
                     closePopup={setOpenAddBranch}
                 />}

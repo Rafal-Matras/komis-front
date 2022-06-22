@@ -9,11 +9,12 @@ interface Props {
     disabled?: boolean;
 }
 
-export const Button = ({type, textName, click}: Props) => {
+export const Button = ({type, textName, click, disabled}: Props) => {
     return <button
         type={type}
         className={style.btn}
         onClick={click}
+        disabled={disabled}
     >{textName}
     </button>;
 };

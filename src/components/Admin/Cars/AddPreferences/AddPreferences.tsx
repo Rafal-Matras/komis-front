@@ -1,8 +1,10 @@
-import React, {SetStateAction, useEffect, useState} from "react";
-import {SimpleCarEdit} from "types";
+import React, {SetStateAction, useEffect, useState} from 'react';
 
-import {AddItems} from './AddItems';
+import {SimpleCarEdit} from 'types';
+
 import {config} from '../../../../config/config';
+import {AddItems} from './AddItems';
+import {Button} from '../../../common/Button/Button';
 
 import style from './AddPreferences.module.css';
 
@@ -27,32 +29,32 @@ export const AddPreferences = ({closePopup}: Props) => {
             <div className={style.box}>
                 <div className={style.boxItems}>
                     <AddItems
-                        name='mark'
-                        title='Marka'
+                        name="mark"
+                        title="Marka"
                     />
                     <AddItems
-                        name='model'
-                        title='Model'
+                        name="model"
+                        title="Model"
                         carMarks={carMarks}
                     />
                     <AddItems
-                        name='equipment'
-                        title='Wyposażenie'
+                        name="equipment"
+                        title="Wyposażenie"
                     />
                     <AddItems
-                        name='fuel'
-                        title='Typ paliwa'
+                        name="fuel"
+                        title="Typ paliwa"
                     />
                     <AddItems
-                        name='type'
-                        title='Typ nadwozia'
+                        name="type"
+                        title="Typ nadwozia"
                     />
                 </div>
-                <button
-                    className='btnPrimaryBig'
-                    onClick={() => closePopup(false)}
-                >Anuluj
-                </button>
+                <Button
+                    type="button"
+                    textName="Anuluj"
+                    click={() => closePopup(false)}
+                />
             </div>
         </div>
     );

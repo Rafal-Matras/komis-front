@@ -1,7 +1,8 @@
-import React, {SetStateAction, useContext} from "react";
+import React, {SetStateAction, useContext} from 'react';
 
-import {config} from "../../../../../../config/config";
-import {ChangeBranchContext} from "../../../../../contexts/changeBranchContext";
+import {config} from '../../../../../../config/config';
+import {ChangeBranchContext} from '../../../../../contexts/changeBranchContext';
+import {Button} from '../../../../../common/Button/Button';
 
 import style from './DeleteBranch.module.css';
 
@@ -14,7 +15,6 @@ interface Props {
 export const DeleteBranch = ({branch, closePopup, userLeft}: Props) => {
 
     const {setChangeBranch} = useContext(ChangeBranchContext);
-
 
     const handleDeleteBranch = async () => {
         closePopup(false);
@@ -41,16 +41,20 @@ export const DeleteBranch = ({branch, closePopup, userLeft}: Props) => {
                 <div className={style.boxBtn}>
                     {userLeft
                         ? null
-                        : <button className='btnPrimarySmall' onClick={handleDeleteBranch}>Tak</button>
+                        : <Button
+                            type="button"
+                            textName="Tak"
+                            click={handleDeleteBranch}
+                        />
                     }
-                    <button
-                        className='btnPrimarySmall'
-                        onClick={() => closePopup(false)}
-                    >{userLeft ? 'Anuluj' : 'Nie'}
-                    </button>
+                    <Button
+                        type="button"
+                        textName={userLeft ? 'Anuluj' : 'Nie'}
+                        click={() => closePopup(false)}
+                    />
                 </div>
             </div>
 
         </div>
-    )
-}
+    );
+};

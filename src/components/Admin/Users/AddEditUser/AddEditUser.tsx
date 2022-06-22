@@ -1,11 +1,12 @@
 import React, {SetStateAction, useContext, useEffect, useState} from 'react';
 
-import {List, User} from 'types';
+import {Branch, List, User} from 'types';
 
 import {config} from '../../../../config/config';
 import {ChangeUserContext} from '../../../contexts/changeUserContext';
 import {Input} from '../../../common/Input/Input';
 import {Select} from '../../../common/Select/Select';
+import {Button} from '../../../common/Button/Button';
 
 import style from './AddEditUser.module.css';
 
@@ -14,10 +15,6 @@ interface Props {
     role: string;
     branch: string;
     editUser?: List;
-}
-
-interface NameBranchResponse {
-    branchName: string;
 }
 
 interface BranchName {
@@ -59,7 +56,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
         (async () => {
             const response = await fetch(`${config.URL}branches/all/names`);
             const data = await response.json();
-            const names = data.map((el: NameBranchResponse) => new Object({name: el.branchName}));
+            const names = data.map((el: Branch) => Object({name: el.branchName}));
             setBranchNames(names);
         })();
     }, []);
@@ -125,8 +122,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
         }
     };
 
-    const AddUser = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleAddUser = async () => {
         if (validation()) {
             return;
         }
@@ -142,8 +138,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
         setChangeUser(data);
     };
 
-    const EditUser = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleEditUser = async () => {
         if (validation()) {
             return;
         }
@@ -172,7 +167,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                     style={{color: fillIn ? '#fd5151' : 'transparent'}}
                 >{alertText}
                 </p>
-                <form className={style.formContainer} onSubmit={editUser ? EditUser : AddUser}>
+                <div className={style.formContainer}>
                     <div className={style.formBox}>
                         <div className={style.inputBox}>
                             <Input
@@ -209,6 +204,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                                 type="text"
                                 value={person.login}
                                 change={updateForm}
+                                blur={handleSomeLogin}
                             />
                         </div>
                         <div className={style.inputBox}>
@@ -234,22 +230,27 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                         </div>
                         <div className={role === 'ADMIN' ? style.inputBox : style.blank}>
                             <Select
-                                name="role"
-                                textName="Stanowisko"
-                                value={person.role}
+                                name="branchId"
+                                textName="Oddział"
+                                value={person.branchId}
                                 change={updateForm}
                                 options={branchNames}
                             />
                         </div>
                     </div>
-                    <div className={style.btnBox}>
-                        <button type="submit"
-                                className="btnPrimarySmall">{editUser ? 'Edytuj' : 'Dodaj'}</button>
-                        <button type="reset" className="btnPrimarySmall"
-                                onClick={() => closePopup(false)}>Anuluj
-                        </button>
-                    </div>
-                </form>
+                </div>
+                <div className={style.btnBox}>
+                    <Button
+                        type="button"
+                        textName={editUser ? 'Edytuj' : 'Dodaj'}
+                        click={editUser ? handleEditUser : handleAddUser}
+                    />
+                    <Button
+                        type="button"
+                        textName="Anuluj"
+                        click={() => closePopup(false)}
+                    />
+                </div>
             </div>
         </div>
     );

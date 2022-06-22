@@ -12,9 +12,10 @@ interface Props {
     value: string;
     change: (name: string, value: string) => void;
     options: Name[];
+    disabled?: boolean;
 }
 
-export const Select = ({name, textName, value, change, options}: Props) => {
+export const Select = ({name, textName, value, change, options, disabled}: Props) => {
 
     return (
         <label
@@ -26,6 +27,7 @@ export const Select = ({name, textName, value, change, options}: Props) => {
                 className={style.select}
                 value={value}
                 onChange={e => change(name, e.target.value)}
+                disabled={disabled}
             >
                 <option value="select">Wybierz</option>
                 {options.map(el => <option key={el.name} value={el.name}>{el.name}</option>)}
