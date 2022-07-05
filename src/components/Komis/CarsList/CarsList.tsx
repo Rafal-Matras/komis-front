@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {SetStateAction, useEffect, useState} from 'react';
 import {SearchCar, SimpleCar} from 'types';
 
 import {CarsListContext} from '../../contexts/carsListContext';
 import {config} from '../../../config/config';
 import {FullCar} from './FullCar/FullCar';
 import {Car} from './Car/Car';
-import {Spinner} from '../../common/Spinner/Spinner';
+import {Button} from '../../common/Button/Button';
 
 import style from './CarsList.module.css';
 
@@ -14,11 +14,12 @@ interface Props {
     role: string;
     whereFromCarsList: string;
     searchResults?: SearchCar;
+    goBack?: React.Dispatch<SetStateAction<boolean>>;
 }
 
-export const CarsList = ({branch, role, whereFromCarsList, searchResults}: Props) => {
+export const CarsList = ({branch, role, whereFromCarsList, searchResults, goBack}: Props) => {
 
-    const [carsListC, setCarsListC] = useState('');
+    const [carsListContext, setCarsListContext] = useState('');
     const [cars, setCars] = useState<SimpleCar[]>([]);
     const [carId, setCarId] = useState<string>('');
 
@@ -27,7 +28,9 @@ export const CarsList = ({branch, role, whereFromCarsList, searchResults}: Props
             (async () => {
                 const res = await fetch(`${config.URL}cars/views/${branch}`);
                 const data = await res.json();
-                setCars(data);
+                if (data) {
+                    setCars(data);
+                }
             })();
         }
         if (whereFromCarsList === 'search') {
@@ -37,29 +40,28 @@ export const CarsList = ({branch, role, whereFromCarsList, searchResults}: Props
                 searchCars(data);
             })();
         }
-    }, [carsListC]);
+    }, [carsListContext]);
 
     const searchCars = (data: SimpleCar[]) => {
         if (searchResults) {
             const searchData = data
-                .filter(el => searchResults.mark !== 'select' ? el.mark === searchResults.mark : el.mark)
-                .filter(el => searchResults.model !== '' ? el.model === searchResults.model : el.model)
-                .filter(el => searchResults.type !== '' ? el.type === searchResults.type : el.type)
-                .filter(el => searchResults.fuel !== '' ? el.fuel === searchResults.fuel : el.fuel)
-                .filter(el => searchResults.transmission !== '' ? el.transmission === searchResults.transmission : el.transmission)
-                .filter(el => searchResults.priceFrom !== 0 ? el.price > searchResults.priceFrom : el.price)
-                .filter(el => searchResults.priceTo !== 0 ? el.price < searchResults.priceTo : el.price)
-                .filter(el => searchResults.mileageFrom !== 0 ? el.mileage > searchResults.mileageFrom : el.mileage)
-                .filter(el => searchResults.mileageTo !== 0 ? el.mileage < searchResults.mileageTo : el.mileage)
-                .filter(el => searchResults.engineCapacityFrom !== 0 ? el.engineCapacity > searchResults.engineCapacityFrom : el.engineCapacity)
-                .filter(el => searchResults.engineCapacityTo !== 0 ? el.engineCapacity < searchResults.engineCapacityTo : el.engineCapacity)
-                .filter(el => searchResults.powerFrom !== 0 ? el.power > searchResults.powerFrom : el.power)
-                .filter(el => searchResults.powerTo !== 0 ? el.power < searchResults.powerTo : el.power);
-            // .filter(el => searchResults.equipment.length > 0 ? el.equipment < searchResults.equipment : el.equipment)
-
-
+                .filter(el => searchResults.mark === 'select' ? el.mark : el.mark === searchResults.mark)
+                .filter(el => searchResults.model === '' ? el.model : el.model === searchResults.model)
+                .filter(el => searchResults.type === '' ? el.type : el.type === searchResults.type)
+                .filter(el => searchResults.fuel === '' ? el.fuel : el.fuel === searchResults.fuel)
+                .filter(el => searchResults.transmission === '' ? el.transmission === el.transmission : searchResults.transmission)
+                .filter(el => searchResults.priceFrom === 0 ? el.price : el.price > searchResults.priceFrom)
+                .filter(el => searchResults.priceTo === 0 ? el.price : el.price < searchResults.priceTo)
+                .filter(el => searchResults.mileageFrom === 0 ? el.mileage : el.mileage > searchResults.mileageFrom)
+                .filter(el => searchResults.mileageTo === 0 ? el.mileage : el.mileage < searchResults.mileageTo)
+                .filter(el => searchResults.engineCapacityFrom === 0 ? el.engineCapacity : el.engineCapacity > searchResults.engineCapacityFrom)
+                .filter(el => searchResults.engineCapacityTo === 0 ? el.engineCapacity : el.engineCapacity < searchResults.engineCapacityTo)
+                .filter(el => searchResults.powerFrom === 0 ? el.power : el.power > searchResults.powerFrom)
+                .filter(el => searchResults.powerTo === 0 ? el.power : el.power < searchResults.powerTo)
+                .filter(el => searchResults.equipment.length === 0 ? el.equipment : (
+                    searchResults.equipment.filter(eq => el.equipment.includes(eq)).join(';')
+                ));
             setCars(searchData);
-
         }
     };
 
@@ -67,24 +69,35 @@ export const CarsList = ({branch, role, whereFromCarsList, searchResults}: Props
         setCarId(el);
     };
 
-    const car = cars.map((car, index) => (
-        <Car
-            key={car.id}
-            lp={index + 1}
-            car={car}
-            showFullCar={showFullCar}
-        />
-    ));
+    const car = cars.length > 0
+        ? cars.map((car, index) => (
+            <Car
+                key={car.id}
+                lp={index + 1}
+                car={car}
+                showFullCar={showFullCar}
+            />
+        ))
+        : null;
 
     return (
-        <CarsListContext.Provider value={{carsListC, setCarsListC}}>
+        <CarsListContext.Provider value={{carsListContext, setCarsListContext}}>
             <div className={style.container}>
                 {carId === ''
                     ? cars.length < 1
                         ? searchResults
-                            ? <h2 className={style.noResults}>Nie znaleziono pasującego Samochodu</h2>
-                            : <Spinner/>
-                        : <>
+                            ? <div>
+                                <h2 className={style.noResults}>Nie znaleziono pasującego Samochodu</h2>
+                                <div className={style.btnBack}>
+                                    <Button
+                                        type="button"
+                                        textName="powrót do wyszukiwarki"
+                                        click={() => goBack && goBack(false)}
+                                    />
+                                </div>
+                            </div>
+                            : <h2 className={style.noResults}>Brak samochodów </h2>
+                        : <div>
                             <table>
                                 <thead className={style.tableHead}>
                                 <tr className={style.head}>
@@ -107,7 +120,18 @@ export const CarsList = ({branch, role, whereFromCarsList, searchResults}: Props
                                 {car}
                                 </tbody>
                             </table>
-                        </>
+
+                            {whereFromCarsList === 'search'
+                                ? <div className={style.btnBack}>
+                                    <Button
+                                        type="button"
+                                        textName="powrót do wyszukiwarki"
+                                        click={() => goBack && goBack(false)}
+                                    />
+                                </div>
+                                : null
+                            }
+                        </div>
                     : <FullCar
                         role={role}
                         carId={carId}

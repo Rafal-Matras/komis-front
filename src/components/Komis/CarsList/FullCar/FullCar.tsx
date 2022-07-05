@@ -20,7 +20,7 @@ interface Props {
 
 export const FullCar = ({role, carId, showFullCar}: Props) => {
 
-    const {carsListC, setCarsListC} = useContext(CarsListContext);
+    const {carsListContext, setCarsListContext} = useContext(CarsListContext);
     const [openSell, setOpenSell] = useState(false);
     const [openReserve, setOpenReserve] = useState(false);
     const [openAdvance, setOpenAdvance] = useState(false);
@@ -73,7 +73,7 @@ export const FullCar = ({role, carId, showFullCar}: Props) => {
             const branch = await resBranch.json();
             setBranch(branch);
         })();
-    }, [carId, openReserve, openAdvance, carsListC]);
+    }, [carId, openReserve, openAdvance, carsListContext]);
 
     useEffect(() => {
         if (fullCar.reserved.length > 1) {
@@ -90,7 +90,7 @@ export const FullCar = ({role, carId, showFullCar}: Props) => {
             const advanceText = priceAdvance.length > 1 ? 'Wpłacona zaliczka w kwocie ' + priceAdvance + ' zł' : '';
             const telText = phone.length > 1 ? `tel: ${phone}` : '';
             const emailText = email.length > 1 ? `e-mail: ${email}` : '';
-            const text = `${advanceText}, rezerwacja do godziny ${fullDate}, przez ${name} ${telText} ${emailText}`;
+            const text = `${advanceText} Rezerwacja do godziny ${fullDate}, przez ${name} ${telText} ${emailText}`;
             setAlertText(text);
         }
     }, [fullCar.reserved]);
@@ -98,7 +98,7 @@ export const FullCar = ({role, carId, showFullCar}: Props) => {
     const equipment = fullCar.equipment.split(';').map(el => <li className={style.text} key={el}>{el}</li>);
 
     const handleReturn = () => {
-        setCarsListC(`${new Date()}`);
+        setCarsListContext(`${new Date()}`);
         showFullCar('');
     };
 

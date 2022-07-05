@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import {CarEdit, SimpleCarEdit} from "types";
+import React, {useEffect, useState} from 'react';
+import {CarEdit, SimpleCarEdit} from 'types';
 
-import {config} from "../../../../config/config";
+import {config} from '../../../../config/config';
+import {Button} from '../../../common/Button/Button';
 
-
-import style from "./DeletePreferences.module.css";
+import style from './DeletePreferences.module.css';
 
 interface Props {
     title: string;
@@ -20,25 +20,25 @@ export const DeleteItems = ({title, name, carMarks}: Props) => {
 
     useEffect(() => {
         (async () => {
-            const req = await fetch(`${config.URL}cars/edit/car/?name=${encodeURIComponent(name)}&model=${encodeURIComponent(markValue)}`);
+            const req = await fetch(`${config.URL}cars/edit/car/${name}/${markValue}`);
             const data = await req.json();
             setCarSelect(data);
         })();
     }, [markValue, name]);
 
-    const handleDeleteCarItem = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-
-        await fetch(`${config.URL}cars/edit/${name}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({carValue})
-        });
-        setCarValue('');
-        setMarkValue('select');
-    }
+    const handleDeleteCarItem = async () => {
+        if (carValue !== '') {
+            await fetch(`${config.URL}cars/edit/${name}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({carValue})
+            });
+            setCarValue('');
+            setMarkValue('select');
+        }
+    };
 
     const markName = name === 'model'
         ? <select
@@ -46,14 +46,14 @@ export const DeleteItems = ({title, name, carMarks}: Props) => {
             value={markValue}
             onChange={(e) => setMarkValue(e.target.value)}
         >
-            <option value='select'>Wybierz markę</option>
+            <option value="select">Wybierz markę</option>
             {carMarks?.map(el => <option key={el.name} value={el.name}>{el.name}</option>)}
         </select>
         : null;
 
 
     return (
-        <form className={style.formBox} onSubmit={handleDeleteCarItem}>
+        <div className={style.formBox}>
             <h3 className={style.name}>{title}</h3>
             {markName}
             <div className={style.dataBox}>
@@ -62,11 +62,11 @@ export const DeleteItems = ({title, name, carMarks}: Props) => {
                     value={carValue}
                     onChange={(e) => setCarValue(e.target.value)}
                 >
-                    <option value='select'>Wybierz {name === 'mark' ? 'Markę' : title}</option>
+                    <option value="select">Wybierz {name === 'mark' ? 'Markę' : title}</option>
                     {carSelect?.map(el => <option key={el.name} value={el.name}>{el.name}</option>)}
                 </select>
-                <button type='submit' className='btnPrimarySmall'>Usuń</button>
+                <Button type="button" textName="Usuń" click={handleDeleteCarItem}/>
             </div>
-        </form>
+        </div>
     );
 };

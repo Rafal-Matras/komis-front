@@ -1,11 +1,12 @@
-import React, {SetStateAction, useEffect, useState} from "react";
-import {SimpleCarEdit} from "types";
+import React, {SetStateAction, useEffect, useState} from 'react';
+import {SimpleCarEdit} from 'types';
 
 
-import {DeleteItems} from "./DeleteItems";
-import {config} from "../../../../config/config";
+import {DeleteItems} from './DeleteItems';
+import {config} from '../../../../config/config';
 
 import style from './DeletePreferences.module.css';
+import {Button} from '../../../common/Button/Button';
 
 interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
@@ -17,11 +18,10 @@ export const DeletePreferences = ({closePopup}: Props) => {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`${config.URL}cars/edit/car/?name=mark`);
+            const res = await fetch(`${config.URL}cars/edit/car/mark`);
             const data = await res.json();
             setCarMarks(data);
         })();
-
     }, []);
 
     return (
@@ -38,23 +38,23 @@ export const DeletePreferences = ({closePopup}: Props) => {
                         carMarks={carMarks}
                     />
                     <DeleteItems
-                        name='equipment'
-                        title='Wyposażenie'
+                        name="equipment"
+                        title="Wyposażenie"
                     />
                     <DeleteItems
-                        name='fuel'
-                        title='Typ paliwa'
+                        name="fuel"
+                        title="Typ paliwa"
                     />
                     <DeleteItems
-                        name='type'
-                        title='Typ nadwozia'
+                        name="type"
+                        title="Typ nadwozia"
                     />
                 </div>
-                <button
-                    className='btnPrimaryBig'
-                    onClick={() => closePopup(false)}
-                >Anuluj
-                </button>
+                <Button
+                    type="button"
+                    textName="Anuluj"
+                    click={() => closePopup(false)}
+                />
             </div>
         </div>
     );

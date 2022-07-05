@@ -23,8 +23,9 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
         address: '',
         phone: '',
     });
-    const [fillIn, setFillIn] = useState(false);
+    const [alert, setAlert] = useState(false);
     const [alertText, setAlertText] = useState('');
+    const [incorrectBranchName, setIncorrectBranchName] = useState(false);
 
     useEffect(() => {
         if (branchEdit) {
@@ -47,26 +48,50 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
         }));
     };
 
+    const handleSomeBranchName = async () => {
+        if (branch.branchName !== '') {
+            const response = await fetch(`${config.URL}branches/check-branch-name/${branch.branchName}`);
+            const data = await response.json();
+            if (data) {
+                setAlertText('taka nazwa już istnieje');
+                setAlert(true);
+                setIncorrectBranchName(true);
+            } else {
+                setAlert(false);
+                setIncorrectBranchName(false);
+            }
+        }
+    };
+
     const validation = () => {
         if (branch.branchName === '' || branch.city === '' || branch.postCode === '' || branch.address === '') {
             setAlertText('wypełnij wszystkie pola');
-            setFillIn(true);
+            setAlert(true);
             return true;
-        } else if (branch.city.length < 3) {
+        }
+        if (branch.city.length < 3) {
             setAlertText('miasto powinno składać się z conajmniej 3 znaków');
-            setFillIn(true);
+            setAlert(true);
             return true;
-        } else if (branch.address.length < 5) {
+        }
+        if (branch.address.length < 5) {
             setAlertText('adres powinen składać się z conajmniej 5 znaków');
-            setFillIn(true);
+            setAlert(true);
             return true;
-        } else if (!/^[a-z]{3}-[0-9]{2}$/.test(branch.branchName)) {
+        }
+        if (!/^[a-z]{3}-[0-9]{2}$/.test(branch.branchName)) {
             setAlertText('niepoprawna nazwe oddziału');
-            setFillIn(true);
+            setAlert(true);
             return true;
-        } else if (!/^[0-9]{2}-[0-9]{3}$/.test(branch.postCode)) {
+        }
+        if (!/^[0-9]{2}-[0-9]{3}$/.test(branch.postCode)) {
             setAlertText('niepoprawny kod pocztowy');
-            setFillIn(true);
+            setAlert(true);
+            return true;
+        }
+        if (incorrectBranchName) {
+            setAlertText('taka nazwa już istnieje');
+            setAlert(true);
             return true;
         }
     };
@@ -109,7 +134,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                 <h2 className={style.h2}>{branchEdit ? 'Edytuj Placówkę' : 'Dodaj Nową Placówkę'}</h2>
                 <p
                     className={style.errorText}
-                    style={{color: fillIn ? '#fd5151' : 'transparent'}}
+                    style={{color: alert ? '#fd5151' : 'transparent'}}
                 >{alertText}
                 </p>
                 <div className={style.formContainer}>
@@ -121,6 +146,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                                 type="text"
                                 value={branch.branchName}
                                 change={updateForm}
+                                blur={handleSomeBranchName}
                             />
                         </div>
                         <div className={style.boxItem}>

@@ -48,7 +48,7 @@ export const Search = () => {
         powerFrom: 0,
         powerTo: 0,
         transmission: '',
-        equipment: '',
+        equipment: [],
     });
 
     useEffect(() => {
@@ -240,6 +240,7 @@ export const Search = () => {
                     role="USER"
                     whereFromCarsList="search"
                     searchResults={valuePreferences}
+                    goBack={setCarsList}
                 />
             }
         </>

@@ -13,14 +13,15 @@ import style from './AddEditBuySell.module.css';
 interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
     login: string;
+    branchId: string;
     consumerEdit?: Consumer | undefined;
     click?: () => void;
 }
 
-export const AddEditBuySell = ({closePopup, login, consumerEdit, click}: Props) => {
+export const AddEditBuySell = ({closePopup, login, branchId, consumerEdit, click}: Props) => {
 
     const {changeConsumerContext, setChangeConsumerContext} = useContext(ChangeConsumerContext);
-    const [fillIn, setFillIn] = useState(false);
+    const [alert, setAlert] = useState(false);
     const [textError, setTextError] = useState('');
     const [consumer, setConsumer] = useState<Consumer>({
         name: '',
@@ -29,13 +30,14 @@ export const AddEditBuySell = ({closePopup, login, consumerEdit, click}: Props) 
         description: '',
         keeper: login,
         option: '',
+        branch: branchId,
     });
 
     useEffect(() => {
         if (consumerEdit) {
             setConsumer(consumerEdit);
         }
-    }, [changeConsumerContext]);
+    }, [consumerEdit, changeConsumerContext]);
 
     const editConsumer = (name: string, value: string | number) => {
         setConsumer(consumer => ({
@@ -44,10 +46,45 @@ export const AddEditBuySell = ({closePopup, login, consumerEdit, click}: Props) 
         }));
     };
 
+    const handleSetCorrectPhone = () => {
+        const reg = /[0-9]{2,4}-[0-9]{2,4}-[0-9]{2,4}/;
+        if (!reg.test(consumer.phone)) {
+            setAlert(true);
+            setTextError('Niepoprawny nr. telefonu (np: 123-123-123, 12-123-1234 )');
+        } else {
+            setAlert(false);
+        }
+    };
+
+    const handleSetCorrectEmail = () => {
+        const reg = /^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/i;
+        if (!reg.test(consumer.email)) {
+            setAlert(true);
+            setTextError('Niepoprawny E-mail');
+        } else {
+            setAlert(false);
+        }
+    };
+
     const validation = () => {
         if (consumer.name === '' || consumer.name.length < 3) {
-            setFillIn(true);
+            setAlert(true);
             setTextError('Wartość Nazwa nie może być pusta oraz powinna posiadać co najmniej 3 znaki');
+            return true;
+        }
+        if (consumer.phone === '' && consumer.email === '') {
+            setAlert(true);
+            setTextError('Trzeba wypełnić pole telefon albo E-mail');
+            return true;
+        }
+        if (consumer.option === '' || consumer.option === 'select') {
+            setAlert(true);
+            setTextError('Wybierz Opcje');
+            return true;
+        }
+        if (consumer.description === '') {
+            setAlert(true);
+            setTextError('Opis nie może być pusty');
             return true;
         }
     };
@@ -76,7 +113,7 @@ export const AddEditBuySell = ({closePopup, login, consumerEdit, click}: Props) 
             <div className={style.box}>
                 <form className={style.boxForm}>
                     <div className={style.boxError}>
-                        <p style={{color: fillIn ? '#ff0000' : 'transparent'}}>{textError}</p>
+                        <p style={{color: alert ? '#ff0000' : 'transparent'}}>{textError}</p>
                     </div>
                     <div className={style.boxInputs}>
                         <Input
@@ -94,6 +131,7 @@ export const AddEditBuySell = ({closePopup, login, consumerEdit, click}: Props) 
                             type="text"
                             value={consumer.phone}
                             change={editConsumer}
+                            blur={handleSetCorrectPhone}
                         />
                     </div>
                     <div className={style.boxInputs}>
@@ -103,6 +141,7 @@ export const AddEditBuySell = ({closePopup, login, consumerEdit, click}: Props) 
                             type="text"
                             value={consumer.email}
                             change={editConsumer}
+                            blur={handleSetCorrectEmail}
                         />
                     </div>
                     <div className={style.boxInputs}>

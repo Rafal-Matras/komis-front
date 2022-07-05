@@ -16,7 +16,7 @@ interface Props {
 
 export const Change = ({closePopup, fullCar}: Props) => {
 
-    const {setCarsListC} = useContext(CarsListContext);
+    const {setCarsListContext} = useContext(CarsListContext);
     const [car, setCar] = useState<Car>(fullCar);
     const [branches, setBranches] = useState<BranchNames[]>([]);
     const [branchName, setBranchName] = useState('');
@@ -59,7 +59,7 @@ export const Change = ({closePopup, fullCar}: Props) => {
             body: JSON.stringify(car),
         });
         const data = await res.json();
-        setCarsListC(data);
+        setCarsListContext(data);
         closePopup(false);
     };
 

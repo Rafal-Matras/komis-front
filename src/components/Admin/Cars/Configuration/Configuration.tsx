@@ -14,6 +14,8 @@ interface Props {
 
 export const Configuration = ({closePopup}: Props) => {
 
+    const [alert, setAlert] = useState(false);
+    const [alertText, setAlertText] = useState('Text');
     const [companyData, setCompanyData] = useState<Company>({
         name: '',
         nip: '',
@@ -39,7 +41,18 @@ export const Configuration = ({closePopup}: Props) => {
         }));
     };
 
+    const validation = () => {
+        if (companyData.name === '' || companyData.nip === '' || companyData.regon === '' || companyData.phone === '' || companyData.address === '' || companyData.postCode === '' || companyData.city === '') {
+            setAlertText('wypełnij wszystkie pola');
+            setAlert(true);
+            return true;
+        }
+    };
+
     const handleChangeCompanyData = async () => {
+        if (validation()) {
+            return;
+        }
         await fetch(`${config.URL}company`, {
             method: 'PUT',
             headers: {
@@ -54,6 +67,11 @@ export const Configuration = ({closePopup}: Props) => {
         <div className={style.container}>
             <div className={style.box}>
                 <h2>Zmień Dane Firmy</h2>
+                <p
+                    className={style.pError}
+                    style={{color: alert ? '#fd5151' : 'transparent'}}
+                >{alertText}
+                </p>
                 <div className={style.boxForm}>
                     <div className={style.boxInputName}>
                         <Input
@@ -118,7 +136,6 @@ export const Configuration = ({closePopup}: Props) => {
                             change={updateForm}
                         />
                     </div>
-
                 </div>
                 <div className={style.boxBtn}>
                     <Button

@@ -18,15 +18,17 @@ export const AddItems = ({title, name, carMarks}: Props) => {
     const [carValue, setCarValue] = useState('');
 
     const handleAddCar = async () => {
-        await fetch(`${config.URL}cars/edit/${name}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({name: carValue, mark: markValue}),
-        });
-        setCarValue('');
-        setMarkValue('');
+        if (carValue !== '') {
+            await fetch(`${config.URL}cars/edit/${name}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({name: carValue, mark: markValue}),
+            });
+            setCarValue('');
+            setMarkValue('');
+        }
     };
 
     const markName = name === 'model'

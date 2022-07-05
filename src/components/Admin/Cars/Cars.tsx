@@ -58,7 +58,13 @@ export const Cars = ({role, branch}: Props) => {
 
     const carSold = carsSold.length > 0
         ? carsSold.map(el => (
-            <li key={el.id} onClick={() => handleSoldCar(el.id)}><p>{el.mark}</p><p>{el.vin}</p></li>
+            <li
+                key={el.id}
+                onClick={() => handleSoldCar(el.id)}
+            >
+                <p>{el.mark}</p>
+                <p>{el.vin}</p>
+            </li>
         ))
         : <li>Brak</li>;
 
@@ -70,6 +76,7 @@ export const Cars = ({role, branch}: Props) => {
                         type="button"
                         textName="Dodaj nowy"
                         click={() => setOpenAddNew(true)}
+                        disabled={role === 'ADMIN'}
                     />
                     <Button
                         type="button"

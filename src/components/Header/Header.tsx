@@ -12,14 +12,15 @@ interface Button {
 interface Props {
     login: string;
     role: string;
+    branch: string;
     active: string;
     handleBody: (el: string) => void;
     menuList: Button[];
     link: string;
-    handleToggleAdminKomis: () => void
+    handleToggleAdminKomis: () => void;
 }
 
-export const Header = ({login, role, active, handleBody, menuList, link, handleToggleAdminKomis}: Props) => {
+export const Header = ({login, role, branch, active, handleBody, menuList, link, handleToggleAdminKomis}: Props) => {
 
     const navigate = useNavigate();
 
@@ -46,7 +47,7 @@ export const Header = ({login, role, active, handleBody, menuList, link, handleT
             <div className={style.logo}/>
             <div className={style.box}>
                 <div className={style.boxTitle}>
-                    <h1 className={style.h1}>{link === 'komis' ? 'Panel Administratora' : 'Komis'}</h1>
+                    <h1 className={style.h1}>{link === 'komis' ? 'Panel Administratora' : `Komis | ${branch}`}</h1>
                     <div className={style.boxUser}>
                         <BsPersonCircle/>
                         <p className={style.user}>{login}</p>

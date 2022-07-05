@@ -16,9 +16,9 @@ interface Props {
 
 export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
 
-    const {setCarsListC} = useContext(CarsListContext);
+    const {setCarsListContext} = useContext(CarsListContext);
     const [car, setCar] = useState<Car>(fullCar);
-    const [fillIn, setFillIn] = useState(false);
+    const [alert, setAlert] = useState(false);
     const [alertText, setAlertText] = useState('');
     const [consumer, setConsumer] = useState<ConsumerReserved>({
         name: '',
@@ -57,17 +57,17 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
     const validation = () => {
         if (consumer.name.length < 5) {
             setAlertText('uzupełnij Nazwa co najmniej 5 znaki');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (consumer.phone === '' || !/[0-9]{6,9}/.test(consumer.phone)) {
             setAlertText('uzupełnij Telefon bądz niepoprawny numer same cyfry bez spacji');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (!/^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/i.test(consumer.email) && consumer.email !== '') {
             setAlertText('niepoprawny E-mail');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
     };
@@ -89,7 +89,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
     };
 
     const handleReserved = () => {
-        setCarsListC(`${consumer}`);
+        setCarsListContext(`${consumer}`);
         closePopup(false);
     };
 
@@ -127,7 +127,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
                                 />
                             </div>
                         </form>
-                        <p style={{color: fillIn ? 'red' : 'transparent'}}>{alertText}</p>
+                        <p style={{color: alert ? 'red' : 'transparent'}}>{alertText}</p>
                     </>
                     : <h2>Napewno anulowac rezerwację</h2>
                 }

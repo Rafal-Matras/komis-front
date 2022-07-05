@@ -18,7 +18,7 @@ export const AddPreferences = ({closePopup}: Props) => {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch(`${config.URL}cars/edit/car/?name=mark`);
+            const res = await fetch(`${config.URL}cars/edit/car/mark`);
             const data = await res.json();
             setCarMarks(data);
         })();

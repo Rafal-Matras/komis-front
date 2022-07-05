@@ -38,12 +38,12 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
                     whereFromCarsList="list"
                 />;
             case 'search':
-                return <Search
-                />;
+                return <Search/>;
             case 'wantBuySell':
                 return <WantBuySellList
                     login={login}
                     role={role}
+                    branch={branch}
                 />;
             case 'buy':
                 return <Buy
@@ -52,16 +52,16 @@ export const Komis = ({login, role, branch, handleToggleAdminKomis}: Props) => {
         }
     };
 
-
     return (
         <div className={style.container}>
             <Header
                 login={login}
                 role={role}
+                branch={branch}
                 handleBody={handleBody}
                 active={active}
                 menuList={menuList}
-                link='admin'
+                link="admin"
                 handleToggleAdminKomis={handleToggleAdminKomis}
             />
             {menuItem()}

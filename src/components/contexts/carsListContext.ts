@@ -1,7 +1,7 @@
-import {createContext} from "react";
+import {createContext} from 'react';
 
 export const CarsListContext = createContext({
-    carsListC: '',
-    setCarsListC: (change: string) => {
+    carsListContext: '',
+    setCarsListContext: (change: string) => {
     },
 })

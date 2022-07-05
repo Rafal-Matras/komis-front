@@ -19,7 +19,7 @@
 }
 
 .img {
-    width: 60%;
+    width: 55%;
     object-fit: contain;
 }
 
@@ -31,50 +31,19 @@
 }
 
 .boxInput {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 300px;
-    border: 2px solid var(--dark);
-    border-radius: 5px;
-}
-
-.input, .btn {
-    padding: 10px 15px;
-    border: 2px solid;
-    border-radius: 5px;
-    font-size: 24px;
-    outline: none;
-}
-
-.input {
-    border: none;
-    width: 80%;
-}
-
-.input:focus {
-    border-color: var(--secondary-collor);
+    width: 440px;
 }
 
 .icon {
+    position: absolute;
+    right: 10px;
     margin-right: 10px;
     width: 25px;
     height: 25px;
     color: var(--dark);
     cursor: pointer;
-}
-
-.btn {
-    border-color: var(--secondary-collor);
-    color: #ffffff;
-    text-shadow: 0 0 1px var(--dark);
-    background-color: var(--secondary-collor);
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: color .3s linear, background-color .3s linear;
-}
-
-.btn:hover {
-    color: var(--secondary-collor);
-    background-color: #ffffff;
 }

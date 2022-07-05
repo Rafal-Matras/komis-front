@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 
-import {Header} from "../Header/Header";
-import {Users} from "./Users/Users";
-import {Cars} from "./Cars/Cars";
-import {Branch} from "./Branch/Branch";
+import {Header} from '../Header/Header';
+import {Users} from './Users/Users';
+import {Cars} from './Cars/Cars';
+import {Branch} from './Branch/Branch';
 
 import style from './Admin.module.css';
 
@@ -11,7 +11,7 @@ interface Props {
     login: string;
     role: string;
     branch: string;
-    handleToggleAdminKomis: () => void
+    handleToggleAdminKomis: () => void;
 }
 
 interface MenuList {
@@ -34,7 +34,7 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
             : setMenuList([
                 {name: 'users', show: 'Użytkownicy'},
                 {name: 'cars', show: 'Samochody'},
-            ])
+            ]);
     }, [role]);
 
     const handleBody = (el: string) => {
@@ -52,7 +52,7 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
                 return <Cars
                     role={role}
                     branch={branch}
-                />
+                />;
             case 'branch':
                 return <Branch/>;
         }
@@ -63,10 +63,11 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
             <Header
                 login={login}
                 role={role}
+                branch={branch}
                 handleBody={handleBody}
                 active={active}
                 menuList={menuList}
-                link='komis'
+                link="komis"
                 handleToggleAdminKomis={handleToggleAdminKomis}
             />
             {menuItem()}

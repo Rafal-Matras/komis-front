@@ -1,11 +1,12 @@
 import React, {SetStateAction, useEffect, useState} from 'react';
 import {Car} from 'types';
 
+import {config} from '../../../../config/config';
 import {AddDescription} from './AddDescription';
 import {AddEquipments} from './AddEquipments';
 import {Input} from '../../../common/Input/Input';
 import {Select} from '../../../common/Select/Select';
-import {config} from '../../../../config/config';
+import {Button} from '../../../common/Button/Button';
 
 import style from './New.module.css';
 
@@ -29,7 +30,7 @@ export const New = ({closePopup, branchId}: Props) => {
 
     const [openAddEquipment, setOpenAddEquipment] = useState(false);
     const [openAddDescriptions, setOpenAddDescriptions] = useState(false);
-    const [fillIn, setFillIn] = useState(false);
+    const [alert, setAlert] = useState(false);
     const [alertText, setAlertText] = useState('alert');
     const [preferences, setPreferences] = useState<Preferences>({
         markPreferences: [],
@@ -109,92 +110,87 @@ export const New = ({closePopup, branchId}: Props) => {
     const validation = () => {
         if (valuePreferences.mark === 'select') {
             setAlertText('Uzupełnij pole: Marka');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.model === '') {
             setAlertText('Uzupełnij pole: Model');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.type === '') {
             setAlertText('Uzupełnij pole: Nadwozie');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.fuel === '') {
             setAlertText('Uzupełnij pole: Paliwo');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.yearProduction === 0) {
             setAlertText('Uzupełnij pole: Rok produkcji');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.engineCapacity === 0) {
             setAlertText('Uzupełnij pole: Pojemność');
-            setFillIn(true);
-            return true;
-        }
-        if (/[0-9]{3,4}]/.test(valuePreferences.model)) {
-            setAlertText('Niepoprawna pojemność 3 lub 4 cyfry');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.power === 0) {
             setAlertText('Uzupełnij pole: Moc');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.transmission === '') {
             setAlertText('Uzupełnij pole: Skrzynia');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.color === '') {
             setAlertText('Uzupełnij pole: Kolor');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.mileage === 0) {
             setAlertText('Uzupełnij pole: Przebieg');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.doers === '') {
             setAlertText('Uzupełnij pole: Liczba dzwi');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.seats === '') {
             setAlertText('Uzupełnij pole: Liczba siedzeń');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.price === 0) {
             setAlertText('Uzupełnij pole: Cena');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.pricePurchase === 0) {
             setAlertText('Uzupełnij pole: Cena zakupu');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (valuePreferences.vin === '') {
             setAlertText('Uzupełnij pole: VIN');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
         if (!/[0-9A-Z]{17}/.test(valuePreferences.vin)) {
             setAlertText('Niepoprawny VIN powinien zawierać cyfry i duże litery');
-            setFillIn(true);
+            setAlert(true);
             return true;
         }
     };
-    const handleAddCar = async (e: React.FormEvent) => {
-        e.preventDefault();
+
+    const handleAddCar = async () => {
         if (validation()) {
             return;
         }
@@ -211,8 +207,8 @@ export const New = ({closePopup, branchId}: Props) => {
     return (
         <div className={style.container}>
             <div className={style.box}>
-                <p className={style.errorText} style={{color: fillIn ? 'red' : 'transparent'}}>{alertText}</p>
-                <form className={style.formContainer} onSubmit={handleAddCar}>
+                <p className={style.errorText} style={{color: alert ? 'red' : 'transparent'}}>{alertText}</p>
+                <div className={style.formContainer}>
                     <div className={style.formBox}>
                         <div className={style.boxItem}>
                             <Select
@@ -317,7 +313,7 @@ export const New = ({closePopup, branchId}: Props) => {
                         <div className={style.boxItem}>
                             <Select
                                 name="seats"
-                                textName="Liczba siedzeń"
+                                textName="Liczba miejsc"
                                 value={valuePreferences.seats}
                                 change={updateForm}
                                 options={[{name: '2'}, {name: '3'}, {name: '4'}, {name: '5'}, {name: '6'}, {name: '7'}, {name: '8'}, {name: '9'}]}
@@ -388,7 +384,7 @@ export const New = ({closePopup, branchId}: Props) => {
                         </div>
                         <div className={style.boxItem}>
                             <Input
-                                name="darePurchase"
+                                name="datePurchase"
                                 textName="Data zakupu"
                                 type="date"
                                 value={valuePreferences.datePurchase}
@@ -417,19 +413,18 @@ export const New = ({closePopup, branchId}: Props) => {
                         />}
                     </div>
                     <div className={style.btnBox}>
-                        <button
-                            type="submit"
-                            className="btnPrimarySmall"
-                        >Dodaj
-                        </button>
-                        <button
-                            type="reset"
-                            className="btnPrimarySmall"
-                            onClick={() => closePopup(false)}
-                        >Anuluj
-                        </button>
+                        <Button
+                            type="button"
+                            textName="Dodaj"
+                            click={handleAddCar}
+                        />
+                        <Button
+                            type="button"
+                            textName="Anuluj"
+                            click={() => closePopup(false)}
+                        />
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     );

@@ -50,10 +50,6 @@ export const Buy = ({branch}: Props) => {
         }));
     };
 
-    const handleGenerateArrangement = () => {
-        setPrinting(true);
-    };
-
     return (
         <>
             {printing

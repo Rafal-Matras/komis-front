@@ -14,14 +14,16 @@ import style from './WantBuySellList.module.css';
 interface Props {
     login: string;
     role: string;
+    branch: string;
 }
 
-export const WantBuySellList = ({login, role}: Props) => {
+export const WantBuySellList = ({login, role, branch}: Props) => {
 
     const [changeConsumerContext, setChangeConsumerContext] = useState('');
     const [openAddEdit, setOpenAddEdit] = useState(false);
     const [fullConsumer, setFullConsumer] = useState(false);
     const [consumers, setConsumers] = useState<Consumer[]>([]);
+    const [branchId, setBranchId] = useState('');
     const [consumer, setConsumer] = useState<Consumer>({
         name: '',
         phone: '',
@@ -29,14 +31,17 @@ export const WantBuySellList = ({login, role}: Props) => {
         description: '',
         option: '',
         keeper: '',
+        branch: '',
     });
-
 
     useEffect(() => {
         (async () => {
             const res = await fetch(`${config.URL}consumers`);
             const data = await res.json();
             setConsumers(data);
+            const branchIdRes = await fetch(`${config.URL}branches/getid/${branch}`);
+            const branchIdData = await branchIdRes.json();
+            setBranchId(branchIdData);
         })();
     }, [changeConsumerContext]);
 
@@ -49,24 +54,32 @@ export const WantBuySellList = ({login, role}: Props) => {
         setFullConsumer(false);
     };
 
-    const buy = consumers.filter(consumer => consumer.option === 'BUY').map((el, index) => (
-        <WantBuySellItem
-            key={el.id}
-            lp={index + 1}
-            item={el}
-            role={role}
-            consumer={handleConsumer}
-        />
-    ));
-    const sell = consumers.filter(consumer => consumer.option === 'SELL').map((el, index) => (
-        <WantBuySellItem
-            key={index}
-            lp={index + 1}
-            item={el}
-            role={role}
-            consumer={handleConsumer}
-        />
-    ));
+    const buy = consumers
+        .filter(consumer => consumer.option === 'BUY')
+        .filter(consumer => consumer.branch === branchId)
+        .filter(consumer => role === 'USER' ? consumer.keeper === login : consumer)
+        .map((el, index) => (
+            <WantBuySellItem
+                key={el.id}
+                lp={index + 1}
+                item={el}
+                role={role}
+                consumer={handleConsumer}
+            />
+        ));
+    const sell = consumers
+        .filter(consumer => consumer.option === 'SELL')
+        .filter(consumer => consumer.branch === branchId)
+        .filter(consumer => role === 'USER' ? consumer.keeper === login : consumer)
+        .map((el, index) => (
+            <WantBuySellItem
+                key={index}
+                lp={index + 1}
+                item={el}
+                role={role}
+                consumer={handleConsumer}
+            />
+        ));
 
     return (
         <>
@@ -77,6 +90,7 @@ export const WantBuySellList = ({login, role}: Props) => {
                             {openAddEdit && <AddEditBuySell
                                 closePopup={setOpenAddEdit}
                                 login={login}
+                                branchId={branchId}
                             />}
                             <div className={style.boxBtn}>
                                 <Button
@@ -133,6 +147,7 @@ export const WantBuySellList = ({login, role}: Props) => {
                         consumer={consumer}
                         click={handleFullConsumer}
                         login={login}
+                        branchId={branchId}
                     />
                 }
             </ChangeConsumerContext.Provider>

@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState} from "react";
-import {List} from "types";
+import React, {useContext, useEffect, useState} from 'react';
+import {List} from 'types';
 
-import {ChangeUserContext} from "../../../contexts/changeUserContext";
-import {config} from "../../../../config/config";
-import {User} from "./User/User";
-import {Spinner} from "../../../common/Spinner/Spinner";
+import {ChangeUserContext} from '../../../contexts/changeUserContext';
+import {config} from '../../../../config/config';
+import {User} from './User/User';
+import {Spinner} from '../../../common/Spinner/Spinner';
 
 import style from './UserList.module.css';
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const UsersList = ({role, branch}: Props) => {
-    const {changeUser} = useContext(ChangeUserContext)
+    const {changeUser} = useContext(ChangeUserContext);
     const [dataTable, setDataTable] = useState<List[] | null>(null);
 
     useEffect(() => {
@@ -53,6 +53,10 @@ export const UsersList = ({role, branch}: Props) => {
                         <th>Email</th>
                         <th>Login</th>
                         <th>Oddział</th>
+                        {role === 'ADMIN'
+                            ? <th>Typ</th>
+                            : null
+                        }
                         <th>Akcje</th>
                     </tr>
                     </thead>

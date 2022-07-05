@@ -31,14 +31,14 @@ export const AddEquipments = ({closePopup, carEquipment, searchCarEquipment}: Pr
     }, []);
 
     const handleCheckEquipment = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value
+        const value = e.target.value;
         if (selectedEquipments.includes(value)) {
             const newSelectedEquipments = selectedEquipments.filter(el => el !== value);
             setSelectedEquipments(newSelectedEquipments);
         } else {
-            setSelectedEquipments(prevSelectedEquipments => [...prevSelectedEquipments, value])
+            setSelectedEquipments(prevSelectedEquipments => [...prevSelectedEquipments, value]);
         }
-    }
+    };
 
     const equipment = equipments?.map(el => (
         <div className={style.checkBox} key={el.name}>
@@ -56,8 +56,8 @@ export const AddEquipments = ({closePopup, carEquipment, searchCarEquipment}: Pr
     ));
 
     const handleAddEquipment = () => {
-        const data = selectedEquipments.join(';');
         if (carEquipment) {
+            const data = selectedEquipments.join(';');
             carEquipment(valuePreferences => ({
                 ...valuePreferences,
                 equipment: data
@@ -66,11 +66,11 @@ export const AddEquipments = ({closePopup, carEquipment, searchCarEquipment}: Pr
         if (searchCarEquipment) {
             searchCarEquipment(valuePreferences => ({
                 ...valuePreferences,
-                equipment: data
+                equipment: selectedEquipments
             }));
         }
         closePopup(false);
-    }
+    };
 
     return (
         <>
@@ -98,5 +98,5 @@ export const AddEquipments = ({closePopup, carEquipment, searchCarEquipment}: Pr
                 </div>
             </div>
         </>
-    )
-}
+    );
+};

@@ -13,9 +13,10 @@ interface Props {
     consumer: Consumer;
     click: () => void;
     login: string;
+    branchId: string;
 }
 
-export const FullConsumer = ({consumer, click, login}: Props) => {
+export const FullConsumer = ({consumer, click, login, branchId}: Props) => {
 
     const {setChangeConsumerContext} = useContext(ChangeConsumerContext);
     const [openAddEdit, setOpenAddEdit] = useState(false);
@@ -59,6 +60,7 @@ export const FullConsumer = ({consumer, click, login}: Props) => {
                     {openAddEdit && <AddEditBuySell
                         closePopup={setOpenAddEdit}
                         login={login}
+                        branchId={branchId}
                         consumerEdit={consumer}
                         click={click}
                     />}

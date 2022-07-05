@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const User = ({role, branch, data, id}: Props) => {
-    const {name, lastName, email, login, branchName} = data;
+    const {name, lastName, email, login, branchName, role: roleUser} = data;
 
     const [openSetPasswordUser, setOpenSetPasswordUser] = useState(false);
     const [openEditUser, setOpenEditUser] = useState(false);
@@ -32,6 +32,10 @@ export const User = ({role, branch, data, id}: Props) => {
                 <td>{email}</td>
                 <td>{login}</td>
                 <td>{branchName}</td>
+                {role === 'ADMIN'
+                    ? <td>{roleUser}</td>
+                    : null
+                }
                 <td className={style.tdAction}>
                     <BsFillKeyFill className={style.iconPass} onClick={() => setOpenSetPasswordUser(true)}/>
                     {login === 'admin' ? null :

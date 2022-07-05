@@ -34,10 +34,10 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
         role: 'USER',
     });
     const [branchNames, setBranchNames] = useState<BranchName[]>([]);
-    const [fillIn, setFillIn] = useState(false);
-    const [sameLogin, setSameLogin] = useState(false);
-    const [correctEmail, setCorrectEmail] = useState(false);
-    const [alertText, setAlertText] = useState('ok');
+    const [alert, setAlert] = useState(false);
+    const [alertText, setAlertText] = useState('Text');
+    const [incorrectLogin, setIncorrectLogin] = useState(false);
+    const [incorrectEmail, setIncorrectEmail] = useState(false);
 
     useEffect(() => {
         if (editUser) {
@@ -69,90 +69,99 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
     };
 
     const handleSomeLogin = async () => {
-        if (person.login.length < 5) {
-            setAlertText('login powinien mieć co najmniej 5 znaków');
-            setFillIn(true);
-        } else {
-            setFillIn(false);
-            if (!editUser) {
-                const response = await fetch(`${config.URL}users/checklogin/${person.login}`);
-                const data = await response.json();
-                if (data) {
-                    setAlertText('taki login już istnieje');
-                }
-                setSameLogin(data);
-                setFillIn(data);
+        if (person.login !== '') {
+            const response = await fetch(`${config.URL}users/checklogin/${person.login}`);
+            const data = await response.json();
+            if (data) {
+                setAlertText('taki login już istnieje');
+                setAlert(true);
+                setIncorrectLogin(true);
+            } else {
+                setAlert(false);
+                setIncorrectLogin(false);
             }
         }
     };
 
-    const handleValidateEmail = () => {
+    const handleValidateEmail = async () => {
+        if (person.email !== '') {
+            const response = await fetch(`${config.URL}users/checkemail/${person.email}`);
+            const data = await response.json();
+            if (data) {
+                setAlertText('taki e-mail już istnieje');
+                setAlert(true);
+                setIncorrectEmail(true);
+            } else {
+                setAlert(false);
+                setIncorrectEmail(false);
+            }
+        }
         const reg = /^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/i;
         if (!reg.test(person.email)) {
             setAlertText('nieprawidłowy adres e-mail');
-            setFillIn(true);
-            setCorrectEmail(true);
+            setAlert(true);
         } else {
-            setFillIn(false);
-            setCorrectEmail(false);
+            setAlert(false);
         }
     };
 
     const validation = () => {
-        if (person.name === '' || person.lastName === '' || person.email === '' || person.login === '' || person.role === '' || person.branchId.length < 3) {
+        if (person.name === '' || person.lastName === '' || person.email === '' || person.login === '' || person.password === '' || person.role === 'select' || person.branchId === 'select') {
             setAlertText('wypełnij wszystkie pola');
-            setFillIn(true);
+            setAlert(true);
             return true;
-        } else if (person.name.length < 3) {
+        }
+        if (person.name.length < 3) {
             setAlertText('imię powinno składać się z conajmniej 3 znaków');
-            setFillIn(true);
+            setAlert(true);
             return true;
-        } else if (person.lastName.length < 2) {
+        }
+        if (person.lastName.length < 2) {
             setAlertText('nazwisko powinno składać się z conajmniej 2 znaków');
-            setFillIn(true);
+            setAlert(true);
             return true;
-        } else if (sameLogin) {
-            setAlertText('taki login już istnieje');
-            setFillIn(true);
+        }
+        if (incorrectLogin) {
+            setAlertText('taki login już istnieje ');
+            setAlert(true);
             return true;
-        } else if (correctEmail) {
-            setAlertText('nieprawidłowy adres e-mail');
-            setFillIn(true);
+        }
+        if (incorrectEmail) {
+            setAlertText('taki e-mail już istnieje ');
+            setAlert(true);
             return true;
         }
     };
 
     const handleAddUser = async () => {
-        if (validation()) {
+        if (validation() || alert) {
             return;
         }
-        const res = await fetch(`${config.URL}users`, {
+        await fetch(`${config.URL}users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(person)
         });
-        const data = await res.json();
+        setChangeUser(`${new Date()}`);
         closePopup(false);
-        setChangeUser(data);
     };
 
     const handleEditUser = async () => {
         if (validation()) {
             return;
         }
-        const res = await fetch(`${config.URL}users/edit/${editUser?.login}`, {
+        await fetch(`${config.URL}users/edit/${editUser?.login}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(person)
         });
-        const data = await res.json();
-        console.log(data);
+
+        setChangeUser(`${new Date()}`);
         closePopup(false);
-        setChangeUser(data);
     };
 
     return (
@@ -164,7 +173,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
                 }
                 <p
                     className={style.pError}
-                    style={{color: fillIn ? '#fd5151' : 'transparent'}}
+                    style={{color: alert ? '#fd5151' : 'transparent'}}
                 >{alertText}
                 </p>
                 <div className={style.formContainer}>
