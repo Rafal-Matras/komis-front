@@ -78,7 +78,11 @@ export const FullCar = ({role, carId, showFullCar}: Props) => {
     useEffect(() => {
         if (fullCar.reserved.length > 1) {
             const {
-                name, phone, email, dateFinishReservation, priceAdvance
+                name,
+                phone,
+                email,
+                dateFinishReservation,
+                priceAdvance
             }: ConsumerReserved = JSON.parse(fullCar.reserved);
             const date = new Date(dateFinishReservation);
             const month = date.getMonth() + 1;

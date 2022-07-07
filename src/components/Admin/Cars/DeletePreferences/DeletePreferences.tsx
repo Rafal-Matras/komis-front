@@ -1,4 +1,4 @@
-import React, {SetStateAction, useEffect, useState} from 'react';
+import React, {SetStateAction, useContext, useEffect, useState} from 'react';
 import {SimpleCarEdit} from 'types';
 
 
@@ -7,6 +7,7 @@ import {config} from '../../../../config/config';
 
 import style from './DeletePreferences.module.css';
 import {Button} from '../../../common/Button/Button';
+import {EditCarsContext} from '../../../contexts/editCarsContext';
 
 interface Props {
     closePopup: React.Dispatch<SetStateAction<boolean>>;
@@ -14,6 +15,7 @@ interface Props {
 
 export const DeletePreferences = ({closePopup}: Props) => {
 
+    const {editCarsContext} = useContext(EditCarsContext);
     const [carMarks, setCarMarks] = useState<SimpleCarEdit[]>([]);
 
     useEffect(() => {
@@ -22,19 +24,19 @@ export const DeletePreferences = ({closePopup}: Props) => {
             const data = await res.json();
             setCarMarks(data);
         })();
-    }, []);
+    }, [editCarsContext]);
 
     return (
         <div className={style.container}>
             <div className={style.box}>
                 <div className={style.boxItems}>
                     <DeleteItems
-                        name='mark'
-                        title='Marka'
+                        name="mark"
+                        title="Marka"
                     />
                     <DeleteItems
-                        name='model'
-                        title='Model'
+                        name="model"
+                        title="Model"
                         carMarks={carMarks}
                     />
                     <DeleteItems

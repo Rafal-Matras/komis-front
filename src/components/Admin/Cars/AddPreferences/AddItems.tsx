@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {SimpleCarEdit} from 'types';
 
 import {config} from '../../../../config/config';
+import {EditCarsContext} from '../../../contexts/editCarsContext';
 import {Button} from '../../../common/Button/Button';
 
 import style from './AddPreferences.module.css';
@@ -14,20 +15,30 @@ interface Props {
 
 export const AddItems = ({title, name, carMarks}: Props) => {
 
+    const {setEditCarsContext} = useContext(EditCarsContext);
     const [markValue, setMarkValue] = useState<string>('');
     const [carValue, setCarValue] = useState('');
+    const [alert, setAlert] = useState(false);
 
     const handleAddCar = async () => {
         if (carValue !== '') {
-            await fetch(`${config.URL}cars/edit/${name}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({name: carValue, mark: markValue}),
-            });
-            setCarValue('');
-            setMarkValue('');
+            const exist = await fetch(`${config.URL}cars/edit/${name}/${carValue}`);
+            const data = await exist.json();
+            if (data) {
+                setAlert(true);
+            } else {
+                setAlert(false);
+                await fetch(`${config.URL}cars/edit/${name}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({name: carValue, mark: markValue}),
+                });
+                setCarValue('');
+                setMarkValue('');
+                setEditCarsContext(`${new Date()}`);
+            }
         }
     };
 
@@ -44,7 +55,10 @@ export const AddItems = ({title, name, carMarks}: Props) => {
 
     return (
         <div className={style.formBox}>
-            <h3 className={style.name}>{title}</h3>
+            <div className={style.boxTitle}>
+                <h3 className={style.name}>{title}</h3>
+                <p style={{color: alert ? 'red' : 'transparent'}}>Już istnieje</p>
+            </div>
             {markName}
             <div className={style.dataBox}>
                 <input

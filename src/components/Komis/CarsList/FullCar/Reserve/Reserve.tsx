@@ -55,13 +55,13 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
     };
 
     const validation = () => {
-        if (consumer.name.length < 5) {
+        if (consumer.name === '' || consumer.name.length < 5) {
             setAlertText('uzupełnij Nazwa co najmniej 5 znaki');
             setAlert(true);
             return true;
         }
-        if (consumer.phone === '' || !/[0-9]{6,9}/.test(consumer.phone)) {
-            setAlertText('uzupełnij Telefon bądz niepoprawny numer same cyfry bez spacji');
+        if (consumer.phone === '' || !/[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}/.test(consumer.phone)) {
+            setAlertText('uzupełnij Telefon bądz niepoprawny numer (np:123-123-123, 22-123-1234)');
             setAlert(true);
             return true;
         }
@@ -98,7 +98,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
             <div className={style.box}>
                 {reserved
                     ? <>
-                        <form className={style.formBox} onSubmit={addReserve}>
+                        <div className={style.formBox}>
                             <div className={style.boxItem}>
                                 <Input
                                     name="name"
@@ -126,7 +126,7 @@ export const Reserve = ({closePopup, fullCar, reserved}: Props) => {
                                     change={editConsumer}
                                 />
                             </div>
-                        </form>
+                        </div>
                         <p style={{color: alert ? 'red' : 'transparent'}}>{alertText}</p>
                     </>
                     : <h2>Napewno anulowac rezerwację</h2>

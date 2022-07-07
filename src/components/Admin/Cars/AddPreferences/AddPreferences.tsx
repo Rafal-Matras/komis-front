@@ -1,8 +1,9 @@
-import React, {SetStateAction, useEffect, useState} from 'react';
+import React, {SetStateAction, useContext, useEffect, useState} from 'react';
 
 import {SimpleCarEdit} from 'types';
 
 import {config} from '../../../../config/config';
+import {EditCarsContext} from '../../../contexts/editCarsContext';
 import {AddItems} from './AddItems';
 import {Button} from '../../../common/Button/Button';
 
@@ -14,6 +15,7 @@ interface Props {
 
 export const AddPreferences = ({closePopup}: Props) => {
 
+    const {editCarsContext} = useContext(EditCarsContext);
     const [carMarks, setCarMarks] = useState<SimpleCarEdit[]>([]);
 
     useEffect(() => {
@@ -22,7 +24,7 @@ export const AddPreferences = ({closePopup}: Props) => {
             const data = await res.json();
             setCarMarks(data);
         })();
-    }, []);
+    }, [editCarsContext]);
 
     return (
         <div className={style.container}>

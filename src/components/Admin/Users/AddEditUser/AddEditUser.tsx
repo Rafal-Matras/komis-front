@@ -106,10 +106,17 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
     };
 
     const validation = () => {
-        if (person.name === '' || person.lastName === '' || person.email === '' || person.login === '' || person.password === '' || person.role === 'select' || person.branchId === 'select') {
+        if (person.name === '' || person.lastName === '' || person.email === '' || person.login === '' || person.role === 'select' || person.branchId === 'select') {
             setAlertText('wypełnij wszystkie pola');
             setAlert(true);
             return true;
+        }
+        if (!editUser) {
+            if (person.password === '') {
+                setAlertText('wypełnij wszystkie pola');
+                setAlert(true);
+                return true;
+            }
         }
         if (person.name.length < 3) {
             setAlertText('imię powinno składać się z conajmniej 3 znaków');

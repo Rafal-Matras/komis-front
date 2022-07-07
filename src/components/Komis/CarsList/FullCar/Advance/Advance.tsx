@@ -62,8 +62,8 @@ export const Advance = ({closePopup, fullCar, reserved}: Props) => {
             setAlert(true);
             return true;
         }
-        if (consumer.phone === '' || !/[0-9]{6,9}/.test(consumer.phone)) {
-            setAlertText('uzupełnij Telefon bądz niepoprawny numer same cyfry bez spacji');
+        if (consumer.phone === '' || !/[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}/.test(consumer.phone)) {
+            setAlertText('uzupełnij Telefon bądz niepoprawny numer (np:123-123-123, 22-123-1234)');
             setAlert(true);
             return true;
         }
@@ -85,7 +85,6 @@ export const Advance = ({closePopup, fullCar, reserved}: Props) => {
                 return;
             }
         }
-
         await fetch(`${config.URL}cars/${car.id}`, {
             method: 'PUT',
             headers: {

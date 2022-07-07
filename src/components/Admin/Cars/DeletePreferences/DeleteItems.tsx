@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {CarEdit, SimpleCarEdit} from 'types';
 
 import {config} from '../../../../config/config';
 import {Button} from '../../../common/Button/Button';
 
 import style from './DeletePreferences.module.css';
+import {EditCarsContext} from '../../../contexts/editCarsContext';
 
 interface Props {
     title: string;
@@ -14,6 +15,7 @@ interface Props {
 
 export const DeleteItems = ({title, name, carMarks}: Props) => {
 
+    const {editCarsContext, setEditCarsContext} = useContext(EditCarsContext);
     const [markValue, setMarkValue] = useState<string>('select');
     const [carValue, setCarValue] = useState<string>('');
     const [carSelect, setCarSelect] = useState<CarEdit[] | null>(null);
@@ -24,7 +26,7 @@ export const DeleteItems = ({title, name, carMarks}: Props) => {
             const data = await req.json();
             setCarSelect(data);
         })();
-    }, [markValue, name]);
+    }, [markValue, name, editCarsContext]);
 
     const handleDeleteCarItem = async () => {
         if (carValue !== '') {
@@ -37,6 +39,7 @@ export const DeleteItems = ({title, name, carMarks}: Props) => {
             });
             setCarValue('');
             setMarkValue('select');
+            setEditCarsContext(`${new Date()}`);
         }
     };
 

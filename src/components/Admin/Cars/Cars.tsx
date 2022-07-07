@@ -11,6 +11,7 @@ import {Button} from '../../common/Button/Button';
 
 import style from './Cars.module.css';
 import {CarSold} from './CarSold/CarSold';
+import {EditCarsContext} from '../../contexts/editCarsContext';
 
 interface Props {
     role: string;
@@ -19,6 +20,7 @@ interface Props {
 
 export const Cars = ({role, branch}: Props) => {
 
+    const [editCarsContext, setEditCarsContext] = useState('');
     const [branchId, setBranchId] = useState('');
     const [openAddNew, setOpenAddNew] = useState(false);
     const [openAddPreferences, setOpenAddPreferences] = useState(false);
@@ -69,58 +71,60 @@ export const Cars = ({role, branch}: Props) => {
         : <li>Brak</li>;
 
     return (
-        <div className={style.container}>
-            <div className={style.boxActivities}>
-                <div className={style.boxBtn}>
-                    <Button
-                        type="button"
-                        textName="Dodaj nowy"
-                        click={() => setOpenAddNew(true)}
-                        disabled={role === 'ADMIN'}
-                    />
-                    <Button
-                        type="button"
-                        textName="Dodaj preferencje"
-                        click={() => setOpenAddPreferences(true)}
-                    />
-                    <Button
-                        type="button"
-                        textName="Usuń preferencje"
-                        click={() => setOpenDeletePreferences(true)}
-                    />
-                    {role === 'ADMIN'
-                        ? <Button
+        <EditCarsContext.Provider value={{editCarsContext, setEditCarsContext}}>
+            <div className={style.container}>
+                <div className={style.boxActivities}>
+                    <div className={style.boxBtn}>
+                        <Button
                             type="button"
-                            textName="Konfiguracja"
-                            click={() => setOpenConfiguration(true)}
+                            textName="Dodaj nowy"
+                            click={() => setOpenAddNew(true)}
+                            disabled={role === 'ADMIN'}
                         />
-                        : null
-                    }
-                </div>
-                {openAddNew && <New
-                    closePopup={setOpenAddNew}
-                    branchId={branchId}
-                />}
-                {openAddPreferences && <AddPreferences
-                    closePopup={setOpenAddPreferences}
-                />}
-                {openDeletePreferences && <DeletePreferences
-                    closePopup={setOpenDeletePreferences}
-                />}
-                {openConfiguration && <Configuration
-                    closePopup={setOpenConfiguration}
-                />}
-            </div>
-            <div className={style.boxInfo}>
-                <h2>Samochody sprzedane</h2>
-                <ul className={style.boxInfoUl}>
-                    {carSold}
-                    {openCarsSold && <CarSold
-                        closePopup={setOpenCarsSold}
-                        carSoldId={carSoldId}
+                        <Button
+                            type="button"
+                            textName="Dodaj preferencje"
+                            click={() => setOpenAddPreferences(true)}
+                        />
+                        <Button
+                            type="button"
+                            textName="Usuń preferencje"
+                            click={() => setOpenDeletePreferences(true)}
+                        />
+                        {role === 'ADMIN'
+                            ? <Button
+                                type="button"
+                                textName="Konfiguracja"
+                                click={() => setOpenConfiguration(true)}
+                            />
+                            : null
+                        }
+                    </div>
+                    {openAddNew && <New
+                        closePopup={setOpenAddNew}
+                        branchId={branchId}
                     />}
-                </ul>
+                    {openAddPreferences && <AddPreferences
+                        closePopup={setOpenAddPreferences}
+                    />}
+                    {openDeletePreferences && <DeletePreferences
+                        closePopup={setOpenDeletePreferences}
+                    />}
+                    {openConfiguration && <Configuration
+                        closePopup={setOpenConfiguration}
+                    />}
+                </div>
+                <div className={style.boxInfo}>
+                    <h2>Samochody sprzedane</h2>
+                    <ul className={style.boxInfoUl}>
+                        {carSold}
+                        {openCarsSold && <CarSold
+                            closePopup={setOpenCarsSold}
+                            carSoldId={carSoldId}
+                        />}
+                    </ul>
+                </div>
             </div>
-        </div>
+        </EditCarsContext.Provider>
     );
 };
