@@ -1,0 +1,12 @@
+Hasła
+
+ admin:             Tjsth@007$      ADMIN
+ tomekkowalski:     Timo83#$        ADMIN_REG   waw-01
+ michałcebula:      Michu(09)       ADMIN_REG   kra-01
+ barteksłowik:      B@rt12$$        ADMIN_REG   wro-01
+ monikanowak:       Monia89*        USER        waw-01
+ annasadowska:      Ani@09*&        USER        waw-01
+ wojtekbaranowski:  B@ran09*        USER        kra-01
+ robertdydek:       Tyte!@21        USER        kra-01
+ kubawitek:         Wito09&&        USER        wro-01
+ piotrzawada:       Z@w@d@12        USER        wro-01

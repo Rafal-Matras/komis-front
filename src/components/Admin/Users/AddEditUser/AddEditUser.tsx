@@ -72,7 +72,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
         if (person.login !== '') {
             const response = await fetch(`${config.URL}users/checklogin/${person.login}`);
             const data = await response.json();
-            if (data) {
+            if (data && person.login !== editUser?.login) {
                 setAlertText('taki login już istnieje');
                 setAlert(true);
                 setIncorrectLogin(true);
@@ -87,7 +87,7 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
         if (person.email !== '') {
             const response = await fetch(`${config.URL}users/checkemail/${person.email}`);
             const data = await response.json();
-            if (data) {
+            if (data && person.email !== editUser?.email) {
                 setAlertText('taki e-mail już istnieje');
                 setAlert(true);
                 setIncorrectEmail(true);

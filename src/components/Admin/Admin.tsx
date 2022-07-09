@@ -4,6 +4,7 @@ import {Header} from '../Header/Header';
 import {Users} from './Users/Users';
 import {Cars} from './Cars/Cars';
 import {Branch} from './Branch/Branch';
+import {Config} from './Config/Config';
 
 import style from './Admin.module.css';
 
@@ -28,8 +29,8 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
         role === 'ADMIN'
             ? setMenuList([
                 {name: 'users', show: 'Użytkownicy'},
-                {name: 'cars', show: 'Samochody'},
                 {name: 'branch', show: 'Oddziały'},
+                {name: 'config', show: 'Ustawienia'},
             ])
             : setMenuList([
                 {name: 'users', show: 'Użytkownicy'},
@@ -55,6 +56,8 @@ export const Admin = ({login, role, branch, handleToggleAdminKomis}: Props) => {
                 />;
             case 'branch':
                 return <Branch/>;
+            case 'config':
+                return <Config/>;
         }
     };
 

@@ -6,7 +6,6 @@ import {config} from '../../../config/config';
 import {New} from './New/New';
 import {AddPreferences} from './AddPreferences/AddPreferences';
 import {DeletePreferences} from './DeletePreferences/DeletePreferences';
-import {Configuration} from './Configuration/Configuration';
 import {Button} from '../../common/Button/Button';
 
 import style from './Cars.module.css';
@@ -25,7 +24,6 @@ export const Cars = ({role, branch}: Props) => {
     const [openAddNew, setOpenAddNew] = useState(false);
     const [openAddPreferences, setOpenAddPreferences] = useState(false);
     const [openDeletePreferences, setOpenDeletePreferences] = useState(false);
-    const [openConfiguration, setOpenConfiguration] = useState(false);
     const [carsSold, setCarsSold] = useState<Car[]>([]);
     const [openCarsSold, setOpenCarsSold] = useState(false);
     const [carSoldId, setCarSoldId] = useState('');
@@ -91,14 +89,6 @@ export const Cars = ({role, branch}: Props) => {
                             textName="Usuń preferencje"
                             click={() => setOpenDeletePreferences(true)}
                         />
-                        {role === 'ADMIN'
-                            ? <Button
-                                type="button"
-                                textName="Konfiguracja"
-                                click={() => setOpenConfiguration(true)}
-                            />
-                            : null
-                        }
                     </div>
                     {openAddNew && <New
                         closePopup={setOpenAddNew}
@@ -109,9 +99,6 @@ export const Cars = ({role, branch}: Props) => {
                     />}
                     {openDeletePreferences && <DeletePreferences
                         closePopup={setOpenDeletePreferences}
-                    />}
-                    {openConfiguration && <Configuration
-                        closePopup={setOpenConfiguration}
                     />}
                 </div>
                 <div className={style.boxInfo}>

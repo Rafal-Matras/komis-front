@@ -52,7 +52,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
         if (branch.branchName !== '') {
             const response = await fetch(`${config.URL}branches/check-branch-name/${branch.branchName}`);
             const data = await response.json();
-            if (data) {
+            if (data && branch.branchName !== branchEdit?.branchName) {
                 setAlertText('taka nazwa już istnieje');
                 setAlert(true);
                 setIncorrectBranchName(true);
