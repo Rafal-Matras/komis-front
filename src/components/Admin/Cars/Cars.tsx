@@ -42,7 +42,7 @@ export const Cars = ({role, branch}: Props) => {
             const branchId = await branchName.json();
             const res = await fetch(`${config.URL}cars`);
             const allCars = await res.json();
-            const carsAdmin = allCars.filter((el: Car) => el.sold === 'T');
+            const carsAdmin = allCars === null ? [] : allCars.filter((el: Car) => el.sold === 'T');
             const carsRegAdmin = carsAdmin.filter((el: Car) => el.location === branchId);
             setCarsSold(role === 'ADMIN' ? carsAdmin : carsRegAdmin);
         })();
