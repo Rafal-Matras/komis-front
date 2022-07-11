@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.p {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 2rem;
+}
+
+.box {
+    display: flex;
+    width: 1000px;
+    height: 500px;
+}
+
+.img {
+    width: 55%;
+    object-fit: contain;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.boxInput {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 440px;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+    color: var(--dark);
+    cursor: pointer;
+}

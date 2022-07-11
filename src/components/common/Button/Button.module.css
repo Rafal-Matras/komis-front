@@ -1,0 +1,41 @@
+.btn {
+    padding: 10px 30px;
+    font-size: 2rem;
+    background-color: var(--primary-text);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color .3s linear, background-color .3s linear;
+}
+
+.btn:hover {
+    color: var(--primary-text);
+    background-color: var(--primary-color);
+}
+
+.btn:disabled {
+    background-color: grey;
+    color: var(--primary-color);
+    cursor: auto;
+}
+
+@media only screen and (min-width: 1440px) {
+    .btn {
+        font-size: 2.2rem;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .btn {
+        font-size: 2.4rem;
+    }
+}
+
+@media only screen and (min-width: 1900px) {
+    .btn {
+        font-size: 2.6rem;
+    }
+}

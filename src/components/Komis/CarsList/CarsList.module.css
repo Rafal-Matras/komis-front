@@ -1,0 +1,53 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+.tableHead th,
+.tableBody td {
+    min-width: 80px;
+    font-size: 1.4rem;
+}
+
+.head {
+    border-bottom: 1px solid black;
+    background-color: rgba(107, 177, 224, 0.8);
+}
+
+.body {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.body:hover {
+    background-color: rgba(107, 177, 224, 0.3);
+}
+
+.bodyR {
+    background-color: rgba(255, 0, 0, 0.35);
+    cursor: pointer;
+}
+
+.bodyR:hover {
+    background-color: rgba(255, 0, 0, 0.55);
+}
+
+
+.head th:first-child,
+.body td:first-child,
+.bodyR td:first-child {
+    min-width: 25px;
+}
+
+.noResults {
+    margin-top: 100px;
+    font-size: 3.6rem;
+    color: var(--primary-text);
+    text-transform: uppercase;
+}
+
+.btnBack {
+    margin-top: 50px;
+    text-align: center;
+}

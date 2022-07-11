@@ -1,0 +1,24 @@
+.label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5px;
+    width: 100%;
+    font-size: 2rem;
+}
+
+.select {
+    margin-right: 5px;
+    padding: 10px 15px;
+    width: 60%;
+    border: 2px solid var(--primary-text);
+    border-radius: 10px;
+    color: var(--primary-text);
+    font-size: 2rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.select:focus {
+    border-color: var(--primary-color);
+}

@@ -1,0 +1,35 @@
+.container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 0 10px;
+    width: 920px;
+    height: 400px;
+    border: 5px solid var(--primary-text);
+    border-radius: 25px;
+    background-color: var(--light);
+    color: var(--primary-text);
+}
+
+.boxSelect {
+    width: 60%;
+}
+
+.boxBtn {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}

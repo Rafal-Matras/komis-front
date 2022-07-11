@@ -1,0 +1,60 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    height: calc(100vh - 160px);
+    color: var(--primary-text);
+}
+
+.box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.boxConsumer {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 20px;
+    padding: 10px;
+    width: 50%;
+    font-size: 2rem;
+}
+
+.textCarInfoBox {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    width: 100%;
+    border-bottom: 1px solid var(--primary-text);
+}
+
+.textCarInfoBox p {
+    width: 50%;
+}
+
+span {
+    font-weight: 500;
+}
+
+.boxConsumer h2 {
+    margin-bottom: 10px;
+    font-size: 2.4rem;
+}
+
+.boxBtn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 45%;
+    height: 240px;
+}
+
+.boxBtn button {
+    width: 200px;
+}
