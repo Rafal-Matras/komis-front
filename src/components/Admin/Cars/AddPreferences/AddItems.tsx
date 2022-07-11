@@ -19,13 +19,31 @@ export const AddItems = ({title, name, carMarks}: Props) => {
     const [markValue, setMarkValue] = useState<string>('');
     const [carValue, setCarValue] = useState('');
     const [alert, setAlert] = useState(false);
+    const [alertText, setAlertText] = useState('');
+
+    const validation = () => {
+        if (carValue === '') {
+            setAlertText('pole nie może być puste');
+            setAlert(true);
+            return true;
+        }
+        if (carValue.length > 100) {
+            setAlertText('przekroczonna liczba znaków max 100');
+            setAlert(true);
+            return true;
+        }
+    };
 
     const handleAddCar = async () => {
+        if (validation()) {
+            return;
+        }
         if (carValue !== '') {
             const exist = await fetch(`${config.URL}cars/edit/${name}/${carValue}`);
             const data = await exist.json();
             if (data) {
                 setAlert(true);
+                setAlertText('Już istnieje');
             } else {
                 setAlert(false);
                 await fetch(`${config.URL}cars/edit/${name}`, {
@@ -57,7 +75,7 @@ export const AddItems = ({title, name, carMarks}: Props) => {
         <div className={style.formBox}>
             <div className={style.boxTitle}>
                 <h3 className={style.name}>{title}</h3>
-                <p style={{color: alert ? 'red' : 'transparent'}}>Już istnieje</p>
+                <p style={{color: alert ? 'red' : 'transparent'}}>{alertText}</p>
             </div>
             {markName}
             <div className={style.dataBox}>

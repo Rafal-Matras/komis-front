@@ -64,8 +64,9 @@
     width: 40%;
 }
 
-.errorText {
-    font-size: 1.4rem;
+.alertText {
+    font-size: 1.6rem;
+    font-weight: 500;
     color: red;
 }
 

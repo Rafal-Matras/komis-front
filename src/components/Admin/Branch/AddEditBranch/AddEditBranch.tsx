@@ -64,18 +64,18 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
     };
 
     const validation = () => {
-        if (branch.branchName === '' || branch.city === '' || branch.postCode === '' || branch.address === '') {
+        if (branch.branchName === '' || branch.city === '' || branch.postCode === '' || branch.address === '' || branch.phone === '') {
             setAlertText('wypełnij wszystkie pola');
             setAlert(true);
             return true;
         }
-        if (branch.city.length < 3) {
-            setAlertText('miasto powinno składać się z conajmniej 3 znaków');
+        if (branch.city.length < 3 || branch.city.length > 20) {
+            setAlertText('miasto powinno składać się z 3 do 20 znaków');
             setAlert(true);
             return true;
         }
-        if (branch.address.length < 5) {
-            setAlertText('adres powinen składać się z conajmniej 5 znaków');
+        if (branch.address.length < 5 || branch.address.length > 30) {
+            setAlertText('adres powinen składać się z 5 do 30 znaków');
             setAlert(true);
             return true;
         }
@@ -85,7 +85,12 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
             return true;
         }
         if (!/^[0-9]{2}-[0-9]{3}$/.test(branch.postCode)) {
-            setAlertText('niepoprawny kod pocztowy');
+            setAlertText('niepoprawny kod pocztowy np:(12-123)');
+            setAlert(true);
+            return true;
+        }
+        if (!/^[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}$/.test(branch.phone)) {
+            setAlertText('niepoprawny numer tel. np:(123-123-123,22-123-1234)');
             setAlert(true);
             return true;
         }

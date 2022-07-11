@@ -16,7 +16,9 @@ interface Props {
 
 export const Sell = ({closePopup, fullCar}: Props) => {
 
-    const [printing, setPrinting] = useState(false)
+    const [printing, setPrinting] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const [alertText, setAlertText] = useState('');
     const [consumer, setConsumer] = useState<ConsumerArrangement>({
         name: '',
         pesel: '',
@@ -37,9 +39,20 @@ export const Sell = ({closePopup, fullCar}: Props) => {
         }));
     };
 
-    const handleGenerateArrangement = () => {
+    const validation = () => {
+        if (consumer.name === '' || consumer.pesel === '' || consumer.address === '' || consumer.postCode === '' || consumer.city === '' || consumer.price === '' || consumer.priceInWords === '') {
+            setAlert(true);
+            setAlertText('Uzupełnij wszystkie pola');
+            return true;
+        }
+    };
+
+    const handlePrintDocument = () => {
+        if (validation()) {
+            return;
+        }
         setPrinting(true);
-    }
+    };
 
     return (
         <>
@@ -52,7 +65,10 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                 />
                 : <div className={style.container}>
                     <div className={style.box}>
-                        <form className={style.formContainer} onSubmit={handleGenerateArrangement}>
+                        <form className={style.formContainer} onSubmit={handlePrintDocument}>
+                            <div className={style.boxAlert}>
+                                <p style={{color: alert ? '#ff0000' : 'transparent'}}>{alertText}</p>
+                            </div>
                             <div className={style.formBox}>
                                 <div className={style.boxItem}>
                                     <Input
@@ -149,7 +165,7 @@ export const Sell = ({closePopup, fullCar}: Props) => {
                                 <Button
                                     textName="Potwierdz"
                                     type="button"
-                                    click={() => setPrinting(true)}
+                                    click={handlePrintDocument}
                                 />
                                 <Button
                                     textName="Anuluj"

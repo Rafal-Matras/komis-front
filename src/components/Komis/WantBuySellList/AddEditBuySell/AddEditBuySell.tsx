@@ -22,7 +22,7 @@ export const AddEditBuySell = ({closePopup, login, branchId, consumerEdit, click
 
     const {changeConsumerContext, setChangeConsumerContext} = useContext(ChangeConsumerContext);
     const [alert, setAlert] = useState(false);
-    const [textError, setTextError] = useState('');
+    const [alertText, setAlertText] = useState('');
     const [consumer, setConsumer] = useState<Consumer>({
         name: '',
         phone: '',
@@ -50,7 +50,7 @@ export const AddEditBuySell = ({closePopup, login, branchId, consumerEdit, click
         const reg = /[0-9]{2,4}-[0-9]{2,4}-[0-9]{2,4}/;
         if (!reg.test(consumer.phone)) {
             setAlert(true);
-            setTextError('Niepoprawny nr. telefonu (np: 123-123-123, 12-123-1234 )');
+            setAlertText('Niepoprawny nr. telefonu (np: 123-123-123, 12-123-1234 )');
         } else {
             setAlert(false);
         }
@@ -58,33 +58,33 @@ export const AddEditBuySell = ({closePopup, login, branchId, consumerEdit, click
 
     const handleSetCorrectEmail = () => {
         const reg = /^[a-z\d]+[\w\d.-]*@(?:[a-z\d]+[a-z\d-]+\.){1,5}[a-z]{2,6}$/i;
-        if (!reg.test(consumer.email)) {
+        if (!reg.test(consumer.email) || consumer.email.length > 50) {
             setAlert(true);
-            setTextError('Niepoprawny E-mail');
+            setAlertText('Niepoprawny E-mail lub nie powinień przekraczać 50 znaków');
         } else {
             setAlert(false);
         }
     };
 
     const validation = () => {
-        if (consumer.name === '' || consumer.name.length < 3) {
+        if (consumer.name.length < 3 || consumer.name.length > 25) {
             setAlert(true);
-            setTextError('Wartość Nazwa nie może być pusta oraz powinna posiadać co najmniej 3 znaki');
+            setAlertText('Nazwa nie powinna być krutrza niz 3 i dłóższa niż 25  ');
             return true;
         }
         if (consumer.phone === '' && consumer.email === '') {
             setAlert(true);
-            setTextError('Trzeba wypełnić pole telefon albo E-mail');
+            setAlertText('Trzeba wypełnić pole telefon albo E-mail');
             return true;
         }
         if (consumer.option === '' || consumer.option === 'select') {
             setAlert(true);
-            setTextError('Wybierz Opcje');
+            setAlertText('Wybierz Opcje');
             return true;
         }
-        if (consumer.description === '') {
+        if (consumer.description === '' || consumer.description.length > 600) {
             setAlert(true);
-            setTextError('Opis nie może być pusty');
+            setAlertText('Opis nie może być pusty i nie powinien przekraczać 600 znaków');
             return true;
         }
     };
@@ -93,7 +93,6 @@ export const AddEditBuySell = ({closePopup, login, branchId, consumerEdit, click
         if (validation()) {
             return;
         }
-
         await fetch(`${config.URL}consumers`, {
             method: consumerEdit ? 'PUT' : 'POST',
             headers: {
@@ -113,7 +112,7 @@ export const AddEditBuySell = ({closePopup, login, branchId, consumerEdit, click
             <div className={style.box}>
                 <form className={style.boxForm}>
                     <div className={style.boxError}>
-                        <p style={{color: alert ? '#ff0000' : 'transparent'}}>{textError}</p>
+                        <p style={{color: alert ? '#ff0000' : 'transparent'}}>{alertText}</p>
                     </div>
                     <div className={style.boxInputs}>
                         <Input

@@ -15,6 +15,8 @@ interface Props {
 export const Buy = ({branch}: Props) => {
 
     const [printing, setPrinting] = useState(false);
+    const [alert, setAlert] = useState(false);
+    const [alertText, setAlertText] = useState('');
     const [car, setCar] = useState<CarBuy>({
         mark: '',
         model: '',
@@ -50,6 +52,21 @@ export const Buy = ({branch}: Props) => {
         }));
     };
 
+    const validation = () => {
+        if (consumer.name === '' || consumer.pesel === '' || consumer.address === '' || consumer.postCode === '' || consumer.city === '' || car.mark === '' || car.model === '' || car.yearProduction === '' || car.vin === '' || car.registration === '' || car.mileage === '' || consumer.price === '' || consumer.priceInWords === '') {
+            setAlert(true);
+            setAlertText('Uzupełnij wszystkie pola');
+            return true;
+        }
+    };
+
+    const handlePrintDocument = () => {
+        if (validation()) {
+            return;
+        }
+        setPrinting(true);
+    };
+
     return (
         <>
             {printing
@@ -61,6 +78,9 @@ export const Buy = ({branch}: Props) => {
                 />
                 : <div className={style.container}>
                     <form className={style.formContainer}>
+                        <div className={style.boxAlert}>
+                            <p style={{color: alert ? '#ff0000' : 'transparent'}}>{alertText}</p>
+                        </div>
                         <div className={style.formBox}>
                             <div className={style.boxItem}>
                                 <Input
@@ -211,7 +231,7 @@ export const Buy = ({branch}: Props) => {
                             <Button
                                 type="button"
                                 textName="Potwierdz"
-                                click={() => setPrinting(true)}
+                                click={handlePrintDocument}
                             />
                         </div>
                     </form>

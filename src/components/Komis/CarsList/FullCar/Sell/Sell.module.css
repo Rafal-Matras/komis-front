@@ -53,7 +53,7 @@
     width: 50%;
 }
 
-.errorText {
-    font-size: 1.4rem;
-    color: red;
+.boxAlert {
+    font-size: 1.8rem;
+    font-weight: 500;
 }

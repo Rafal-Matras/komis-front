@@ -128,63 +128,93 @@ export const New = ({closePopup, branchId}: Props) => {
             setAlert(true);
             return true;
         }
-        if (valuePreferences.yearProduction === 0) {
-            setAlertText('Uzupełnij pole: Rok produkcji');
+        if (valuePreferences.yearProduction < 1930 || valuePreferences.yearProduction > new Date().getFullYear()) {
+            setAlertText(`Pole rok produkcji musi być w przedziale 1930 - ${new Date().getFullYear()}`);
             setAlert(true);
             return true;
         }
-        if (valuePreferences.engineCapacity === 0) {
-            setAlertText('Uzupełnij pole: Pojemność');
+        if (valuePreferences.engineCapacity < 500 || valuePreferences.engineCapacity > 8300) {
+            setAlertText('Pole Pojemność musi być w przedziale 500 - 8300');
             setAlert(true);
             return true;
         }
-        if (valuePreferences.power === 0) {
-            setAlertText('Uzupełnij pole: Moc');
+        if (valuePreferences.power < 40 || valuePreferences.power > 1200) {
+            setAlertText('pole Moc musi być w przedziale 40 - 1200');
             setAlert(true);
             return true;
         }
-        if (valuePreferences.transmission === '') {
-            setAlertText('Uzupełnij pole: Skrzynia');
+        if (valuePreferences.color === '' || valuePreferences.color.length > 16) {
+            setAlertText('pole Kolor nie może być puste i przekaraczać 16 znaków');
             setAlert(true);
             return true;
         }
-        if (valuePreferences.color === '') {
-            setAlertText('Uzupełnij pole: Kolor');
+        if (valuePreferences.transmission === '' || valuePreferences.transmission === 'select') {
+            setAlertText('Uzupełnij pole Skrzynia');
             setAlert(true);
             return true;
         }
-        if (valuePreferences.mileage === 0) {
-            setAlertText('Uzupełnij pole: Przebieg');
+        if (valuePreferences.drive === '' || valuePreferences.drive === 'select') {
+            setAlertText('Uzupełnij pole Napęd');
             setAlert(true);
             return true;
         }
-        if (valuePreferences.doers === '') {
+        if (valuePreferences.doers === '' || valuePreferences.doers === 'select') {
             setAlertText('Uzupełnij pole: Liczba dzwi');
             setAlert(true);
             return true;
         }
-        if (valuePreferences.seats === '') {
+        if (valuePreferences.seats === '' || valuePreferences.seats === 'select') {
             setAlertText('Uzupełnij pole: Liczba siedzeń');
             setAlert(true);
             return true;
         }
-        if (valuePreferences.price === 0) {
-            setAlertText('Uzupełnij pole: Cena');
-            setAlert(true);
-            return true;
-        }
-        if (valuePreferences.pricePurchase === 0) {
-            setAlertText('Uzupełnij pole: Cena zakupu');
-            setAlert(true);
-            return true;
-        }
-        if (valuePreferences.vin === '') {
-            setAlertText('Uzupełnij pole: VIN');
+        if (valuePreferences.mileage === 0 || valuePreferences.mileage > 9999999) {
+            setAlertText('pole Przebieg musi być w przedziale 1 - 9999999');
             setAlert(true);
             return true;
         }
         if (!/[0-9A-Z]{17}/.test(valuePreferences.vin)) {
-            setAlertText('Niepoprawny VIN powinien zawierać cyfry i duże litery');
+            setAlertText('Niepoprawny VIN powinien zawierać cyfry, duże litery w sumie 17 znaków');
+            setAlert(true);
+            return true;
+        }
+        if (valuePreferences.price === 0 || valuePreferences.price > 9999999) {
+            setAlertText('pole Cena musi być w przedziale 1 - 9999999');
+            setAlert(true);
+            return true;
+        }
+        if (valuePreferences.pricePurchase === 0 || valuePreferences.pricePurchase > 9999999) {
+            setAlertText('pole Cena zakupu musi być w przedziale 1 - 9999999');
+            setAlert(true);
+            return true;
+        }
+        if (!/[0-9A-Z]{2,3} [0-9A-Z]{1,5}/.test(valuePreferences.registration)) {
+            setAlertText('Niepoprawny Nr. rejestracyjny powinien zawierać cyfry, duże litery');
+            setAlert(true);
+            return true;
+        }
+        if (valuePreferences.dateOverview === '') {
+            setAlertText('Uzupełnij pole Przegląd');
+            setAlert(true);
+            return true;
+        }
+        if (valuePreferences.dateOC === '') {
+            setAlertText('Uzupełnij pole Data OC');
+            setAlert(true);
+            return true;
+        }
+        if (valuePreferences.datePurchase === '') {
+            setAlertText('Uzupełnij pole Data zakupu');
+            setAlert(true);
+            return true;
+        }
+        if (valuePreferences.description === '') {
+            setAlertText('Uzupełnij Opis');
+            setAlert(true);
+            return true;
+        }
+        if (valuePreferences.equipment === '') {
+            setAlertText('Uzupełnij Wyposarzenie');
             setAlert(true);
             return true;
         }
@@ -207,7 +237,7 @@ export const New = ({closePopup, branchId}: Props) => {
     return (
         <div className={style.container}>
             <div className={style.box}>
-                <p className={style.errorText} style={{color: alert ? 'red' : 'transparent'}}>{alertText}</p>
+                <p className={style.alertText} style={{color: alert ? 'red' : 'transparent'}}>{alertText}</p>
                 <div className={style.formContainer}>
                     <div className={style.formBox}>
                         <div className={style.boxItem}>

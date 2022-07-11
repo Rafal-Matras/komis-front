@@ -111,22 +111,33 @@ export const AddEditUser = ({closePopup, role, branch, editUser}: Props) => {
             setAlert(true);
             return true;
         }
+
+        if (person.name.length < 3 || person.name.length > 15) {
+            setAlertText('imię powinno składać się z conajmniej 3 znaków i nie przekraczać 15');
+            setAlert(true);
+            return true;
+        }
+        if (person.lastName.length < 2 || person.lastName.length > 22) {
+            setAlertText('nazwisko powinno składać się z conajmniej 2 znaków i nie przekraczaś 22');
+            setAlert(true);
+            return true;
+        }
+        if (person.email.length > 50) {
+            setAlertText('Email nie powinien przekaraczać 50 znaków');
+            setAlert(true);
+            return true;
+        }
+        if (person.login.length > 20) {
+            setAlertText('Login nie powinien przekaraczać 20 znaków');
+            setAlert(true);
+            return true;
+        }
         if (!editUser) {
             if (person.password === '') {
                 setAlertText('wypełnij wszystkie pola');
                 setAlert(true);
                 return true;
             }
-        }
-        if (person.name.length < 3) {
-            setAlertText('imię powinno składać się z conajmniej 3 znaków');
-            setAlert(true);
-            return true;
-        }
-        if (person.lastName.length < 2) {
-            setAlertText('nazwisko powinno składać się z conajmniej 2 znaków');
-            setAlert(true);
-            return true;
         }
         if (incorrectLogin) {
             setAlertText('taki login już istnieje ');

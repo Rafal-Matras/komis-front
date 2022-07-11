@@ -38,7 +38,7 @@
 }
 
 .name {
-    margin: 0 0 10px 30px;
+    margin: 0 20px;
     font-size: 2rem;
     color: var(--primary-text);
 }
@@ -75,9 +75,10 @@
 
 .boxTitle {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
-    width: 55%;
+    margin-bottom: 10px;
+    width: 90%;
 }
 
 .boxTitle p {
