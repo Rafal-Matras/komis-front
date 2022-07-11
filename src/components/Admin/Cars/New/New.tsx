@@ -143,8 +143,8 @@ export const New = ({closePopup, branchId}: Props) => {
             setAlert(true);
             return true;
         }
-        if (valuePreferences.color === '' || valuePreferences.color.length > 16) {
-            setAlertText('pole Kolor nie może być puste i przekaraczać 16 znaków');
+        if (valuePreferences.color === '' || valuePreferences.color.length > 20) {
+            setAlertText('pole Kolor nie może być puste i przekaraczać 20 znaków');
             setAlert(true);
             return true;
         }
@@ -218,6 +218,17 @@ export const New = ({closePopup, branchId}: Props) => {
             setAlert(true);
             return true;
         }
+        if (valuePreferences.description.length > 1000) {
+            setAlertText('Za dłógi opis max 1000 znaków');
+            setAlert(true);
+            return true;
+        }
+        if (valuePreferences.equipment.length > 1000) {
+            setAlertText('Za durzo wyposarzenia max 1000 znaków');
+            setAlert(true);
+            return true;
+        }
+
     };
 
     const handleAddCar = async () => {
