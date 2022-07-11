@@ -1,48 +1,37 @@
 project under construction
 
-# Getting Started with Create React App
+Frontend Aplikacji wykonany za pomocą bibloteki React w języku TypeScript
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplikacja Komis samochodowy została stworzona na potrzeby fikcyjnego komisu samochodowego posiadającego kilka oddziałów.
 
-## Available Scripts
+W aplikacji istnieją trzy rodzaje użytkowników.
 
-In the project directory, you can run:
+USER: Sprzedawca
+- Ma podgląd do listy aut w danej placówce, szczegółowe dane auta, sprzedać, zarezerwować, wpłacić zaliczkę.
 
-### `npm start`
+- Ma możliwość szukania auta według wybranych kryteriów ( przeszukuje wszystkie oddziały ).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Pozwala zapisywać klientów którzy chcą kupić bądź sprzedać auto z krótkim opisem.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Wydrukować umowę kupna auta.
 
-### `npm test`
+REG_ADMIN: Kierownik Oddziału.
+- Posiada uprawnienia do podglądu, edycji, ustawienia hasła oraz usunięcia użytkowników z jego oddziału.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Ma możliwość dodania nowego auta do bazy, usunięcia sprzedanego auta z bazy, dodawanie i usuwanie preferencji Auta
 
-### `npm run build`
+- Wszystko co USER z dodatkiem przeniesienia auta do innej placówki, podglądu klientów chcących kupić bądź sprzedać auto wszystkich pracowników placówki
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ADMIN: Kierownik
+- Ma podgląd i edycję wszystkich użytkowników.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Podgląd i edycję wszystkich oddziałów.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Edycję danych firmy.
 
-### `npm run eject`
+Proszę o nie zmienianie istniejących danych i pousuwanie danych które zostały wprowadzone.
+Loginy i hasła dla każdej z grup:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+admin	Tjsth@007$	ADMIN
+tomekkowalski	Timo83#$	ADMIN_REG
+monikanowak	Monia89*	USER
