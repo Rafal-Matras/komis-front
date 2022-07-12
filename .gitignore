@@ -3,7 +3,6 @@
 # dependencies
 /.idea
 /src/data
-src/config/config.ts
 /node_modules
 /.pnp
 .pnp.js
