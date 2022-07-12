@@ -36,6 +36,7 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                     city: branchEdit.city,
                     postCode: branchEdit.postCode,
                     address: branchEdit.address,
+                    phone: branchEdit.phone,
                 });
             });
         }
@@ -178,6 +179,15 @@ export const AddEditBranch = ({closePopup, branchEdit}: Props) => {
                                 textName="Adres"
                                 type="text"
                                 value={branch.address}
+                                change={updateForm}
+                            />
+                        </div>
+                        <div className={style.boxItem}>
+                            <Input
+                                name="phone"
+                                textName="Telefon"
+                                type="text"
+                                value={branch.phone}
                                 change={updateForm}
                             />
                         </div>

@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "set REACT_APP_API_URL=/apikomis/&& react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
