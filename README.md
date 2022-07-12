@@ -36,4 +36,6 @@ ADMIN: Kierownik
 Proszę o nie zmienianie istniejących danych i pousuwanie danych które zostały wprowadzone. Loginy i hasła dla każdej z
 grup:
 
-admin Tjsth@007$ ADMIN tomekkowalski Timo83#$ ADMIN_REG monikanowak Monia89*    USER
+admin           Tjsth@007$    ADMIN 
+tomekkowalski   Timo83#$      ADMIN_REG 
+monikanowak     Monia89*      USER
