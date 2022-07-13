@@ -1,4 +1,4 @@
-project under construction
+Projekt można zobaczyć na stronie https://komis.rafalmatras.networkmanager.pl
 
 Frontend Aplikacji wykonany za pomocą bibloteki React w języku TypeScript
 
